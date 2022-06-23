@@ -11,7 +11,31 @@ import { IRagfairConfig } from "@spt-aki/models/spt/config/IRagfairConfig";
 import { IInRaidConfig } from "@spt-aki/models/spt/config/IInRaidConfig";
 import { ILocationData } from "@spt-aki/models/spt/server/ILocations";
 
-import { AIRDROP_CHANCE, BLACKLIST_MAPS, BOTS_GRENADE_ALLOWED, CONSTRUCTION_TIME, GLOBAL_CHANCE_MODIFIER, INSURANCE_TIME, KAPPA_EXTRA_SIZE, KEYTOOL_HEIGHT, KEYTOOL_ID, KEYTOOL_WIDTH, MAGDRILL_SPEED, PHYSICAL_BITCOIN_ID, PRAPOR_ID, PRODUCTION_TIME, RAID_TIME, SAVAGE_COOLDOWN, SECURE_CONTAINER_HEIGHT, SECURE_CONTAINER_WIDTH, STASH_SIZE, STIMULANT_ID, STIMULANT_USES, THERAPIST_ID } from "./config";
+import {
+  AIRDROP_CHANCE,
+  BLACKLIST_MAPS,
+  BOTS_GRENADE_ALLOWED,
+  CONSTRUCTION_TIME,
+  GLOBAL_CHANCE_MODIFIER,
+  INSURANCE_TIME,
+  KAPPA_EXTRA_SIZE,
+  KEYTOOL_HEIGHT,
+  KEYTOOL_ID,
+  KEYTOOL_WIDTH,
+  MAGDRILL_SPEED_MULTIPLIER,
+  PHYSICAL_BITCOIN_ID,
+  PRAPOR_ID,
+  PRODUCTION_TIME,
+  RAID_TIME,
+  SAVAGE_COOLDOWN,
+  SECURE_CONTAINER_HEIGHT,
+  SECURE_CONTAINER_WIDTH,
+  STASH_SIZE,
+  STIMULANT_ID,
+  STIMULANT_USES,
+  THERAPIST_ID,
+} from "./config";
+
 import { forEachItems, getItemTemplate, getModDisplayName, getTrader } from "./utils";
 import { tweakBots } from "./bots/ai";
 import { tweakAmmoItemColors } from "./ammo-item-colors";
@@ -76,11 +100,15 @@ class Mod implements IMod {
 
   private tweakMagdrillSpeed(database: DatabaseServer, speedMultiplier: number): void {
     const tables = database.getTables();
-    const magdrills = tables.globals.config.SkillsSettings.MagDrills;
+    const config = tables.globals.config;
 
-    magdrills.MagazineCheckAction = magdrills.MagazineCheckAction * speedMultiplier;
-    magdrills.RaidLoadedAmmoAction = magdrills.RaidLoadedAmmoAction * speedMultiplier;
-    magdrills.RaidUnloadedAmmoAction = magdrills.RaidUnloadedAmmoAction * speedMultiplier;
+    config.BaseLoadTime = config.BaseLoadTime * speedMultiplier;
+    config.BaseUnloadTime = config.BaseUnloadTime * speedMultiplier;
+    // const magdrills = tables.globals.config.SkillsSettings.MagDrills;
+
+    // magdrills.MagazineCheckAction = magdrills.MagazineCheckAction * speedMultiplier;
+    // magdrills.RaidLoadedAmmoAction = magdrills.RaidLoadedAmmoAction * speedMultiplier;
+    // magdrills.RaidUnloadedAmmoAction = magdrills.RaidUnloadedAmmoAction * speedMultiplier;
 
     this.logger.success(`=> Mag drills speed multiplied by '${speedMultiplier}'`);
   }
@@ -134,17 +162,17 @@ class Mod implements IMod {
       }
     }
 
-    this.logger.success(`=> Extended raid time for ${nMaps} maps`);
+    this.logger.success(`=> Extended raid time (${raidTime / 60} hours) for ${nMaps} maps`);
   }
 
   private tweakInsuranceTime(database: DatabaseServer, insuranceTime: number): void {
     const tables = database.getTables();
 
     const prapor = getTrader(tables, PRAPOR_ID);
-    const therapist = getTrader(tables, THERAPIST_ID);
-
     prapor.base.insurance.min_return_hour = insuranceTime;
     prapor.base.insurance.max_return_hour = insuranceTime;
+
+    const therapist = getTrader(tables, THERAPIST_ID);
     therapist.base.insurance.min_return_hour = insuranceTime;
     therapist.base.insurance.max_return_hour = insuranceTime;
 
@@ -191,7 +219,7 @@ class Mod implements IMod {
     // 1. disable bsg blacklist
     config.dynamic.blacklist.enableBsgList = false;
 
-    // 2. add items sellable on thr flea
+    // 2. add items sellable on the flea
     forEachItems(item => {
       if (item._type === 'Item' && !item._props.CanSellOnRagfair) {
         item._props.CanSellOnRagfair = true;
@@ -210,18 +238,18 @@ class Mod implements IMod {
     // 5. disable fees
     config.sell.fees = false;
 
-    this.logger.success(`=> Tweaked flea market`);
+    this.logger.success(`=> Tweaked flea market (disable bsg blacklist + instant sell + all items sellable without fees)`);
   }
 
   private tweakInRaidMenuSettings(configServer: ConfigServer): void {
     const config = configServer.getConfig<IInRaidConfig>(ConfigTypes.IN_RAID);
     const menu = config.raidMenuSettings;
 
-    menu.aiAmount = 'Easy';
+    menu.aiDifficulty = 'Easy';
     menu.bossEnabled = false;
     menu.aiAmount = "Medium";
 
-    this.logger.success(`=> Tweaked InRaid menu settings`);
+    this.logger.success(`=> Tweaked InRaid menu settings (aiDifficulty=${menu.aiDifficulty}, bossEnabled=${menu.bossEnabled}, aiAmount=${menu.aiAmount})`);
   }
 
   private tweakBotWaves(db: DatabaseServer): void {
@@ -247,7 +275,7 @@ class Mod implements IMod {
     this.tweakGlobalLootChanceModifier(database, GLOBAL_CHANCE_MODIFIER);
     this.tweakSavageCooldown(database, SAVAGE_COOLDOWN);
     this.tweakStashSize(database, STASH_SIZE);
-    this.tweakMagdrillSpeed(database, MAGDRILL_SPEED);
+    this.tweakMagdrillSpeed(database, MAGDRILL_SPEED_MULTIPLIER);
     this.tweakKeytoolSize(database, KEYTOOL_WIDTH, KEYTOOL_HEIGHT);
     this.tweakSecureContainers(database);
     this.tweakRaidTime(database, RAID_TIME);
