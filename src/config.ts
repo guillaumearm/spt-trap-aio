@@ -11,7 +11,7 @@ export const INSURANCE_TIME = 1; // TODO: in minutes or seconds ?
 export const SAVAGE_COOLDOWN = 60; // TODO: in minutes or seconds ?
 export const MAGDRILL_SPEED_MULTIPLIER = 0.30; // lower this number to increase load/unload magdrill speed
 export const GLOBAL_CHANCE_MODIFIER = 6.0;
-export const STIMULANT_USES = 4;
+export const STIMULANT_USES = 2;
 
 export const CONSTRUCTION_TIME = 1; // in seconds
 export const PRODUCTION_TIME = 1; // in seconds
