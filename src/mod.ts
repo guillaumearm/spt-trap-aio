@@ -6,29 +6,12 @@ import { getItemTemplate, getModDisplayName } from "./utils";
 import { ILogger } from "@spt-aki/models/spt/utils/ILogger";
 import { ConfigServer } from "@spt-aki/servers/ConfigServer";
 import { ConfigTypes } from "@spt-aki/models/enums/ConfigTypes";
-import { AirdropChancePercent, IAirdropConfig } from "@spt-aki/models/spt/config/IAirdropConfig";
+import { IAirdropConfig } from "@spt-aki/models/spt/config/IAirdropConfig";
 import { tweakBots } from "./bots";
 import { tweakAmmoItemColors } from "./ammo-item-colors";
 import { tweakStashSize } from "./stash";
-
-const BOTS_GRENADE_ALLOWED = false;
-const KEYTOOL_HEIGHT = 14;
-const KEYTOOL_WIDTH = 14;
-const MAGDRILL_SPEED = 0.1;
-const STASH_SIZE = 256; // vertical size
-const SAVAGE_COOLDOWN = 60;
-const GLOBAL_CHANCE_MODIFIER = 6.0;
-
-const KEYTOOL_ID = '59fafd4b86f7745ca07e1232';
-
-const AIRDROP_CHANCE: AirdropChancePercent = {
-  reserve: 100,
-  bigmap: 75,
-  interchange: 75,
-  lighthouse: 50,
-  shoreline: 50,
-  woods: 50
-};
+import { tweakSecureContainers } from "./secure-containers";
+import { AIRDROP_CHANCE, BOTS_GRENADE_ALLOWED, GLOBAL_CHANCE_MODIFIER, KAPPA_EXTRA_SIZE, KEYTOOL_HEIGHT, KEYTOOL_ID, KEYTOOL_WIDTH, MAGDRILL_SPEED, SAVAGE_COOLDOWN, SECURE_CONTAINER_HEIGHT, SECURE_CONTAINER_WIDTH, STASH_SIZE } from "./config";
 
 class Mod implements IMod {
   private logger: ILogger;
@@ -95,6 +78,13 @@ class Mod implements IMod {
     this.logger.success(`=> Keytool size changed to '${horizontalValue}x${verticalValue}`);
   }
 
+  private tweakSecureContainers(database: DatabaseServer) {
+    tweakSecureContainers(database, SECURE_CONTAINER_WIDTH, SECURE_CONTAINER_HEIGHT, KAPPA_EXTRA_SIZE);
+
+    this.logger.success(`=> Tweaked gamma container to ${SECURE_CONTAINER_WIDTH}x${SECURE_CONTAINER_HEIGHT}`);
+    this.logger.success(`=> Tweaked kappa container to ${SECURE_CONTAINER_WIDTH}x${SECURE_CONTAINER_HEIGHT + KAPPA_EXTRA_SIZE}`);
+  }
+
   public load(container: DependencyContainer): void {
     this.logger = container.resolve<ILogger>("WinstonLogger");
     this.logger.info(`===> Loading ${getModDisplayName(true)} ...`);
@@ -112,6 +102,7 @@ class Mod implements IMod {
     this.tweakStashSize(database, STASH_SIZE);
     this.tweakMagdrillSpeed(database, MAGDRILL_SPEED);
     this.tweakKeytoolSize(database, KEYTOOL_WIDTH, KEYTOOL_HEIGHT);
+    this.tweakSecureContainers(database);
 
     this.logger.success(`===> Successfully loaded ${getModDisplayName(true)}`);
   }
@@ -121,8 +112,9 @@ module.exports = { mod: new Mod() }
 
 
 //TODO:
+// all items examined (except for keys)
 // extended-raid time
-// infinite key usage
-// change stimulant use amount
 // change insurance time
 // hideout production/construction time
+// change stimulant use amount
+// infinite key usage
