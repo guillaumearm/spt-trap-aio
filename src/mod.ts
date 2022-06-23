@@ -72,7 +72,7 @@ class Mod implements IMod {
     const tables = database.getTables();
     tables.globals.config.SavagePlayCooldown = value;
 
-    this.logger.success(`=> Tweaked savage cooldown to ${value} minute${value > 1 ? 's' : ''}`);
+    this.logger.success(`=> Tweaked savage cooldown to ${value} second${value > 1 ? 's' : ''}`);
   }
 
   private tweakStashSize(database: DatabaseServer, value: number) {
@@ -192,7 +192,7 @@ class Mod implements IMod {
     therapist.base.insurance.min_return_hour = insuranceTime;
     therapist.base.insurance.max_return_hour = insuranceTime;
 
-    this.logger.success(`=> Insurance time updated to ${insuranceTime} minute${insuranceTime > 1 ? 's' : ''} for prapor and therapist`);
+    this.logger.success(`=> Insurance time updated to ${insuranceTime} second${insuranceTime > 1 ? 's' : ''} for prapor and therapist`);
   }
 
   private tweakHideoutConstructions(database: DatabaseServer, constructionTime: number): void {
