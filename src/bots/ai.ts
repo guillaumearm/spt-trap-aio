@@ -25,16 +25,19 @@ const copyEasyDifficulty = (bot: IBotType): void => {
   normal.Hearing = easy.Hearing;
   normal.Shoot = easy.Shoot;
   normal.Aiming = easy.Aiming;
+  normal.Mind = easy.Mind;
 
   hard.Core = easy.Core;
   hard.Hearing = easy.Hearing;
   hard.Shoot = easy.Shoot;
   hard.Aiming = easy.Aiming;
+  hard.Mind = easy.Mind;
 
   impossible.Core = easy.Core;
   impossible.Hearing = easy.Hearing;
   impossible.Shoot = easy.Shoot;
   impossible.Aiming = easy.Aiming;
+  impossible.Mind = easy.Mind;
 };
 
 const setBotDifficulty = (bot: IBotType, isGrenadeAllowed: boolean): void => {
@@ -42,6 +45,9 @@ const setBotDifficulty = (bot: IBotType, isGrenadeAllowed: boolean): void => {
   const hearing = bot.difficulty.easy.Hearing;
   const shoot = bot.difficulty.easy.Shoot;
   const aiming = bot.difficulty.easy.Aiming;
+  const mind = bot.difficulty.easy.Mind;
+
+  mind.CAN_TALK = true;
 
   // core.AccuratySpeed = 0.3; // >;
   core.AccuratySpeed = 0.9; // >;
