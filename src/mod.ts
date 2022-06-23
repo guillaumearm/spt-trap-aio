@@ -17,12 +17,14 @@ import {
   CONSTRUCTION_TIME,
   GLOBAL_CHANCE_MODIFIER,
   INSURANCE_TIME,
+  ITEMS_WEIGHT_MULTIPLIER,
   KAPPA_EXTRA_SIZE,
   KEYTOOL_HEIGHT,
   KEYTOOL_ID,
   KEYTOOL_WIDTH,
   MAGDRILL_SPEED_MULTIPLIER,
   PHYSICAL_BITCOIN_ID,
+  POCKET_ID,
   PRAPOR_ID,
   PRODUCTION_TIME,
   RAID_TIME,
@@ -266,6 +268,21 @@ class Mod implements IMod {
     this.logger.success(`=> Tweaked InRaid menu settings (aiDifficulty=${menu.aiDifficulty}, bossEnabled=${menu.bossEnabled}, aiAmount=${menu.aiAmount})`);
   }
 
+  private tweakItemsWeight(db: DatabaseServer, weightMultiplier: number): void {
+    let itemCounter = 0;
+
+    forEachItems(item => {
+      if (item._type !== 'Node' && item._type !== undefined && item._parent !== POCKET_ID && item._id !== POCKET_ID) {
+        if (item._props.Weight !== undefined) {
+          item._props.Weight = item._props.Weight * weightMultiplier;
+          itemCounter = itemCounter + 1;
+        }
+      }
+    }, db);
+
+    this.logger.success(`=> ${itemCounter} items weight divised by ${1 / weightMultiplier}`);
+  }
+
   public load(container: DependencyContainer): void {
     this.logger = container.resolve<ILogger>("WinstonLogger");
     this.logger.info(`===> Loading ${getModDisplayName(true)}`);
@@ -291,6 +308,7 @@ class Mod implements IMod {
     this.tweakHideoutConstructions(database, CONSTRUCTION_TIME);
     this.tweakFleaMarket(database, configServer);
     this.tweakInRaidMenuSettings(configServer);
+    this.tweakItemsWeight(database, ITEMS_WEIGHT_MULTIPLIER);
 
     this.logger.success(`===> Successfully loaded ${getModDisplayName(true)}`);
   }

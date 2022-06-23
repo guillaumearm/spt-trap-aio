@@ -6,6 +6,7 @@ import { AirdropChancePercent } from "@spt-aki/models/spt/config/IAirdropConfig"
  *******************************************************************************
  */
 
+export const ITEMS_WEIGHT_MULTIPLIER = 0.5;
 export const RAID_TIME = 60 * 8; // in minutes
 export const INSURANCE_TIME = 1; // TODO: in minutes or seconds ?
 export const SAVAGE_COOLDOWN = 60; // TODO: in minutes or seconds ?
@@ -53,3 +54,4 @@ export const PRAPOR_ID = '54cb50c76803fa8b248b4571';
 export const THERAPIST_ID = '54cb57776803fa99248b456e';
 export const STIMULANT_ID = '5448f3a64bdc2d60728b456a';
 export const PHYSICAL_BITCOIN_ID = '59faff1d86f7746c51718c9c';
+export const POCKET_ID = '557596e64bdc2dc2118b4571';
