@@ -8,6 +8,7 @@ export const KEY_IDS = [
 
 export const isKeyId = (id: string): boolean => KEY_IDS.includes(id);
 
+// for keys only
 export const tweakItemInfiniteDurability = (item: ITemplateItem): boolean => {
   if (isKeyId(item._id)) {
     item._props.MaximumNumberOfUsage = 0;

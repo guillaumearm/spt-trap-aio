@@ -14,6 +14,7 @@ import { tweakSecureContainers } from "./secure-containers";
 import { AIRDROP_CHANCE, BOTS_GRENADE_ALLOWED, CONSTRUCTION_TIME, GLOBAL_CHANCE_MODIFIER, INSURANCE_TIME, KAPPA_EXTRA_SIZE, KEYTOOL_HEIGHT, KEYTOOL_ID, KEYTOOL_WIDTH, MAGDRILL_SPEED, PHYSICAL_BITCOIN_ID, PRAPOR_ID, PRODUCTION_TIME, RAID_TIME, SAVAGE_COOLDOWN, SECURE_CONTAINER_HEIGHT, SECURE_CONTAINER_WIDTH, STASH_SIZE, STIMULANT_ID, STIMULANT_USES, THERAPIST_ID } from "./config";
 import { ITemplateItem } from "@spt-aki/models/eft/common/tables/ITemplateItem";
 import { isKeyId, tweakItemInfiniteDurability } from "./keys";
+import { IRagfairConfig } from "@spt-aki/models/spt/config/IRagfairConfig";
 
 class Mod implements IMod {
   private logger: ILogger;
@@ -169,6 +170,34 @@ class Mod implements IMod {
     this.logger.success(`=> Changed production time to ${productionTime} minutes`);
   }
 
+  private tweakFleaMarket(database: DatabaseServer, configServer: ConfigServer): void {
+    const config = configServer.getConfig<IRagfairConfig>(ConfigTypes.RAGFAIR);
+
+    // 1. disable bsg blacklist
+    config.dynamic.blacklist.enableBsgList = false;
+
+    // 2. add items sellable on thr flea
+    forEachItems(item => {
+      if (item._type === 'Item' && !item._props.CanSellOnRagfair) {
+        item._props.CanSellOnRagfair = true;
+      }
+    }, database);
+
+    // 3. no durabuility required to sell an item
+    config.dynamic.condition.min = 0.01;
+    config.dynamic.condition.max = 1.00;
+
+    // 4. instant sell offers
+    config.sell.chance.base = 100
+    config.sell.time.min = 0
+    config.sell.time.max = 0
+
+    // 5. disable fees
+    config.sell.fees = false;
+
+    this.logger.success(`=> Tweaked flea market`);
+  }
+
   public load(container: DependencyContainer): void {
     this.logger = container.resolve<ILogger>("WinstonLogger");
     this.logger.info(`===> Loading ${getModDisplayName(true)} ...`);
@@ -193,6 +222,7 @@ class Mod implements IMod {
     this.tweakInsuranceTime(database, INSURANCE_TIME);
     this.tweakHideoutProductions(database, PRODUCTION_TIME);
     this.tweakHideoutConstructions(database, CONSTRUCTION_TIME);
+    this.tweakFleaMarket(database, configServer);
 
     this.logger.success(`===> Successfully loaded ${getModDisplayName(true)}`);
   }
