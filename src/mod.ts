@@ -2,21 +2,23 @@ import { DependencyContainer } from "tsyringe";
 
 import { IMod } from "@spt-aki/models/external/mod";
 import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
-import { forEachItems, getItemTemplate, getModDisplayName, getTrader } from "./utils";
 import { ILogger } from "@spt-aki/models/spt/utils/ILogger";
 import { ConfigServer } from "@spt-aki/servers/ConfigServer";
 import { ConfigTypes } from "@spt-aki/models/enums/ConfigTypes";
 import { IAirdropConfig } from "@spt-aki/models/spt/config/IAirdropConfig";
-import { tweakBots } from "./bots";
-import { tweakAmmoItemColors } from "./ammo-item-colors";
-import { tweakStashSize } from "./stash";
-import { tweakSecureContainers } from "./secure-containers";
-import { AIRDROP_CHANCE, BLACKLIST_MAPS, BOTS_GRENADE_ALLOWED, CONSTRUCTION_TIME, GLOBAL_CHANCE_MODIFIER, INSURANCE_TIME, KAPPA_EXTRA_SIZE, KEYTOOL_HEIGHT, KEYTOOL_ID, KEYTOOL_WIDTH, MAGDRILL_SPEED, PHYSICAL_BITCOIN_ID, PRAPOR_ID, PRODUCTION_TIME, RAID_TIME, SAVAGE_COOLDOWN, SECURE_CONTAINER_HEIGHT, SECURE_CONTAINER_WIDTH, STASH_SIZE, STIMULANT_ID, STIMULANT_USES, THERAPIST_ID } from "./config";
 import { ITemplateItem } from "@spt-aki/models/eft/common/tables/ITemplateItem";
-import { isKeyId, tweakItemInfiniteDurability } from "./keys";
 import { IRagfairConfig } from "@spt-aki/models/spt/config/IRagfairConfig";
 import { IInRaidConfig } from "@spt-aki/models/spt/config/IInRaidConfig";
 import { ILocationData } from "@spt-aki/models/spt/server/ILocations";
+
+import { AIRDROP_CHANCE, BLACKLIST_MAPS, BOTS_GRENADE_ALLOWED, CONSTRUCTION_TIME, GLOBAL_CHANCE_MODIFIER, INSURANCE_TIME, KAPPA_EXTRA_SIZE, KEYTOOL_HEIGHT, KEYTOOL_ID, KEYTOOL_WIDTH, MAGDRILL_SPEED, PHYSICAL_BITCOIN_ID, PRAPOR_ID, PRODUCTION_TIME, RAID_TIME, SAVAGE_COOLDOWN, SECURE_CONTAINER_HEIGHT, SECURE_CONTAINER_WIDTH, STASH_SIZE, STIMULANT_ID, STIMULANT_USES, THERAPIST_ID } from "./config";
+import { forEachItems, getItemTemplate, getModDisplayName, getTrader } from "./utils";
+import { tweakBots } from "./bots/ai";
+import { tweakAmmoItemColors } from "./ammo-item-colors";
+import { tweakStashSize } from "./stash";
+import { isKeyId, tweakItemInfiniteDurability } from "./keys";
+import { tweakSecureContainers } from "./secure-containers";
+import { tweakBotWaves } from "./bots/waves";
 
 class Mod implements IMod {
   private logger: ILogger;
@@ -222,6 +224,11 @@ class Mod implements IMod {
     this.logger.success(`=> Tweaked InRaid menu settings`);
   }
 
+  private tweakBotWaves(db: DatabaseServer): void {
+    const tweakedMaps = tweakBotWaves(db);
+    this.logger.success(`=> Tweaked bot waves on maps '${tweakedMaps.join(', ')}'`);
+  }
+
   public load(container: DependencyContainer): void {
     this.logger = container.resolve<ILogger>("WinstonLogger");
     this.logger.info(`===> Loading ${getModDisplayName(true)} ...`);
@@ -236,6 +243,7 @@ class Mod implements IMod {
     this.tweakAmmoItemColors(database);
     this.increaseAirdropChances(configServer);
     this.tweakBots(database, configServer);
+    this.tweakBotWaves(database);
     this.tweakGlobalLootChanceModifier(database, GLOBAL_CHANCE_MODIFIER);
     this.tweakSavageCooldown(database, SAVAGE_COOLDOWN);
     this.tweakStashSize(database, STASH_SIZE);
