@@ -4,8 +4,6 @@ import { IBotConfig } from "@spt-aki/models/spt/config/IBotConfig";
 import { ConfigServer } from "@spt-aki/servers/ConfigServer";
 import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
 
-const GRENADE_ALLOWED = false;
-
 const setPMCDifficultyConfigToEasy = (configServer: ConfigServer): void => {
   const botConfig = configServer.getConfig<IBotConfig>(ConfigTypes.BOT);
 
@@ -31,7 +29,7 @@ const copyEasyDifficulty = (bot: IBotType): void => {
   impossible.Aiming = easy.Aiming;
 };
 
-const setBotDifficulty = (bot: IBotType): void => {
+const setBotDifficulty = (bot: IBotType, isGrenadeAllowed: boolean): void => {
   const core = bot.difficulty.easy.Core;
   const hearing = bot.difficulty.easy.Hearing;
   const shoot = bot.difficulty.easy.Shoot;
@@ -39,7 +37,7 @@ const setBotDifficulty = (bot: IBotType): void => {
 
   // core.AccuratySpeed = 0.3; // >;
   core.AccuratySpeed = 0.9; // >;
-  core.canGrenade = GRENADE_ALLOWED;
+  core.canGrenade = isGrenadeAllowed;
   core.HearingSense = 1.05; // <
   core.VisibleAngle = 130; // <
   core.VisibleDistance = 110; // <
@@ -109,7 +107,7 @@ const BOT_TYPES = [
   'marksman'
 ] as const;
 
-export const tweakBots = (database: DatabaseServer, configServer: ConfigServer): void => {
+export const tweakBots = (database: DatabaseServer, configServer: ConfigServer, isGrenadeAllowed: boolean): void => {
   setPMCDifficultyConfigToEasy(configServer);
 
   const tables = database.getTables();
@@ -118,7 +116,7 @@ export const tweakBots = (database: DatabaseServer, configServer: ConfigServer):
     const bot = tables.bots.types[type];
 
     if (bot) {
-      setBotDifficulty(bot);
+      setBotDifficulty(bot, isGrenadeAllowed);
     }
   })
 }
