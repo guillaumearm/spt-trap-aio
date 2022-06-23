@@ -5,16 +5,15 @@ export const factoryWaves = (): Wave[] => {
     "SpawnPoints": "BotZone",
     "BotPreset": "easy",
     "isPlayers": false,
+    "WildSpawnType": "assault",
   } as const;
 
   const scav = {
     "BotSide": "Savage",
-    "WildSpawnType": "assault",
   } as const;
 
   const usec = {
     "BotSide": "Usec",
-    "WildSpawnType": "usec",
   } as const;
 
   return [
