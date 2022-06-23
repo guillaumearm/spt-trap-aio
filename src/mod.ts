@@ -267,7 +267,7 @@ class Mod implements IMod {
 
   public load(container: DependencyContainer): void {
     this.logger = container.resolve<ILogger>("WinstonLogger");
-    this.logger.info(`===> Loading ${getModDisplayName(true)} ...`);
+    this.logger.info(`===> Loading ${getModDisplayName(true)}`);
   }
 
   public delayedLoad(container: DependencyContainer): void {
