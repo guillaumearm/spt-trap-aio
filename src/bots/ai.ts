@@ -3,6 +3,7 @@ import { ConfigTypes } from "@spt-aki/models/enums/ConfigTypes";
 import { IBotConfig } from "@spt-aki/models/spt/config/IBotConfig";
 import { ConfigServer } from "@spt-aki/servers/ConfigServer";
 import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
+import { ROGUE_TO_PMC_PERCENTAGE, SCAV_TO_PMC_PERCENTAGE } from "src/config";
 
 const setPMCBotConfig = (configServer: ConfigServer): void => {
   const botConfig = configServer.getConfig<IBotConfig>(ConfigTypes.BOT);
@@ -11,10 +12,10 @@ const setPMCBotConfig = (configServer: ConfigServer): void => {
   botConfig.pmc.chanceSameSideIsHostilePercent = 100;
   botConfig.pmc.difficulty = 'easy';
 
-  botConfig.pmc.types.assault = 25;
+  botConfig.pmc.types.assault = SCAV_TO_PMC_PERCENTAGE;
+  botConfig.pmc.types.exUsec = ROGUE_TO_PMC_PERCENTAGE;
   botConfig.pmc.types.cursedAssault = 100;
   botConfig.pmc.types.pmcBot = 100;
-  botConfig.pmc.types.exUsec = 100;
 };
 
 const copyEasyDifficulty = (bot: IBotType): void => {

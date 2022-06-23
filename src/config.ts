@@ -36,6 +36,9 @@ export const AIRDROP_CHANCE: AirdropChancePercent = {
   woods: 50
 };
 
+export const SCAV_TO_PMC_PERCENTAGE = 50;
+export const ROGUE_TO_PMC_PERCENTAGE = 100;
+
 
 /**
  *******************************************************************************

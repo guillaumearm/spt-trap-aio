@@ -41,7 +41,6 @@ import { tweakAmmoItemColors } from "./ammo-item-colors";
 import { tweakStashSize } from "./stash";
 import { isKeyId, tweakItemInfiniteDurability } from "./keys";
 import { tweakSecureContainers } from "./secure-containers";
-import { tweakBotWaves } from "./bots/waves";
 
 class Mod implements IMod {
   private logger: ILogger;
@@ -267,11 +266,6 @@ class Mod implements IMod {
     this.logger.success(`=> Tweaked InRaid menu settings (aiDifficulty=${menu.aiDifficulty}, bossEnabled=${menu.bossEnabled}, aiAmount=${menu.aiAmount})`);
   }
 
-  private tweakBotWaves(db: DatabaseServer): void {
-    const tweakedMaps = tweakBotWaves(db);
-    this.logger.success(`=> Tweaked bot waves on maps '${tweakedMaps.join(', ')}'`);
-  }
-
   public load(container: DependencyContainer): void {
     this.logger = container.resolve<ILogger>("WinstonLogger");
     this.logger.info(`===> Loading ${getModDisplayName(true)}`);
@@ -285,7 +279,6 @@ class Mod implements IMod {
     this.tweakAmmoItemColors(database);
     this.increaseAirdropChances(configServer);
     this.tweakBots(database, configServer);
-    // this.tweakBotWaves(database);
     this.tweakGlobalLootChanceModifier(database, GLOBAL_CHANCE_MODIFIER);
     this.tweakSavageCooldown(database, SAVAGE_COOLDOWN);
     this.tweakStashSize(database, STASH_SIZE);
