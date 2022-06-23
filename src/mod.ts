@@ -10,6 +10,8 @@ import { AirdropChancePercent, IAirdropConfig } from "@spt-aki/models/spt/config
 import { tweakBots } from "./bots";
 import { tweakAmmoItemColors } from "./ammo-item-colors";
 
+const SAVAGE_COOLDOWN = 60;
+const GLOBAL_CHANCE_MODIFIER = 6.0;
 
 const AIRDROP_CHANCE: AirdropChancePercent = {
   reserve: 100,
@@ -26,6 +28,7 @@ class Mod implements IMod {
   private tweakAmmoItemColors(database: DatabaseServer) {
     const tables = database.getTables();
     tweakAmmoItemColors(tables);
+
     this.logger.success(`=> Tweaked ammo item colors`);
   }
 
@@ -36,9 +39,24 @@ class Mod implements IMod {
     this.logger.success(`=> Changed airdrop chance`);
   }
 
-  private tweakBots(database, configServer: ConfigServer) {
+  private tweakBots(database: DatabaseServer, configServer: ConfigServer) {
     tweakBots(database, configServer);
+
     this.logger.success(`=> Tweaked bot difficulty to 'easy'`);
+  }
+
+  private tweakSavageCooldown(database: DatabaseServer, value = 0) {
+    const tables = database.getTables();
+    tables.globals.config.SavagePlayCooldown = value;
+
+    this.logger.success(`=> Tweaked savage cooldown to '${value}'`);
+  }
+
+  private tweakGlobalLootChanceModifier(database: DatabaseServer, globalLootChanceModifier: number) {
+    const tables = database.getTables();
+    tables.globals.config.GlobalLootChanceModifier = globalLootChanceModifier;
+
+    this.logger.success(`=> GlobalLootChanceModifier changed to '${globalLootChanceModifier}'`);
   }
 
   public load(container: DependencyContainer): void {
@@ -53,6 +71,8 @@ class Mod implements IMod {
     this.tweakAmmoItemColors(database);
     this.increaseAirdropChances(configServer);
     this.tweakBots(database, configServer);
+    this.tweakGlobalLootChanceModifier(database, GLOBAL_CHANCE_MODIFIER);
+    this.tweakSavageCooldown(database, SAVAGE_COOLDOWN);
 
     this.logger.success(`====> Successfully loaded ${getModDisplayName(true)}`);
   }
