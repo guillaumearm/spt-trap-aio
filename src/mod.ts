@@ -2,7 +2,7 @@ import { DependencyContainer } from "tsyringe";
 
 import { IMod } from "@spt-aki/models/external/mod";
 import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
-import { getItemTemplate, getModDisplayName } from "./utils";
+import { forEachItems, getItemTemplate, getModDisplayName, getTrader } from "./utils";
 import { ILogger } from "@spt-aki/models/spt/utils/ILogger";
 import { ConfigServer } from "@spt-aki/servers/ConfigServer";
 import { ConfigTypes } from "@spt-aki/models/enums/ConfigTypes";
@@ -11,7 +11,9 @@ import { tweakBots } from "./bots";
 import { tweakAmmoItemColors } from "./ammo-item-colors";
 import { tweakStashSize } from "./stash";
 import { tweakSecureContainers } from "./secure-containers";
-import { AIRDROP_CHANCE, BOTS_GRENADE_ALLOWED, GLOBAL_CHANCE_MODIFIER, KAPPA_EXTRA_SIZE, KEYTOOL_HEIGHT, KEYTOOL_ID, KEYTOOL_WIDTH, MAGDRILL_SPEED, SAVAGE_COOLDOWN, SECURE_CONTAINER_HEIGHT, SECURE_CONTAINER_WIDTH, STASH_SIZE } from "./config";
+import { AIRDROP_CHANCE, BOTS_GRENADE_ALLOWED, CONSTRUCTION_TIME, GLOBAL_CHANCE_MODIFIER, INSURANCE_TIME, KAPPA_EXTRA_SIZE, KEYTOOL_HEIGHT, KEYTOOL_ID, KEYTOOL_WIDTH, MAGDRILL_SPEED, PHYSICAL_BITCOIN_ID, PRAPOR_ID, PRODUCTION_TIME, RAID_TIME, SAVAGE_COOLDOWN, SECURE_CONTAINER_HEIGHT, SECURE_CONTAINER_WIDTH, STASH_SIZE, STIMULANT_ID, STIMULANT_USES, THERAPIST_ID } from "./config";
+import { ITemplateItem } from "@spt-aki/models/eft/common/tables/ITemplateItem";
+import { isKeyId, tweakItemInfiniteDurability } from "./keys";
 
 class Mod implements IMod {
   private logger: ILogger;
@@ -85,6 +87,88 @@ class Mod implements IMod {
     this.logger.success(`=> Tweaked kappa container to ${SECURE_CONTAINER_WIDTH}x${SECURE_CONTAINER_HEIGHT + KAPPA_EXTRA_SIZE}`);
   }
 
+  private tweakItem(item: ITemplateItem) {
+    const isKeyItem = isKeyId(item._id);
+    const isStimulant = item._id === STIMULANT_ID;
+
+    if (isKeyItem) {
+      tweakItemInfiniteDurability(item);
+    } else {
+      item._props.ExaminedByDefault = true;
+    }
+
+    if (isStimulant) {
+      item._props.MaxHpResource = STIMULANT_USES;
+    }
+  }
+
+  // raidTime is in minutes
+  private tweakRaidTime(database: DatabaseServer, raidTime: number): void {
+    const BLACKLIST_MAPS = ['base', 'hideout', 'private area', 'privatearea'];
+
+    const locations = database.getTables().locations;
+    let nMaps = 0;
+
+    for (const mapName in locations) {
+      if (!BLACKLIST_MAPS.includes(mapName)) {
+        locations[mapName].base.exit_access_time = raidTime;
+        locations[mapName].base.escape_time_limit = raidTime;
+
+        nMaps = nMaps + 1;
+      }
+    }
+
+    this.logger.success(`=> Extended raid time for ${nMaps} maps`);
+  }
+
+  private tweakInsuranceTime(database: DatabaseServer, insuranceTime: number): void {
+    const tables = database.getTables();
+
+    const prapor = getTrader(tables, PRAPOR_ID);
+    const therapist = getTrader(tables, THERAPIST_ID);
+
+    prapor.base.insurance.min_return_hour = insuranceTime;
+    prapor.base.insurance.max_return_hour = insuranceTime;
+    therapist.base.insurance.min_return_hour = insuranceTime;
+    therapist.base.insurance.max_return_hour = insuranceTime;
+
+    this.logger.success(`=> Insurance time updated to ${insuranceTime} minute(s) for prapor and therapist`);
+  }
+
+  private tweakHideoutConstructions(database: DatabaseServer, constructionTime: number): void {
+    const areas = database.getTables().hideout.areas;
+
+
+    areas.forEach(area => {
+      for (const stageId in area.stages) {
+        const stage = area.stages[stageId];
+        // 1 tweak construction time
+        stage.constructionTime = constructionTime;
+
+        // 2. fix loyalty level to 1
+        stage.requirements.forEach(req => {
+          req.loyaltyLevel = 1;
+        })
+
+      }
+    })
+
+    this.logger.success(`=> Changed construction time to ${constructionTime} minutes`);
+    this.logger.success(`=> Fixed royalty level requirement to 1 for all constructions`);
+  }
+
+  private tweakHideoutProductions(database: DatabaseServer, productionTime: number): void {
+    const hideout = database.getTables().hideout;
+
+    hideout.production.forEach(production => {
+      if (production.endProduct !== PHYSICAL_BITCOIN_ID) {
+        production.productionTime = productionTime;
+      }
+    });
+
+    this.logger.success(`=> Changed production time to ${productionTime} minutes`);
+  }
+
   public load(container: DependencyContainer): void {
     this.logger = container.resolve<ILogger>("WinstonLogger");
     this.logger.info(`===> Loading ${getModDisplayName(true)} ...`);
@@ -93,6 +177,8 @@ class Mod implements IMod {
   public delayedLoad(container: DependencyContainer): void {
     const database = container.resolve<DatabaseServer>("DatabaseServer");
     const configServer = container.resolve<ConfigServer>("ConfigServer");
+
+    forEachItems(item => this.tweakItem(item), database);
 
     this.tweakAmmoItemColors(database);
     this.increaseAirdropChances(configServer);
@@ -103,18 +189,13 @@ class Mod implements IMod {
     this.tweakMagdrillSpeed(database, MAGDRILL_SPEED);
     this.tweakKeytoolSize(database, KEYTOOL_WIDTH, KEYTOOL_HEIGHT);
     this.tweakSecureContainers(database);
+    this.tweakRaidTime(database, RAID_TIME);
+    this.tweakInsuranceTime(database, INSURANCE_TIME);
+    this.tweakHideoutProductions(database, PRODUCTION_TIME);
+    this.tweakHideoutConstructions(database, CONSTRUCTION_TIME);
 
     this.logger.success(`===> Successfully loaded ${getModDisplayName(true)}`);
   }
 }
 
 module.exports = { mod: new Mod() }
-
-
-//TODO:
-// all items examined (except for keys)
-// extended-raid time
-// change insurance time
-// hideout production/construction time
-// change stimulant use amount
-// infinite key usage
