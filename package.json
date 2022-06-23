@@ -1,13 +1,12 @@
 {
     "name": "trap-aio",
     "displayName": "Trap's AIO",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "main": "src/mod.js",
     "license": "MIT",
     "author": "Trap",
     "akiVersion": ">=3.0.0",
     "scripts": {
-        "setup:environment": "echo '========= setup:environment npm script called ============='",
         "build:unzipped": "copyfiles -e \"./node_modules/**/*.*\" -e \"./dist/**/*.*\" -e \"./package-lock.json\" -e \"./tsconfig.json\" -e \"./tmp/**/*.*\" -e \"./README.md\" -e \"./mod.code-workspace\" \"./**/*.*\" ./dist",
         "zip:files": "cd dist/ && bestzip ../mod.zip *",
         "build:zip": "npm run clean && npm run build:unzipped && npm run zip:files",
