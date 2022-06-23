@@ -48,16 +48,16 @@ class Mod implements IMod {
 
   private tweakAmmoItemColors(database: DatabaseServer) {
     const tables = database.getTables();
-    tweakAmmoItemColors(tables);
+    const nbItemUpdated = tweakAmmoItemColors(tables);
 
-    this.logger.success(`=> Tweaked ammo item colors`);
+    this.logger.success(`=> Tweaked colors for ${nbItemUpdated} ammo items`);
   }
 
   private increaseAirdropChances(configServer: ConfigServer) {
     const airdropConfig = configServer.getConfig<IAirdropConfig>(ConfigTypes.AIRDROP);
     airdropConfig.airdropChancePercent = AIRDROP_CHANCE;
 
-    this.logger.success(`=> Changed airdrop chance`);
+    this.logger.success(`=> Changed airdrop chance: ${JSON.stringify(AIRDROP_CHANCE)}`);
   }
 
   private tweakBots(database: DatabaseServer, configServer: ConfigServer) {

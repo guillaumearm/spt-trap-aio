@@ -2,8 +2,9 @@ import { IDatabaseTables } from "@spt-aki/models/spt/server/IDatabaseTables";
 
 const GENERIC_AMMO_ID = '5485a8684bdc2da71d8b4567';
 
-export const tweakAmmoItemColors = (tables: IDatabaseTables): void => {
+export const tweakAmmoItemColors = (tables: IDatabaseTables): number => {
   const items = tables.templates.items;
+  let itemCounter = 0;
 
   for (const i in items) {
     const item = items[i]
@@ -26,6 +27,9 @@ export const tweakAmmoItemColors = (tables: IDatabaseTables): void => {
       }
 
       item._props.BackgroundColor = color
+      itemCounter = itemCounter + 1;
     }
   }
+
+  return itemCounter;
 }
