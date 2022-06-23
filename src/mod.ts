@@ -63,6 +63,7 @@ class Mod implements IMod {
   private tweakBots(database: DatabaseServer, configServer: ConfigServer) {
     tweakBots(database, configServer, BOTS_GRENADE_ALLOWED);
 
+    this.logger.success(`=> More PMCs added`);
     this.logger.success(`=> Tweaked bot difficulty to 'easy'`);
   }
 
@@ -103,13 +104,8 @@ class Mod implements IMod {
 
     config.BaseLoadTime = config.BaseLoadTime * speedMultiplier;
     config.BaseUnloadTime = config.BaseUnloadTime * speedMultiplier;
-    // const magdrills = tables.globals.config.SkillsSettings.MagDrills;
 
-    // magdrills.MagazineCheckAction = magdrills.MagazineCheckAction * speedMultiplier;
-    // magdrills.RaidLoadedAmmoAction = magdrills.RaidLoadedAmmoAction * speedMultiplier;
-    // magdrills.RaidUnloadedAmmoAction = magdrills.RaidUnloadedAmmoAction * speedMultiplier;
-
-    this.logger.success(`=> Mag drills speed multiplied by '${speedMultiplier}'`);
+    this.logger.success(`=> Mag drills speed divised by '${1 / speedMultiplier}'`);
   }
 
   private tweakKeytoolSize(database: DatabaseServer, horizontalValue: number, verticalValue: number): void {
@@ -282,7 +278,7 @@ class Mod implements IMod {
     this.tweakAmmoItemColors(database);
     this.increaseAirdropChances(configServer);
     this.tweakBots(database, configServer);
-    this.tweakBotWaves(database);
+    // this.tweakBotWaves(database);
     this.tweakGlobalLootChanceModifier(database, GLOBAL_CHANCE_MODIFIER);
     this.tweakSavageCooldown(database, SAVAGE_COOLDOWN);
     this.tweakStashSize(database, STASH_SIZE);

@@ -9,7 +9,7 @@ import { AirdropChancePercent } from "@spt-aki/models/spt/config/IAirdropConfig"
 export const RAID_TIME = 60 * 8; // in minutes
 export const INSURANCE_TIME = 1; // in minutes
 export const SAVAGE_COOLDOWN = 60; // in minutes
-export const MAGDRILL_SPEED_MULTIPLIER = 0.1; // lower this number to increase load/unload magdrill speed
+export const MAGDRILL_SPEED_MULTIPLIER = 0.25; // lower this number to increase load/unload magdrill speed
 export const GLOBAL_CHANCE_MODIFIER = 6.0;
 export const STIMULANT_USES = 4;
 

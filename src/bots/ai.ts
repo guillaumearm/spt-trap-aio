@@ -4,10 +4,17 @@ import { IBotConfig } from "@spt-aki/models/spt/config/IBotConfig";
 import { ConfigServer } from "@spt-aki/servers/ConfigServer";
 import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
 
-const setPMCDifficultyConfigToEasy = (configServer: ConfigServer): void => {
+const setPMCBotConfig = (configServer: ConfigServer): void => {
   const botConfig = configServer.getConfig<IBotConfig>(ConfigTypes.BOT);
 
+  botConfig.pmc.isUsec = 100;
+  botConfig.pmc.chanceSameSideIsHostilePercent = 100;
   botConfig.pmc.difficulty = 'easy';
+
+  botConfig.pmc.types.assault = 25;
+  botConfig.pmc.types.cursedAssault = 100;
+  botConfig.pmc.types.pmcBot = 100;
+  botConfig.pmc.types.exUsec = 100;
 };
 
 const copyEasyDifficulty = (bot: IBotType): void => {
@@ -108,7 +115,7 @@ const BOT_TYPES = [
 ] as const;
 
 export const tweakBots = (database: DatabaseServer, configServer: ConfigServer, isGrenadeAllowed: boolean): void => {
-  setPMCDifficultyConfigToEasy(configServer);
+  setPMCBotConfig(configServer);
 
   const tables = database.getTables();
 
