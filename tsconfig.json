@@ -22,7 +22,8 @@
     ],
     "include": [
         "src/*",
-        "src/**/*"
+        "src/**/*",
+        "types/**/*"
     ],
     "exclude": [
         "tmp/**/*",

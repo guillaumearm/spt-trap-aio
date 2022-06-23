@@ -2,9 +2,9 @@ import { DependencyContainer } from "tsyringe";
 
 import { IMod } from "@spt-aki/models/external/mod";
 import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
-import { ILogger } from "@spt-aki/models/spt/utils/ILogger";
-
 import { getModDisplayName } from "./utils";
+import { ILogger } from "@spt-aki/models/spt/utils/ILogger";
+import { ConfigServer } from "@spt-aki/servers/ConfigServer";
 
 class Mod implements IMod {
   private logger: ILogger;
@@ -47,6 +47,10 @@ class Mod implements IMod {
 
   public delayedLoad(container: DependencyContainer): void {
     this.setAmmoItemColors(container);
+
+    const configServer = container.resolve<ConfigServer>("ConfigServer");
+
+
     this.logger.success(`=> Successfully loaded ${getModDisplayName(true)}`);
   }
 }
