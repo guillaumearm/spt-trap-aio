@@ -91,7 +91,14 @@ class Mod implements IMod {
         const location: ILocationData = locations[mapName];
 
         location.base.GlobalLootChanceModifier = globalLootChanceModifier;
-        location.base.escape_time_limit = globalLootChanceModifier;
+
+        if (location.looseLoot) {
+          const spawnCount = location.looseLoot.spawnpointCount;
+
+          spawnCount.mean = spawnCount.mean * globalLootChanceModifier;
+          spawnCount.std = spawnCount.std * globalLootChanceModifier;
+        }
+
       }
     }
 
