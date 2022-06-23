@@ -70,13 +70,13 @@ class Mod implements IMod {
     const tables = database.getTables();
     tables.globals.config.SavagePlayCooldown = value;
 
-    this.logger.success(`=> Tweaked savage cooldown to '${value}'`);
+    this.logger.success(`=> Tweaked savage cooldown to ${value} minute${value > 1 ? 's' : ''}`);
   }
 
   private tweakStashSize(database: DatabaseServer, value: number) {
     tweakStashSize(database, value);
 
-    this.logger.success(`=> Tweaked stash size to '${value}'`);
+    this.logger.success(`=> Tweaked stash size to 10x${value}`);
   }
 
   private tweakGlobalLootChanceModifier(database: DatabaseServer, globalLootChanceModifier: number) {
@@ -190,7 +190,7 @@ class Mod implements IMod {
     therapist.base.insurance.min_return_hour = insuranceTime;
     therapist.base.insurance.max_return_hour = insuranceTime;
 
-    this.logger.success(`=> Insurance time updated to ${insuranceTime} minute(s) for prapor and therapist`);
+    this.logger.success(`=> Insurance time updated to ${insuranceTime} minute${insuranceTime > 1 ? 's' : ''} for prapor and therapist`);
   }
 
   private tweakHideoutConstructions(database: DatabaseServer, constructionTime: number): void {
@@ -211,7 +211,7 @@ class Mod implements IMod {
       }
     })
 
-    this.logger.success(`=> Changed construction time to ${constructionTime} seconds`);
+    this.logger.success(`=> Changed construction time to ${constructionTime} second${constructionTime > 1 ? 's' : ''}`);
     this.logger.success(`=> Fixed royalty level requirement to 1 for all constructions`);
   }
 
@@ -224,7 +224,7 @@ class Mod implements IMod {
       }
     });
 
-    this.logger.success(`=> Changed production time to ${productionTime} seconds`);
+    this.logger.success(`=> Changed production time to ${productionTime} second${productionTime > 1 ? 's' : ''}`);
   }
 
   private tweakFleaMarket(database: DatabaseServer, configServer: ConfigServer): void {
