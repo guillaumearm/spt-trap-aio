@@ -6,7 +6,6 @@ import { ILogger } from "@spt-aki/models/spt/utils/ILogger";
 import { ConfigServer } from "@spt-aki/servers/ConfigServer";
 import { ConfigTypes } from "@spt-aki/models/enums/ConfigTypes";
 import { IAirdropConfig } from "@spt-aki/models/spt/config/IAirdropConfig";
-import { ITemplateItem } from "@spt-aki/models/eft/common/tables/ITemplateItem";
 import { IRagfairConfig } from "@spt-aki/models/spt/config/IRagfairConfig";
 import { IInRaidConfig } from "@spt-aki/models/spt/config/IInRaidConfig";
 import { ILocationData } from "@spt-aki/models/spt/server/ILocations";
@@ -131,19 +130,32 @@ class Mod implements IMod {
     this.logger.success(`=> Tweaked kappa container to ${SECURE_CONTAINER_WIDTH}x${SECURE_CONTAINER_HEIGHT + KAPPA_EXTRA_SIZE}`);
   }
 
-  private tweakItem(item: ITemplateItem) {
-    const isKeyItem = isKeyId(item._id);
-    const isStimulant = item._id === STIMULANT_ID;
+  private tweakItems(database: DatabaseServer) {
+    let keysCounter = 0;
+    let examinedCounter = 0;
+    let stimulantCounter = 0;
 
-    if (isKeyItem) {
-      tweakItemInfiniteDurability(item);
-    } else {
-      item._props.ExaminedByDefault = true;
-    }
+    forEachItems((item) => {
+      const isKeyItem = isKeyId(item);
+      const isStimulant = item._parent === STIMULANT_ID;
 
-    if (isStimulant) {
-      item._props.MaxHpResource = STIMULANT_USES;
-    }
+      if (isKeyItem) {
+        tweakItemInfiniteDurability(item);
+        keysCounter = keysCounter + 1;
+      } else {
+        item._props.ExaminedByDefault = true;
+        examinedCounter = examinedCounter + 1;
+      }
+
+      if (isStimulant) {
+        item._props.MaxHpResource = STIMULANT_USES;
+        stimulantCounter = stimulantCounter + 1;
+      }
+    }, database);
+
+    this.logger.success(`=> Set infinite durability for ${keysCounter} keys`);
+    this.logger.success(`=> Set examined by default for ${examinedCounter} items`);
+    this.logger.success(`=> Set ${STIMULANT_USES} uses for ${stimulantCounter} stimulant items`);
   }
 
   // raidTime is in minutes
@@ -266,8 +278,7 @@ class Mod implements IMod {
     const database = container.resolve<DatabaseServer>("DatabaseServer");
     const configServer = container.resolve<ConfigServer>("ConfigServer");
 
-    forEachItems(item => this.tweakItem(item), database);
-
+    this.tweakItems(database);
     this.tweakAmmoItemColors(database);
     this.increaseAirdropChances(configServer);
     this.tweakBots(database, configServer);

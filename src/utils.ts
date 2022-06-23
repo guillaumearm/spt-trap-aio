@@ -35,10 +35,10 @@ export const getTrader = (tables: IDatabaseTables, id: string): ITrader => {
 }
 
 
-export const forEachItems = (cb: (item: ITemplateItem) => void, database: DatabaseServer): void => {
+export const forEachItems = (cb: (item: ITemplateItem, id: string) => void, database: DatabaseServer): void => {
   const items = database.getTables().templates.items;
 
   for (const itemId in items) {
-    cb(items[itemId]);
+    cb(items[itemId], itemId);
   }
 };

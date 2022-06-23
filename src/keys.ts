@@ -6,11 +6,11 @@ export const KEY_IDS = [
   '5c164d2286f774194c5e69fa' // card keys
 ]
 
-export const isKeyId = (id: string): boolean => KEY_IDS.includes(id);
+export const isKeyId = (item: ITemplateItem): boolean => KEY_IDS.includes(item._parent);
 
 // for keys only
 export const tweakItemInfiniteDurability = (item: ITemplateItem): boolean => {
-  if (isKeyId(item._id)) {
+  if (isKeyId(item)) {
     item._props.MaximumNumberOfUsage = 0;
     return true;
   }
