@@ -38,7 +38,7 @@ class Mod implements IMod {
 
   private tweakBots(database, configServer: ConfigServer) {
     tweakBots(database, configServer);
-    this.logger.success(`=> Changed pmc bot difficulty to 'easy'`);
+    this.logger.success(`=> Tweaked bot difficulty to 'easy'`);
   }
 
   public load(container: DependencyContainer): void {
