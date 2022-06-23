@@ -39,9 +39,11 @@ export const AIRDROP_CHANCE: AirdropChancePercent = {
 
 /**
  *******************************************************************************
- * Item ids
+ * Ids
  *******************************************************************************
  */
+
+export const BLACKLIST_MAPS = ['base', 'hideout', 'private area', 'privatearea'];
 
 export const KEYTOOL_ID = '59fafd4b86f7745ca07e1232';
 export const PRAPOR_ID = '54cb50c76803fa8b248b4571';

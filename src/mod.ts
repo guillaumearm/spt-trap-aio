@@ -11,11 +11,12 @@ import { tweakBots } from "./bots";
 import { tweakAmmoItemColors } from "./ammo-item-colors";
 import { tweakStashSize } from "./stash";
 import { tweakSecureContainers } from "./secure-containers";
-import { AIRDROP_CHANCE, BOTS_GRENADE_ALLOWED, CONSTRUCTION_TIME, GLOBAL_CHANCE_MODIFIER, INSURANCE_TIME, KAPPA_EXTRA_SIZE, KEYTOOL_HEIGHT, KEYTOOL_ID, KEYTOOL_WIDTH, MAGDRILL_SPEED, PHYSICAL_BITCOIN_ID, PRAPOR_ID, PRODUCTION_TIME, RAID_TIME, SAVAGE_COOLDOWN, SECURE_CONTAINER_HEIGHT, SECURE_CONTAINER_WIDTH, STASH_SIZE, STIMULANT_ID, STIMULANT_USES, THERAPIST_ID } from "./config";
+import { AIRDROP_CHANCE, BLACKLIST_MAPS, BOTS_GRENADE_ALLOWED, CONSTRUCTION_TIME, GLOBAL_CHANCE_MODIFIER, INSURANCE_TIME, KAPPA_EXTRA_SIZE, KEYTOOL_HEIGHT, KEYTOOL_ID, KEYTOOL_WIDTH, MAGDRILL_SPEED, PHYSICAL_BITCOIN_ID, PRAPOR_ID, PRODUCTION_TIME, RAID_TIME, SAVAGE_COOLDOWN, SECURE_CONTAINER_HEIGHT, SECURE_CONTAINER_WIDTH, STASH_SIZE, STIMULANT_ID, STIMULANT_USES, THERAPIST_ID } from "./config";
 import { ITemplateItem } from "@spt-aki/models/eft/common/tables/ITemplateItem";
 import { isKeyId, tweakItemInfiniteDurability } from "./keys";
 import { IRagfairConfig } from "@spt-aki/models/spt/config/IRagfairConfig";
 import { IInRaidConfig } from "@spt-aki/models/spt/config/IInRaidConfig";
+import { ILocationData } from "@spt-aki/models/spt/server/ILocations";
 
 class Mod implements IMod {
   private logger: ILogger;
@@ -56,6 +57,17 @@ class Mod implements IMod {
   private tweakGlobalLootChanceModifier(database: DatabaseServer, globalLootChanceModifier: number) {
     const tables = database.getTables();
     tables.globals.config.GlobalLootChanceModifier = globalLootChanceModifier;
+
+    const locations = tables.locations;
+
+    for (const mapName in locations) {
+      if (!BLACKLIST_MAPS.includes(mapName)) {
+        const location: ILocationData = locations[mapName];
+
+        location.base.GlobalLootChanceModifier = globalLootChanceModifier;
+        location.base.escape_time_limit = globalLootChanceModifier;
+      }
+    }
 
     this.logger.success(`=> GlobalLootChanceModifier changed to '${globalLootChanceModifier}'`);
   }
@@ -106,15 +118,15 @@ class Mod implements IMod {
 
   // raidTime is in minutes
   private tweakRaidTime(database: DatabaseServer, raidTime: number): void {
-    const BLACKLIST_MAPS = ['base', 'hideout', 'private area', 'privatearea'];
-
     const locations = database.getTables().locations;
     let nMaps = 0;
 
     for (const mapName in locations) {
       if (!BLACKLIST_MAPS.includes(mapName)) {
-        locations[mapName].base.exit_access_time = raidTime;
-        locations[mapName].base.escape_time_limit = raidTime;
+        const location: ILocationData = locations[mapName];
+
+        location.base.exit_access_time = raidTime;
+        location.base.escape_time_limit = raidTime;
 
         nMaps = nMaps + 1;
       }
@@ -205,7 +217,9 @@ class Mod implements IMod {
 
     menu.aiAmount = 'Easy';
     menu.bossEnabled = false;
-    menu.aiAmount = "Medium"
+    menu.aiAmount = "Medium";
+
+    this.logger.success(`=> Tweaked InRaid menu settings`);
   }
 
   public load(container: DependencyContainer): void {
@@ -233,7 +247,6 @@ class Mod implements IMod {
     this.tweakHideoutProductions(database, PRODUCTION_TIME);
     this.tweakHideoutConstructions(database, CONSTRUCTION_TIME);
     this.tweakFleaMarket(database, configServer);
-
     this.tweakInRaidMenuSettings(configServer);
 
     this.logger.success(`===> Successfully loaded ${getModDisplayName(true)}`);
