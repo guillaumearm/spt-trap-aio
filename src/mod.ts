@@ -212,7 +212,7 @@ class Mod implements IMod {
       }
     })
 
-    this.logger.success(`=> Changed construction time to ${constructionTime} minutes`);
+    this.logger.success(`=> Changed construction time to ${constructionTime} seconds`);
     this.logger.success(`=> Fixed royalty level requirement to 1 for all constructions`);
   }
 
@@ -225,7 +225,7 @@ class Mod implements IMod {
       }
     });
 
-    this.logger.success(`=> Changed production time to ${productionTime} minutes`);
+    this.logger.success(`=> Changed production time to ${productionTime} seconds`);
   }
 
   private tweakFleaMarket(database: DatabaseServer, configServer: ConfigServer): void {
