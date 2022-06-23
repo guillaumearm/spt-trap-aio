@@ -5,39 +5,40 @@ import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
 import { getModDisplayName } from "./utils";
 import { ILogger } from "@spt-aki/models/spt/utils/ILogger";
 import { ConfigServer } from "@spt-aki/servers/ConfigServer";
+import { ConfigTypes } from "@spt-aki/models/enums/ConfigTypes";
+import { AirdropChancePercent, IAirdropConfig } from "@spt-aki/models/spt/config/IAirdropConfig";
+import { tweakBots } from "./bots";
+import { tweakAmmoItemColors } from "./ammo-item-colors";
+
+
+const AIRDROP_CHANCE: AirdropChancePercent = {
+  reserve: 100,
+  bigmap: 75,
+  interchange: 75,
+  lighthouse: 50,
+  shoreline: 50,
+  woods: 50
+};
 
 class Mod implements IMod {
   private logger: ILogger;
 
-  private setAmmoItemColors(container: DependencyContainer) {
-    const database = container.resolve<DatabaseServer>("DatabaseServer");
+  private tweakAmmoItemColors(database: DatabaseServer) {
     const tables = database.getTables();
+    tweakAmmoItemColors(tables);
+    this.logger.success(`=> Tweaked ammo item colors`);
+  }
 
-    const items = tables.templates.items;
+  private increaseAirdropChances(configServer: ConfigServer) {
+    const airdropConfig = configServer.getConfig<IAirdropConfig>(ConfigTypes.AIRDROP);
+    airdropConfig.airdropChancePercent = AIRDROP_CHANCE;
 
-    for (const i in items) {
-      const item = items[i]
+    this.logger.success(`=> Changed airdrop chance`);
+  }
 
-      //set baground colour of ammo depending on pen
-      if (item._parent === "5485a8684bdc2da71d8b4567") {
-        const pen = item._props.PenetrationPower
-        let color = "grey"
-
-        if (pen > 60) {
-          color = "red";
-        } else if (pen > 50) {
-          color = "yellow";
-        } else if (pen > 40) {
-          color = 'violet';
-        } else if (pen > 30) {
-          color = 'blue';
-        } else if (pen > 20) {
-          color = 'green'
-        }
-
-        item._props.BackgroundColor = color
-      }
-    }
+  private tweakBots(database, configServer: ConfigServer) {
+    tweakBots(database, configServer);
+    this.logger.success(`=> Changed pmc bot difficulty to 'easy'`);
   }
 
   public load(container: DependencyContainer): void {
@@ -46,13 +47,16 @@ class Mod implements IMod {
   }
 
   public delayedLoad(container: DependencyContainer): void {
-    this.setAmmoItemColors(container);
-
+    const database = container.resolve<DatabaseServer>("DatabaseServer");
     const configServer = container.resolve<ConfigServer>("ConfigServer");
 
+    this.tweakAmmoItemColors(database);
+    this.increaseAirdropChances(configServer);
+    this.tweakBots(database, configServer);
 
-    this.logger.success(`=> Successfully loaded ${getModDisplayName(true)}`);
+    this.logger.success(`====> Successfully loaded ${getModDisplayName(true)}`);
   }
 }
 
 module.exports = { mod: new Mod() }
+
