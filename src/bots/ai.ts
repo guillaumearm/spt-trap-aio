@@ -3,7 +3,7 @@ import { ConfigTypes } from "@spt-aki/models/enums/ConfigTypes";
 import { IBotConfig } from "@spt-aki/models/spt/config/IBotConfig";
 import { ConfigServer } from "@spt-aki/servers/ConfigServer";
 import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
-import { ROGUE_TO_PMC_PERCENTAGE, SCAV_TO_PMC_PERCENTAGE } from "src/config";
+import { ROGUE_TO_PMC_PERCENTAGE, SCAV_TO_PMC_PERCENTAGE } from "../config";
 
 const setPMCBotConfig = (configServer: ConfigServer): void => {
   const botConfig = configServer.getConfig<IBotConfig>(ConfigTypes.BOT);
