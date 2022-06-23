@@ -15,6 +15,7 @@ import { AIRDROP_CHANCE, BOTS_GRENADE_ALLOWED, CONSTRUCTION_TIME, GLOBAL_CHANCE_
 import { ITemplateItem } from "@spt-aki/models/eft/common/tables/ITemplateItem";
 import { isKeyId, tweakItemInfiniteDurability } from "./keys";
 import { IRagfairConfig } from "@spt-aki/models/spt/config/IRagfairConfig";
+import { IInRaidConfig } from "@spt-aki/models/spt/config/IInRaidConfig";
 
 class Mod implements IMod {
   private logger: ILogger;
@@ -198,6 +199,15 @@ class Mod implements IMod {
     this.logger.success(`=> Tweaked flea market`);
   }
 
+  private tweakInRaidMenuSettings(configServer: ConfigServer): void {
+    const config = configServer.getConfig<IInRaidConfig>(ConfigTypes.IN_RAID);
+    const menu = config.raidMenuSettings;
+
+    menu.aiAmount = 'Easy';
+    menu.bossEnabled = false;
+    menu.aiAmount = "Medium"
+  }
+
   public load(container: DependencyContainer): void {
     this.logger = container.resolve<ILogger>("WinstonLogger");
     this.logger.info(`===> Loading ${getModDisplayName(true)} ...`);
@@ -223,6 +233,8 @@ class Mod implements IMod {
     this.tweakHideoutProductions(database, PRODUCTION_TIME);
     this.tweakHideoutConstructions(database, CONSTRUCTION_TIME);
     this.tweakFleaMarket(database, configServer);
+
+    this.tweakInRaidMenuSettings(configServer);
 
     this.logger.success(`===> Successfully loaded ${getModDisplayName(true)}`);
   }
