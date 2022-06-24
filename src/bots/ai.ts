@@ -10,7 +10,7 @@ const setPMCBotConfig = (configServer: ConfigServer): void => {
 
   botConfig.pmc.isUsec = 100;
   botConfig.pmc.chanceSameSideIsHostilePercent = 100;
-  botConfig.pmc.difficulty = 'easy';
+  botConfig.pmc.difficulty = "easy";
 
   botConfig.pmc.types.assault = SCAV_TO_PMC_PERCENTAGE;
   botConfig.pmc.types.exUsec = ROGUE_TO_PMC_PERCENTAGE;
@@ -70,11 +70,11 @@ const setBotDifficulty = (bot: IBotType, isGrenadeAllowed: boolean): void => {
   aiming.AIMING_TYPE = 5; // =
   // aiming.ANY_PART_SHOOT_TIME = 30; // >
   aiming.ANY_PART_SHOOT_TIME = 40; // >
-  aiming.BASE_HIT_AFFECTION_DELAY_SEC = 1.77 // >
-  aiming.BASE_HIT_AFFECTION_MAX_ANG = 28 // >
-  aiming.BASE_HIT_AFFECTION_MIN_ANG = 14 // >
+  aiming.BASE_HIT_AFFECTION_DELAY_SEC = 1.77; // >
+  aiming.BASE_HIT_AFFECTION_MAX_ANG = 28; // >
+  aiming.BASE_HIT_AFFECTION_MIN_ANG = 14; // >
   // aiming.BETTER_PRECICING_COEF = 0.7 // <
-  aiming.BETTER_PRECICING_COEF = 0.5 // <
+  aiming.BETTER_PRECICING_COEF = 0.5; // <
   aiming.DAMAGE_PANIC_TIME = 15; // >
   aiming.MAX_AIMING_UPGRADE_BY_TIME = 0.85; // >
   // aiming.MAX_AIM_TIME = 1.5; // >
@@ -90,47 +90,50 @@ const setBotDifficulty = (bot: IBotType, isGrenadeAllowed: boolean): void => {
   aiming.PANIC_TIME = 4; // >
 
   copyEasyDifficulty(bot);
-}
-
+};
 
 const BOT_TYPES = [
-  'assault',
-  'bear',
-  'usec',
-  'exusec',
-  'pmcbot',
-  'sectantwarrior',
-  'sectantpriest',
-  'gifter',
-  'cursedassault',
-  'bossbully',
-  'bossgluhar',
-  'bosskilla',
-  'bosskojaniy',
-  'bosssanitar',
-  'bosstagilla',
-  'followergluharassault',
-  'followergluharscout',
-  'followergluharsecurity',
-  'followergluharsnipe',
-  'followerkojaniy',
-  'followersanitar',
-  'followertagilla',
-  'bosstest',
-  'followertest',
-  'marksman'
+  "assault",
+  "bear",
+  "usec",
+  "exusec",
+  "pmcbot",
+  "sectantwarrior",
+  "sectantpriest",
+  "gifter",
+  "cursedassault",
+  "bossbully",
+  "bossgluhar",
+  "bosskilla",
+  "bosskojaniy",
+  "bosssanitar",
+  "bosstagilla",
+  "followergluharassault",
+  "followergluharscout",
+  "followergluharsecurity",
+  "followergluharsnipe",
+  "followerkojaniy",
+  "followersanitar",
+  "followertagilla",
+  "bosstest",
+  "followertest",
+  "marksman",
 ] as const;
 
-export const tweakBots = (database: DatabaseServer, configServer: ConfigServer, isGrenadeAllowed: boolean): void => {
+export const tweakBots = (
+  database: DatabaseServer,
+  configServer: ConfigServer,
+  isGrenadeAllowed: boolean
+): void => {
   setPMCBotConfig(configServer);
 
   const tables = database.getTables();
 
-  BOT_TYPES.forEach(type => {
+  BOT_TYPES.forEach((type) => {
     const bot = tables.bots.types[type];
 
     if (bot) {
       setBotDifficulty(bot, isGrenadeAllowed);
     }
-  })
-}
+  });
+};

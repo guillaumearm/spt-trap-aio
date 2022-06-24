@@ -37,7 +37,12 @@ import {
   THERAPIST_ID,
 } from "./config";
 
-import { forEachItems, getItemTemplate, getModDisplayName, getTrader } from "./utils";
+import {
+  forEachItems,
+  getItemTemplate,
+  getModDisplayName,
+  getTrader,
+} from "./utils";
 import { tweakBots } from "./bots/ai";
 import { tweakAmmoItemColors } from "./ammo-item-colors";
 import { tweakStashSize } from "./stash";
@@ -55,10 +60,14 @@ class Mod implements IMod {
   }
 
   private increaseAirdropChances(configServer: ConfigServer) {
-    const airdropConfig = configServer.getConfig<IAirdropConfig>(ConfigTypes.AIRDROP);
+    const airdropConfig = configServer.getConfig<IAirdropConfig>(
+      ConfigTypes.AIRDROP
+    );
     airdropConfig.airdropChancePercent = AIRDROP_CHANCE;
 
-    this.logger.success(`=> Changed airdrop chance: ${JSON.stringify(AIRDROP_CHANCE)}`);
+    this.logger.success(
+      `=> Changed airdrop chance: ${JSON.stringify(AIRDROP_CHANCE)}`
+    );
   }
 
   private tweakBots(database: DatabaseServer, configServer: ConfigServer) {
@@ -72,7 +81,9 @@ class Mod implements IMod {
     const tables = database.getTables();
     tables.globals.config.SavagePlayCooldown = value;
 
-    this.logger.success(`=> Tweaked savage cooldown to ${value} second${value > 1 ? 's' : ''}`);
+    this.logger.success(
+      `=> Tweaked savage cooldown to ${value} second${value > 1 ? "s" : ""}`
+    );
   }
 
   private tweakStashSize(database: DatabaseServer, value: number) {
@@ -81,7 +92,10 @@ class Mod implements IMod {
     this.logger.success(`=> Tweaked stash size to 10x${value}`);
   }
 
-  private tweakGlobalLootChanceModifier(database: DatabaseServer, globalLootChanceModifier: number) {
+  private tweakGlobalLootChanceModifier(
+    database: DatabaseServer,
+    globalLootChanceModifier: number
+  ) {
     const tables = database.getTables();
     tables.globals.config.GlobalLootChanceModifier = globalLootChanceModifier;
 
@@ -99,39 +113,62 @@ class Mod implements IMod {
           spawnCount.mean = spawnCount.mean * globalLootChanceModifier;
           spawnCount.std = spawnCount.std * globalLootChanceModifier;
         }
-
       }
     }
 
-    this.logger.success(`=> GlobalLootChanceModifier changed to '${globalLootChanceModifier}'`);
+    this.logger.success(
+      `=> GlobalLootChanceModifier changed to '${globalLootChanceModifier}'`
+    );
   }
 
-  private tweakMagdrillSpeed(database: DatabaseServer, speedMultiplier: number): void {
+  private tweakMagdrillSpeed(
+    database: DatabaseServer,
+    speedMultiplier: number
+  ): void {
     const tables = database.getTables();
     const config = tables.globals.config;
 
     config.BaseLoadTime = config.BaseLoadTime * speedMultiplier;
     config.BaseUnloadTime = config.BaseUnloadTime * speedMultiplier;
 
-    this.logger.success(`=> Mag drills speed divised by '${1 / speedMultiplier}'`);
+    this.logger.success(
+      `=> Mag drills speed divised by '${1 / speedMultiplier}'`
+    );
   }
 
-  private tweakKeytoolSize(database: DatabaseServer, horizontalValue: number, verticalValue: number): void {
-    const tables = database.getTables()
+  private tweakKeytoolSize(
+    database: DatabaseServer,
+    horizontalValue: number,
+    verticalValue: number
+  ): void {
+    const tables = database.getTables();
     const item = getItemTemplate(tables, KEYTOOL_ID);
     const props = item._props.Grids[0]._props;
 
     props.cellsH = horizontalValue;
     props.cellsV = verticalValue;
 
-    this.logger.success(`=> Keytool size changed to '${horizontalValue}x${verticalValue}`);
+    this.logger.success(
+      `=> Keytool size changed to '${horizontalValue}x${verticalValue}`
+    );
   }
 
   private tweakSecureContainers(database: DatabaseServer) {
-    tweakSecureContainers(database, SECURE_CONTAINER_WIDTH, SECURE_CONTAINER_HEIGHT, KAPPA_EXTRA_SIZE);
+    tweakSecureContainers(
+      database,
+      SECURE_CONTAINER_WIDTH,
+      SECURE_CONTAINER_HEIGHT,
+      KAPPA_EXTRA_SIZE
+    );
 
-    this.logger.success(`=> Tweaked gamma container to ${SECURE_CONTAINER_WIDTH}x${SECURE_CONTAINER_HEIGHT}`);
-    this.logger.success(`=> Tweaked kappa container to ${SECURE_CONTAINER_WIDTH}x${SECURE_CONTAINER_HEIGHT + KAPPA_EXTRA_SIZE}`);
+    this.logger.success(
+      `=> Tweaked gamma container to ${SECURE_CONTAINER_WIDTH}x${SECURE_CONTAINER_HEIGHT}`
+    );
+    this.logger.success(
+      `=> Tweaked kappa container to ${SECURE_CONTAINER_WIDTH}x${
+        SECURE_CONTAINER_HEIGHT + KAPPA_EXTRA_SIZE
+      }`
+    );
   }
 
   private tweakItems(database: DatabaseServer) {
@@ -158,8 +195,12 @@ class Mod implements IMod {
     }, database);
 
     this.logger.success(`=> Set infinite durability for ${keysCounter} keys`);
-    this.logger.success(`=> Set examined by default for ${examinedCounter} items`);
-    this.logger.success(`=> Set ${STIMULANT_USES} uses for ${stimulantCounter} stimulant items`);
+    this.logger.success(
+      `=> Set examined by default for ${examinedCounter} items`
+    );
+    this.logger.success(
+      `=> Set ${STIMULANT_USES} uses for ${stimulantCounter} stimulant items`
+    );
   }
 
   // raidTime is in minutes
@@ -178,10 +219,15 @@ class Mod implements IMod {
       }
     }
 
-    this.logger.success(`=> Extended raid time (${raidTime / 60} hours) for ${nMaps} maps`);
+    this.logger.success(
+      `=> Extended raid time (${raidTime / 60} hours) for ${nMaps} maps`
+    );
   }
 
-  private tweakInsuranceTime(database: DatabaseServer, insuranceTime: number): void {
+  private tweakInsuranceTime(
+    database: DatabaseServer,
+    insuranceTime: number
+  ): void {
     const tables = database.getTables();
 
     const prapor = getTrader(tables, PRAPOR_ID);
@@ -192,87 +238,117 @@ class Mod implements IMod {
     therapist.base.insurance.min_return_hour = insuranceTime;
     therapist.base.insurance.max_return_hour = insuranceTime;
 
-    this.logger.success(`=> Insurance time updated to ${insuranceTime} second${insuranceTime > 1 ? 's' : ''} for prapor and therapist`);
+    this.logger.success(
+      `=> Insurance time updated to ${insuranceTime} second${
+        insuranceTime > 1 ? "s" : ""
+      } for prapor and therapist`
+    );
   }
 
-  private tweakHideoutConstructions(database: DatabaseServer, constructionTime: number): void {
+  private tweakHideoutConstructions(
+    database: DatabaseServer,
+    constructionTime: number
+  ): void {
     const areas = database.getTables().hideout.areas;
 
-
-    areas.forEach(area => {
+    areas.forEach((area) => {
       for (const stageId in area.stages) {
         const stage = area.stages[stageId];
         // 1 tweak construction time
         stage.constructionTime = constructionTime;
 
         // 2. fix loyalty level to 1
-        stage.requirements.forEach(req => {
+        stage.requirements.forEach((req) => {
           req.loyaltyLevel = 1;
-        })
-
+        });
       }
-    })
+    });
 
-    this.logger.success(`=> Changed construction time to ${constructionTime} second${constructionTime > 1 ? 's' : ''}`);
-    this.logger.success(`=> Fixed royalty level requirement to 1 for all constructions`);
+    this.logger.success(
+      `=> Changed construction time to ${constructionTime} second${
+        constructionTime > 1 ? "s" : ""
+      }`
+    );
+    this.logger.success(
+      `=> Fixed royalty level requirement to 1 for all constructions`
+    );
   }
 
-  private tweakHideoutProductions(database: DatabaseServer, productionTime: number): void {
+  private tweakHideoutProductions(
+    database: DatabaseServer,
+    productionTime: number
+  ): void {
     const hideout = database.getTables().hideout;
 
-    hideout.production.forEach(production => {
+    hideout.production.forEach((production) => {
       if (production.endProduct !== PHYSICAL_BITCOIN_ID) {
         production.productionTime = productionTime;
       }
     });
 
-    this.logger.success(`=> Changed production time to ${productionTime} second${productionTime > 1 ? 's' : ''}`);
+    this.logger.success(
+      `=> Changed production time to ${productionTime} second${
+        productionTime > 1 ? "s" : ""
+      }`
+    );
   }
 
-  private tweakFleaMarket(database: DatabaseServer, configServer: ConfigServer): void {
+  private tweakFleaMarket(
+    database: DatabaseServer,
+    configServer: ConfigServer
+  ): void {
     const config = configServer.getConfig<IRagfairConfig>(ConfigTypes.RAGFAIR);
 
     // 1. disable bsg blacklist
     config.dynamic.blacklist.enableBsgList = false;
 
     // 2. add items sellable on the flea
-    forEachItems(item => {
-      if (item._type === 'Item' && !item._props.CanSellOnRagfair) {
+    forEachItems((item) => {
+      if (item._type === "Item" && !item._props.CanSellOnRagfair) {
         item._props.CanSellOnRagfair = true;
       }
     }, database);
 
     // 3. no durabuility required to sell an item
     config.dynamic.condition.min = 0.01;
-    config.dynamic.condition.max = 1.00;
+    config.dynamic.condition.max = 1.0;
 
     // 4. instant sell offers
-    config.sell.chance.base = 100
-    config.sell.time.min = 0
-    config.sell.time.max = 0
+    config.sell.chance.base = 100;
+    config.sell.time.min = 0;
+    config.sell.time.max = 0;
 
     // 5. disable fees
     config.sell.fees = false;
 
-    this.logger.success(`=> Tweaked flea market (disable bsg blacklist + instant sell + all items sellable without fees)`);
+    this.logger.success(
+      `=> Tweaked flea market (disable bsg blacklist + instant sell + all items sellable without fees)`
+    );
   }
 
   private tweakInRaidMenuSettings(configServer: ConfigServer): void {
     const config = configServer.getConfig<IInRaidConfig>(ConfigTypes.IN_RAID);
     const menu = config.raidMenuSettings;
 
-    menu.aiDifficulty = 'Easy';
+    menu.aiDifficulty = "Easy";
     menu.bossEnabled = false;
     menu.aiAmount = "Medium";
 
-    this.logger.success(`=> Tweaked InRaid menu settings (aiDifficulty=${menu.aiDifficulty}, bossEnabled=${menu.bossEnabled}, aiAmount=${menu.aiAmount})`);
+    this.logger.success(
+      `=> Tweaked InRaid menu settings (aiDifficulty=${menu.aiDifficulty}, bossEnabled=${menu.bossEnabled}, aiAmount=${menu.aiAmount})`
+    );
   }
 
   private tweakItemsWeight(db: DatabaseServer, weightMultiplier: number): void {
     let itemCounter = 0;
 
-    forEachItems(item => {
-      if (item._type !== 'Node' && item._type !== undefined && item._parent !== POCKET_ID && item._id !== POCKET_ID) {
+    forEachItems((item) => {
+      if (
+        item._type !== "Node" &&
+        item._type !== undefined &&
+        item._parent !== POCKET_ID &&
+        item._id !== POCKET_ID
+      ) {
         if (item._props.Weight !== undefined) {
           item._props.Weight = item._props.Weight * weightMultiplier;
           itemCounter = itemCounter + 1;
@@ -280,7 +356,9 @@ class Mod implements IMod {
       }
     }, db);
 
-    this.logger.success(`=> ${itemCounter} items weight divised by ${1 / weightMultiplier}`);
+    this.logger.success(
+      `=> ${itemCounter} items weight divised by ${1 / weightMultiplier}`
+    );
   }
 
   public load(container: DependencyContainer): void {
@@ -314,4 +392,4 @@ class Mod implements IMod {
   }
 }
 
-module.exports = { mod: new Mod() }
+module.exports = { mod: new Mod() };
