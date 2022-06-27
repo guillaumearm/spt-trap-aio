@@ -17,6 +17,7 @@ import {
   CONSTRUCTION_TIME,
   CONVERT_BOTS_TO_PMC,
   DEBUG,
+  DUMB_AI,
   EASY_BOTS,
   GLOBAL_CHANCE_MODIFIER,
   INSURANCE_TIME,
@@ -86,6 +87,10 @@ class Mod implements IMod {
     if (EASY_BOTS) {
       tweakBots(database, configServer, BOTS_GRENADE_ALLOWED);
       this.debug(`Tweaked bot difficulty to 'easy'`);
+    }
+
+    if (DUMB_AI) {
+      this.debug(`Tweaked bot logic to make them dumb`);
     }
 
     if (WAVES_ADDITIONAL_BOTS > 0) {
