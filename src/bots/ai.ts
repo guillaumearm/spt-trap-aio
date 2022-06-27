@@ -164,15 +164,18 @@ const getAllLocationsData = (locations: ILocations): ILocationData[] => {
   ];
 };
 
-// double waves intensity
-export const tweakWaves = (db: DatabaseServer): number => {
+// increase waves intensity
+export const tweakWaves = (
+  db: DatabaseServer,
+  nbAdditionalBots: number
+): number => {
   let counter = 0;
   const allValidLocations = getAllLocationsData(db.getTables().locations);
 
   allValidLocations.forEach((location) => {
     location.base.waves.forEach((wave) => {
-      wave.slots_min = wave.slots_min * 2;
-      wave.slots_max = wave.slots_max * 2;
+      wave.slots_min = wave.slots_min + nbAdditionalBots / 2;
+      wave.slots_max = wave.slots_max + nbAdditionalBots;
     });
 
     counter = counter + 1;

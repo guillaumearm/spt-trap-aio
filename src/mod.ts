@@ -17,7 +17,6 @@ import {
   CONSTRUCTION_TIME,
   CONVERT_BOTS_TO_PMC,
   DEBUG,
-  DOUBLE_BOTS_WAVES_LIMITS,
   EASY_BOTS,
   GLOBAL_CHANCE_MODIFIER,
   INSURANCE_TIME,
@@ -33,6 +32,7 @@ import {
   SECURE_CONTAINER_WIDTH,
   STASH_SIZE,
   STIMULANT_USES,
+  WAVES_ADDITIONAL_BOTS,
 } from "./config";
 
 import {
@@ -88,9 +88,11 @@ class Mod implements IMod {
       this.debug(`Tweaked bot difficulty to 'easy'`);
     }
 
-    if (DOUBLE_BOTS_WAVES_LIMITS) {
-      const count = tweakWaves(database);
-      this.debug(`Doubled bots limit waves for ${count} maps`);
+    if (WAVES_ADDITIONAL_BOTS > 0) {
+      const count = tweakWaves(database, WAVES_ADDITIONAL_BOTS);
+      this.debug(
+        `Added ${WAVES_ADDITIONAL_BOTS} bot(s) on each waves for ${count} maps`
+      );
     }
   }
 
