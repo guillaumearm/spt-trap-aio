@@ -6,6 +6,9 @@ import { AirdropChancePercent } from "@spt-aki/models/spt/config/IAirdropConfig"
  *******************************************************************************
  */
 
+// verbose mode
+export const DEBUG = true;
+
 export const ITEMS_WEIGHT_MULTIPLIER = 0.5;
 export const RAID_TIME = 60 * 8; // in minutes
 export const INSURANCE_TIME = 10; // in seconds

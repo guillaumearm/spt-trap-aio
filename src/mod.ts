@@ -15,6 +15,7 @@ import {
   BLACKLIST_MAPS,
   BOTS_GRENADE_ALLOWED,
   CONSTRUCTION_TIME,
+  DEBUG,
   GLOBAL_CHANCE_MODIFIER,
   INSURANCE_TIME,
   ITEMS_WEIGHT_MULTIPLIER,
@@ -42,6 +43,7 @@ import {
   getItemTemplate,
   getModDisplayName,
   getTrader,
+  noop,
 } from "./utils";
 import { tweakBots } from "./bots/ai";
 import { tweakAmmoItemColors } from "./ammo-item-colors";
@@ -51,12 +53,13 @@ import { tweakSecureContainers } from "./secure-containers";
 
 class Mod implements IMod {
   private logger: ILogger;
+  private debug: (data: string) => void;
 
   private tweakAmmoItemColors(database: DatabaseServer) {
     const tables = database.getTables();
     const nbItemUpdated = tweakAmmoItemColors(tables);
 
-    this.logger.success(`=> Tweaked colors for ${nbItemUpdated} ammo items`);
+    this.debug(`Tweaked colors for ${nbItemUpdated} ammo items`);
   }
 
   private increaseAirdropChances(configServer: ConfigServer) {
@@ -65,31 +68,31 @@ class Mod implements IMod {
     );
     airdropConfig.airdropChancePercent = AIRDROP_CHANCE;
 
-    this.logger.success(
-      `=> Changed airdrop chance: ${JSON.stringify(AIRDROP_CHANCE)}`
-    );
+    this.debug(`Changed airdrop chance: ${JSON.stringify(AIRDROP_CHANCE)}`);
   }
 
   private tweakBots(database: DatabaseServer, configServer: ConfigServer) {
     tweakBots(database, configServer, BOTS_GRENADE_ALLOWED);
 
-    this.logger.success(`=> More PMCs added`);
-    this.logger.success(`=> Tweaked bot difficulty to 'easy'`);
+    this.debug(`More PMCs added`);
+    this.debug(`Tweaked bot difficulty to 'easy'`);
   }
 
   private tweakSavageCooldown(database: DatabaseServer, value: number) {
     const tables = database.getTables();
     tables.globals.config.SavagePlayCooldown = value;
 
-    this.logger.success(
-      `=> Tweaked savage cooldown to ${value} second${value > 1 ? "s" : ""}`
+    this.debug(
+      `Tweaked savage cooldown to ${value} second${value > 1 ? "s" : ""}`
     );
+
+    this.logger.debug("Test");
   }
 
   private tweakStashSize(database: DatabaseServer, value: number) {
     tweakStashSize(database, value);
 
-    this.logger.success(`=> Tweaked stash size to 10x${value}`);
+    this.debug(`Tweaked stash size to 10x${value}`);
   }
 
   private tweakGlobalLootChanceModifier(
@@ -116,8 +119,8 @@ class Mod implements IMod {
       }
     }
 
-    this.logger.success(
-      `=> GlobalLootChanceModifier changed to '${globalLootChanceModifier}'`
+    this.debug(
+      `GlobalLootChanceModifier changed to '${globalLootChanceModifier}'`
     );
   }
 
@@ -131,9 +134,7 @@ class Mod implements IMod {
     config.BaseLoadTime = config.BaseLoadTime * speedMultiplier;
     config.BaseUnloadTime = config.BaseUnloadTime * speedMultiplier;
 
-    this.logger.success(
-      `=> Mag drills speed divised by '${1 / speedMultiplier}'`
-    );
+    this.debug(`Mag drills speed divised by '${1 / speedMultiplier}'`);
   }
 
   private tweakKeytoolSize(
@@ -148,9 +149,7 @@ class Mod implements IMod {
     props.cellsH = horizontalValue;
     props.cellsV = verticalValue;
 
-    this.logger.success(
-      `=> Keytool size changed to '${horizontalValue}x${verticalValue}`
-    );
+    this.debug(`Keytool size changed to '${horizontalValue}x${verticalValue}`);
   }
 
   private tweakSecureContainers(database: DatabaseServer) {
@@ -161,11 +160,11 @@ class Mod implements IMod {
       KAPPA_EXTRA_SIZE
     );
 
-    this.logger.success(
-      `=> Tweaked gamma container to ${SECURE_CONTAINER_WIDTH}x${SECURE_CONTAINER_HEIGHT}`
+    this.debug(
+      `Tweaked gamma container to ${SECURE_CONTAINER_WIDTH}x${SECURE_CONTAINER_HEIGHT}`
     );
-    this.logger.success(
-      `=> Tweaked kappa container to ${SECURE_CONTAINER_WIDTH}x${
+    this.debug(
+      `Tweaked kappa container to ${SECURE_CONTAINER_WIDTH}x${
         SECURE_CONTAINER_HEIGHT + KAPPA_EXTRA_SIZE
       }`
     );
@@ -194,12 +193,10 @@ class Mod implements IMod {
       }
     }, database);
 
-    this.logger.success(`=> Set infinite durability for ${keysCounter} keys`);
-    this.logger.success(
-      `=> Set examined by default for ${examinedCounter} items`
-    );
-    this.logger.success(
-      `=> Set ${STIMULANT_USES} uses for ${stimulantCounter} stimulant items`
+    this.debug(`Set infinite durability for ${keysCounter} keys`);
+    this.debug(`Set examined by default for ${examinedCounter} items`);
+    this.debug(
+      `Set ${STIMULANT_USES} uses for ${stimulantCounter} stimulant items`
     );
   }
 
@@ -219,9 +216,7 @@ class Mod implements IMod {
       }
     }
 
-    this.logger.success(
-      `=> Extended raid time (${raidTime / 60} hours) for ${nMaps} maps`
-    );
+    this.debug(`Extended raid time (${raidTime / 60} hours) for ${nMaps} maps`);
   }
 
   private tweakInsuranceTime(
@@ -238,8 +233,8 @@ class Mod implements IMod {
     therapist.base.insurance.min_return_hour = insuranceTime;
     therapist.base.insurance.max_return_hour = insuranceTime;
 
-    this.logger.success(
-      `=> Insurance time updated to ${insuranceTime} second${
+    this.debug(
+      `Insurance time updated to ${insuranceTime} second${
         insuranceTime > 1 ? "s" : ""
       } for prapor and therapist`
     );
@@ -264,14 +259,12 @@ class Mod implements IMod {
       }
     });
 
-    this.logger.success(
-      `=> Changed construction time to ${constructionTime} second${
+    this.debug(
+      `Changed construction time to ${constructionTime} second${
         constructionTime > 1 ? "s" : ""
       }`
     );
-    this.logger.success(
-      `=> Fixed royalty level requirement to 1 for all constructions`
-    );
+    this.debug(`Fixed royalty level requirement to 1 for all constructions`);
   }
 
   private tweakHideoutProductions(
@@ -286,8 +279,8 @@ class Mod implements IMod {
       }
     });
 
-    this.logger.success(
-      `=> Changed production time to ${productionTime} second${
+    this.debug(
+      `Changed production time to ${productionTime} second${
         productionTime > 1 ? "s" : ""
       }`
     );
@@ -321,8 +314,8 @@ class Mod implements IMod {
     // 5. disable fees
     config.sell.fees = false;
 
-    this.logger.success(
-      `=> Tweaked flea market (disable bsg blacklist + instant sell + all items sellable without fees)`
+    this.debug(
+      `Tweaked flea market (disable bsg blacklist + instant sell + all items sellable without fees)`
     );
   }
 
@@ -334,8 +327,8 @@ class Mod implements IMod {
     menu.bossEnabled = false;
     menu.aiAmount = "Medium";
 
-    this.logger.success(
-      `=> Tweaked InRaid menu settings (aiDifficulty=${menu.aiDifficulty}, bossEnabled=${menu.bossEnabled}, aiAmount=${menu.aiAmount})`
+    this.debug(
+      `Tweaked InRaid menu settings (aiDifficulty=${menu.aiDifficulty}, bossEnabled=${menu.bossEnabled}, aiAmount=${menu.aiAmount})`
     );
   }
 
@@ -356,13 +349,21 @@ class Mod implements IMod {
       }
     }, db);
 
-    this.logger.success(
-      `=> ${itemCounter} items weight divised by ${1 / weightMultiplier}`
+    this.debug(
+      `${itemCounter} items weight divised by ${1 / weightMultiplier}`
     );
   }
 
   public load(container: DependencyContainer): void {
     this.logger = container.resolve<ILogger>("WinstonLogger");
+    this.debug = DEBUG
+      ? (data: string) => this.logger.debug(`Trap-AIO: ${data}`, true)
+      : noop;
+
+    if (DEBUG) {
+      this.debug("debug mode enabled");
+    }
+
     this.logger.info(`===> Loading ${getModDisplayName(true)}`);
   }
 

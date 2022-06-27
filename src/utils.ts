@@ -92,3 +92,5 @@ export const createStaticRoutePeeker = (
     watchRoute,
   };
 };
+
+export function noop(): void {}
