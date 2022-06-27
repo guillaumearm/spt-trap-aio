@@ -4,6 +4,10 @@ import { IBotConfig } from "@spt-aki/models/spt/config/IBotConfig";
 import { ConfigServer } from "@spt-aki/servers/ConfigServer";
 import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
 import {
+  ILocations,
+  ILocationData,
+} from "@spt-aki/models/spt/server/ILocations";
+import {
   PERCENTAGE_USEC,
   ROGUE_TO_PMC_PERCENTAGE,
   SCAV_TO_PMC_PERCENTAGE,
@@ -140,4 +144,39 @@ export const tweakBots = (
       setBotDifficulty(bot, isGrenadeAllowed);
     }
   });
+};
+
+const getAllLocationsData = (locations: ILocations): ILocationData[] => {
+  return [
+    locations.bigmap,
+    locations.factory4_day,
+    locations.factory4_night,
+    locations.interchange,
+    locations.laboratory,
+    locations.lighthouse,
+    locations.rezervbase,
+    locations.shoreline,
+    locations.woods,
+    locations.town,
+    locations.terminal,
+    locations.tarkovstreets,
+    locations.suburbs,
+  ];
+};
+
+// double waves intensity
+export const tweakWaves = (db: DatabaseServer): number => {
+  let counter = 0;
+  const allValidLocations = getAllLocationsData(db.getTables().locations);
+
+  allValidLocations.forEach((location) => {
+    location.base.waves.forEach((wave) => {
+      wave.slots_min = wave.slots_min * 2;
+      wave.slots_max = wave.slots_max * 2;
+    });
+
+    counter = counter + 1;
+  });
+
+  return counter;
 };

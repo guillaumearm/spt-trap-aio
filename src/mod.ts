@@ -17,6 +17,7 @@ import {
   CONSTRUCTION_TIME,
   CONVERT_BOTS_TO_PMC,
   DEBUG,
+  DOUBLE_BOTS_WAVES_LIMITS,
   EASY_BOTS,
   GLOBAL_CHANCE_MODIFIER,
   INSURANCE_TIME,
@@ -41,7 +42,7 @@ import {
   getTrader,
   noop,
 } from "./utils";
-import { setPMCBotConfig, tweakBots } from "./bots/ai";
+import { setPMCBotConfig, tweakBots, tweakWaves } from "./bots/ai";
 import { tweakAmmoItemColors } from "./ammo-item-colors";
 import { tweakStashSize } from "./stash";
 import { isKeyId, tweakItemInfiniteDurability } from "./keys";
@@ -85,6 +86,11 @@ class Mod implements IMod {
     if (EASY_BOTS) {
       tweakBots(database, configServer, BOTS_GRENADE_ALLOWED);
       this.debug(`Tweaked bot difficulty to 'easy'`);
+    }
+
+    if (DOUBLE_BOTS_WAVES_LIMITS) {
+      const count = tweakWaves(database);
+      this.debug(`Doubled bots limit waves for ${count} maps`);
     }
   }
 

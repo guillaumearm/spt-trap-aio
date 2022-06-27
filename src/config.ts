@@ -31,6 +31,9 @@ export const CONVERT_BOTS_TO_PMC = true;
 export const SCAV_TO_PMC_PERCENTAGE = 60; // 40% scan and 60% usec
 export const ROGUE_TO_PMC_PERCENTAGE = 100; // all rogues converted to usec
 
+// More bots
+export const DOUBLE_BOTS_WAVES_LIMITS = true;
+
 // Boss enabled in main menu
 export const BOSS_ENABLED_BY_DEFAULT = false;
 
