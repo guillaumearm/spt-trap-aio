@@ -11,7 +11,7 @@ export const RAID_TIME = 60 * 8; // in minutes
 export const INSURANCE_TIME = 10; // in seconds
 export const SAVAGE_COOLDOWN = 10; // in seconds
 export const MAGDRILL_SPEED_MULTIPLIER = 0.28; // lower this number to increase load/unload magdrill speed
-export const GLOBAL_CHANCE_MODIFIER = 3.0;
+export const GLOBAL_CHANCE_MODIFIER = 4.2;
 export const STIMULANT_USES = 2;
 
 export const CONSTRUCTION_TIME = 1; // in seconds
