@@ -16,11 +16,11 @@ export const BOTS_GRENADE_ALLOWED = false;
 // Airdrops chance percentage by map
 export const AIRDROP_CHANCE: AirdropChancePercent = {
   reserve: 100,
-  bigmap: 75,
-  interchange: 75,
-  lighthouse: 50,
-  shoreline: 50,
-  woods: 50,
+  bigmap: 100,
+  interchange: 100,
+  lighthouse: 100,
+  shoreline: 100,
+  woods: 100,
 };
 
 // Bear or Usec
