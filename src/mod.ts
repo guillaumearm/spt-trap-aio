@@ -12,30 +12,26 @@ import { ILocationData } from "@spt-aki/models/spt/server/ILocations";
 
 import {
   AIRDROP_CHANCE,
-  BLACKLIST_MAPS,
+  BOSS_ENABLED_BY_DEFAULT,
   BOTS_GRENADE_ALLOWED,
   CONSTRUCTION_TIME,
+  CONVERT_BOTS_TO_PMC,
   DEBUG,
+  EASY_BOTS,
   GLOBAL_CHANCE_MODIFIER,
   INSURANCE_TIME,
   ITEMS_WEIGHT_MULTIPLIER,
   KAPPA_EXTRA_SIZE,
   KEYTOOL_HEIGHT,
-  KEYTOOL_ID,
   KEYTOOL_WIDTH,
   MAGDRILL_SPEED_MULTIPLIER,
-  PHYSICAL_BITCOIN_ID,
-  POCKET_ID,
-  PRAPOR_ID,
   PRODUCTION_TIME,
   RAID_TIME,
   SAVAGE_COOLDOWN,
   SECURE_CONTAINER_HEIGHT,
   SECURE_CONTAINER_WIDTH,
   STASH_SIZE,
-  STIMULANT_ID,
   STIMULANT_USES,
-  THERAPIST_ID,
 } from "./config";
 
 import {
@@ -45,11 +41,20 @@ import {
   getTrader,
   noop,
 } from "./utils";
-import { tweakBots } from "./bots/ai";
+import { setPMCBotConfig, tweakBots } from "./bots/ai";
 import { tweakAmmoItemColors } from "./ammo-item-colors";
 import { tweakStashSize } from "./stash";
 import { isKeyId, tweakItemInfiniteDurability } from "./keys";
 import { tweakSecureContainers } from "./secure-containers";
+import {
+  BLACKLIST_MAPS,
+  KEYTOOL_ID,
+  PHYSICAL_BITCOIN_ID,
+  POCKET_ID,
+  PRAPOR_ID,
+  STIMULANT_ID,
+  THERAPIST_ID,
+} from "./constants";
 
 class Mod implements IMod {
   private logger: ILogger;
@@ -72,10 +77,15 @@ class Mod implements IMod {
   }
 
   private tweakBots(database: DatabaseServer, configServer: ConfigServer) {
-    tweakBots(database, configServer, BOTS_GRENADE_ALLOWED);
+    if (CONVERT_BOTS_TO_PMC) {
+      setPMCBotConfig(configServer);
+      this.debug(`More PMCs added`);
+    }
 
-    this.debug(`More PMCs added`);
-    this.debug(`Tweaked bot difficulty to 'easy'`);
+    if (EASY_BOTS) {
+      tweakBots(database, configServer, BOTS_GRENADE_ALLOWED);
+      this.debug(`Tweaked bot difficulty to 'easy'`);
+    }
   }
 
   private tweakSavageCooldown(database: DatabaseServer, value: number) {
@@ -324,7 +334,7 @@ class Mod implements IMod {
     const menu = config.raidMenuSettings;
 
     menu.aiDifficulty = "Easy";
-    menu.bossEnabled = false;
+    menu.bossEnabled = BOSS_ENABLED_BY_DEFAULT;
     menu.aiAmount = "Medium";
 
     this.debug(

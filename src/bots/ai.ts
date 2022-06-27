@@ -3,20 +3,11 @@ import { ConfigTypes } from "@spt-aki/models/enums/ConfigTypes";
 import { IBotConfig } from "@spt-aki/models/spt/config/IBotConfig";
 import { ConfigServer } from "@spt-aki/servers/ConfigServer";
 import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
-import { ROGUE_TO_PMC_PERCENTAGE, SCAV_TO_PMC_PERCENTAGE } from "../config";
-
-const setPMCBotConfig = (configServer: ConfigServer): void => {
-  const botConfig = configServer.getConfig<IBotConfig>(ConfigTypes.BOT);
-
-  botConfig.pmc.isUsec = 100;
-  botConfig.pmc.chanceSameSideIsHostilePercent = 100;
-  botConfig.pmc.difficulty = "easy";
-
-  botConfig.pmc.types.assault = SCAV_TO_PMC_PERCENTAGE;
-  botConfig.pmc.types.exUsec = ROGUE_TO_PMC_PERCENTAGE;
-  botConfig.pmc.types.cursedAssault = 100;
-  botConfig.pmc.types.pmcBot = 100;
-};
+import {
+  PERCENTAGE_USEC,
+  ROGUE_TO_PMC_PERCENTAGE,
+  SCAV_TO_PMC_PERCENTAGE,
+} from "../config";
 
 const copyEasyDifficulty = (bot: IBotType): void => {
   const { easy, normal, hard, impossible } = bot.difficulty;
@@ -120,12 +111,25 @@ const BOT_TYPES = [
   "marksman",
 ] as const;
 
+export const setPMCBotConfig = (configServer: ConfigServer): void => {
+  const botConfig = configServer.getConfig<IBotConfig>(ConfigTypes.BOT);
+
+  botConfig.pmc.isUsec = PERCENTAGE_USEC;
+  botConfig.pmc.chanceSameSideIsHostilePercent = 100;
+
+  botConfig.pmc.types.assault = SCAV_TO_PMC_PERCENTAGE;
+  botConfig.pmc.types.exUsec = ROGUE_TO_PMC_PERCENTAGE;
+  botConfig.pmc.types.cursedAssault = 100;
+  botConfig.pmc.types.pmcBot = 100;
+};
+
 export const tweakBots = (
   database: DatabaseServer,
   configServer: ConfigServer,
   isGrenadeAllowed: boolean
 ): void => {
-  setPMCBotConfig(configServer);
+  const botConfig = configServer.getConfig<IBotConfig>(ConfigTypes.BOT);
+  botConfig.pmc.difficulty = "easy";
 
   const tables = database.getTables();
 

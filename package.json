@@ -16,6 +16,7 @@
     "lint": "eslint --ignore-pattern '*.js' .",
     "lint:all": "npm run prettier:check && npm run lint",
     "build": "tsc",
+    "rebuild": "npm run clean && npm run build",
     "test:all": "npm run clean && npm run build && npm run lint:all && npm run test",
     "test": "echo TODO: unit tests"
   },

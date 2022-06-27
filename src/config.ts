@@ -6,31 +6,14 @@ import { AirdropChancePercent } from "@spt-aki/models/spt/config/IAirdropConfig"
  *******************************************************************************
  */
 
-// verbose mode
+// Verbose mode (in server console)
 export const DEBUG = true;
 
-export const ITEMS_WEIGHT_MULTIPLIER = 0.5;
-export const RAID_TIME = 60 * 8; // in minutes
-export const INSURANCE_TIME = 10; // in seconds
-export const SAVAGE_COOLDOWN = 10; // in seconds
-export const MAGDRILL_SPEED_MULTIPLIER = 0.28; // lower this number to increase load/unload magdrill speed
-export const GLOBAL_CHANCE_MODIFIER = 4.2;
-export const STIMULANT_USES = 2;
-
-export const CONSTRUCTION_TIME = 1; // in seconds
-export const PRODUCTION_TIME = 1; // in seconds
-
+// Make ai dumb
+export const EASY_BOTS = true;
 export const BOTS_GRENADE_ALLOWED = false;
 
-export const STASH_SIZE = 256; // vertical size
-
-export const KEYTOOL_HEIGHT = 14;
-export const KEYTOOL_WIDTH = 14;
-
-export const KAPPA_EXTRA_SIZE = 4;
-export const SECURE_CONTAINER_HEIGHT = 6;
-export const SECURE_CONTAINER_WIDTH = 6;
-
+// Airdrops chance percentage by map
 export const AIRDROP_CHANCE: AirdropChancePercent = {
   reserve: 100,
   bigmap: 75,
@@ -40,25 +23,39 @@ export const AIRDROP_CHANCE: AirdropChancePercent = {
   woods: 50,
 };
 
-export const SCAV_TO_PMC_PERCENTAGE = 60;
-export const ROGUE_TO_PMC_PERCENTAGE = 100;
+// Bear or Usec
+export const PERCENTAGE_USEC = 100; // set to 0 if you want to have bear PMCs
 
-/**
- *******************************************************************************
- * Ids
- *******************************************************************************
- */
+// More PMCs
+export const CONVERT_BOTS_TO_PMC = true;
+export const SCAV_TO_PMC_PERCENTAGE = 60; // 40% scan and 60% usec
+export const ROGUE_TO_PMC_PERCENTAGE = 100; // all rogues converted to usec
 
-export const BLACKLIST_MAPS = [
-  "base",
-  "hideout",
-  "private area",
-  "privatearea",
-];
+// Boss enabled in main menu
+export const BOSS_ENABLED_BY_DEFAULT = false;
 
-export const KEYTOOL_ID = "59fafd4b86f7745ca07e1232";
-export const PRAPOR_ID = "54cb50c76803fa8b248b4571";
-export const THERAPIST_ID = "54cb57776803fa99248b456e";
-export const STIMULANT_ID = "5448f3a64bdc2d60728b456a";
-export const PHYSICAL_BITCOIN_ID = "59faff1d86f7746c51718c9c";
-export const POCKET_ID = "557596e64bdc2dc2118b4571";
+export const ITEMS_WEIGHT_MULTIPLIER = 0.5;
+
+// Times and cooldowns
+export const RAID_TIME = 60 * 8; // in minutes
+export const INSURANCE_TIME = 10; // in seconds
+export const SAVAGE_COOLDOWN = 10; // in seconds
+export const MAGDRILL_SPEED_MULTIPLIER = 0.28; // lower this number to increase load/unload magdrill speed
+
+// Gameplay
+export const GLOBAL_CHANCE_MODIFIER = 4.2; // loots multiplier
+export const STIMULANT_USES = 3;
+
+// Hideout
+export const CONSTRUCTION_TIME = 1; // in seconds
+export const PRODUCTION_TIME = 1; // in seconds
+
+// Container sizes
+export const STASH_SIZE = 256; // vertical size
+
+export const KEYTOOL_HEIGHT = 14;
+export const KEYTOOL_WIDTH = 14;
+
+export const KAPPA_EXTRA_SIZE = 4; // vertical size added to SECURE_CONTAINER_HEIGHT
+export const SECURE_CONTAINER_HEIGHT = 6;
+export const SECURE_CONTAINER_WIDTH = 6;
