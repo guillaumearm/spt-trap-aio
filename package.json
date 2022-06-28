@@ -1,15 +1,17 @@
 {
   "name": "trap-aio",
   "displayName": "Trap's AIO",
+  "fullName": "Trap-AIO",
   "version": "1.0.1",
   "main": "src/mod.js",
   "license": "MIT",
   "author": "Trap",
   "akiVersion": ">=3.0.0",
   "scripts": {
-    "build:unzipped": "copyfiles -e \"./node_modules/**/*.*\" -e \"./dist/**/*.*\" -e \"./package-lock.json\" -e \"./tsconfig.json\" -e \"./tmp/**/*.*\" -e \"./README.md\" -e \"./mod.code-workspace\" \"./**/*.*\" ./dist",
-    "zip:files": "cd dist/ && bestzip ../mod.zip *",
-    "build:zip": "npm run clean && npm run build:unzipped && npm run zip:files",
+    "zip:files": "node scripts/create-zip.js",
+    "copy:files": "mkdir -p ./dist && cp package.json ./dist && cp README.md ./dist && cp LICENSE ./dist",
+    "build:zip": "npm run copy:files && npm run zip:files",
+    "build:release": "npm run rebuild && npm run build:zip",
     "clean": "rimraf mod.zip dist tmp 'src/**/*.js'",
     "prettier": "prettier --write .",
     "prettier:check": "prettier --check .",
@@ -17,8 +19,8 @@
     "lint:all": "npm run prettier:check && npm run lint",
     "build": "tsc",
     "rebuild": "npm run clean && npm run build",
-    "test:all": "npm run clean && npm run build && npm run lint:all && npm run test",
-    "test": "echo TODO: unit tests"
+    "test:all": "npm run lint:all && npm run build:release",
+    "test": "tsc --noEmit && npm run lint:all"
   },
   "devDependencies": {
     "@types/node": "^14.15.3",
