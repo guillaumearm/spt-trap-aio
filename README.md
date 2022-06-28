@@ -8,6 +8,9 @@ Add some opinionated tweaks to the game for casual gamers.
 ## Compatiblity
 It's compatible with spt-aki 3.0.0
 
+## Configuration
+All the features can be disabled/tweaked via the  `src/config.js` file.
+
 ## Features
 #### Bots
 - All AIs bots are easy
@@ -48,7 +51,3 @@ It's compatible with spt-aki 3.0.0
 - Construction time set to 1 second
 - Production time set to 1 second (except for physical bitcoins)
 - Stash vertical size set to 256
-
-
-## Configuration
-All the features can be disabled/tweaked via the  `src/config.js` file.
