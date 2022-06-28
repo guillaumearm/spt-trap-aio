@@ -37,7 +37,7 @@ All the features can be disabled/tweaked via the  `src/config.js` file.
 - Bigger Gamma secure container (6x6)
 - Bigger Kappa secure container (6x10)
 - Bigger keytool (14x14)
-- Reduced insurance time return for prapor and therapist to 30 minutes
+- Reduced insurance time return for prapor and therapist to 1 hour
 - Reduced scav cooldown to 10 minutes
 
 ### Flea market

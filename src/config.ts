@@ -42,7 +42,7 @@ export const ITEMS_WEIGHT_MULTIPLIER = 0.5;
 
 // Times and cooldowns
 export const RAID_TIME = 60 * 8; // in minutes
-export const INSURANCE_TIME = 30; // in minutes
+export const INSURANCE_TIME = 1; // in hours
 export const SAVAGE_COOLDOWN = 600; // in seconds
 export const MAGDRILL_SPEED_MULTIPLIER = 0.28; // lower this number to increase load/unload magdrill speed
 

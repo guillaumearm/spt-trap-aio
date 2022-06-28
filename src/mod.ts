@@ -246,11 +246,9 @@ class Mod implements IMod {
 
   private tweakInsuranceTime(
     database: DatabaseServer,
-    insuranceTimeInMinutes: number
+    insuranceTime: number
   ): void {
     const tables = database.getTables();
-
-    const insuranceTime = insuranceTimeInMinutes / 60;
 
     const prapor = getTrader(tables, PRAPOR_ID);
     prapor.base.insurance.min_return_hour = insuranceTime;
@@ -261,7 +259,7 @@ class Mod implements IMod {
     therapist.base.insurance.max_return_hour = insuranceTime;
 
     this.debug(
-      `Insurance time updated to ${insuranceTimeInMinutes} minute${
+      `Insurance time updated to ${insuranceTime} hour${
         insuranceTime > 1 ? "s" : ""
       } for prapor and therapist`
     );
