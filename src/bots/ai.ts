@@ -1,9 +1,9 @@
-import { IBotType } from "@spt-aki/models/eft/common/tables/IBotType";
-import { ConfigTypes } from "@spt-aki/models/enums/ConfigTypes";
-import { IBotConfig } from "@spt-aki/models/spt/config/IBotConfig";
-import { ConfigServer } from "@spt-aki/servers/ConfigServer";
-import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
-import {
+import type { IBotType } from "@spt-aki/models/eft/common/tables/IBotType";
+import type { ConfigTypes } from "@spt-aki/models/enums/ConfigTypes";
+import type { IBotConfig } from "@spt-aki/models/spt/config/IBotConfig";
+import type { ConfigServer } from "@spt-aki/servers/ConfigServer";
+import type { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
+import type {
   ILocations,
   ILocationData,
 } from "@spt-aki/models/spt/server/ILocations";
@@ -12,7 +12,7 @@ import {
   PERCENTAGE_USEC,
   ROGUE_TO_PMC_PERCENTAGE,
   SCAV_TO_PMC_PERCENTAGE,
-} from "../config";
+} from "../config/config";
 
 const copyEasyDifficulty = (bot: IBotType): void => {
   const { easy, normal, hard, impossible } = bot.difficulty;
@@ -120,7 +120,9 @@ const BOT_TYPES = [
 ] as const;
 
 export const setPMCBotConfig = (configServer: ConfigServer): void => {
-  const botConfig = configServer.getConfig<IBotConfig>(ConfigTypes.BOT);
+  const botConfig = configServer.getConfig<IBotConfig>(
+    "aki-bot" as ConfigTypes.BOT
+  );
 
   botConfig.pmc.isUsec = PERCENTAGE_USEC;
   botConfig.pmc.chanceSameSideIsHostilePercent = 100;
@@ -136,7 +138,9 @@ export const tweakBots = (
   configServer: ConfigServer,
   isGrenadeAllowed: boolean
 ): void => {
-  const botConfig = configServer.getConfig<IBotConfig>(ConfigTypes.BOT);
+  const botConfig = configServer.getConfig<IBotConfig>(
+    "aki-bot" as ConfigTypes.BOT
+  );
   botConfig.pmc.difficulty = "easy";
 
   const tables = database.getTables();

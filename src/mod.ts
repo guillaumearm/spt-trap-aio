@@ -1,14 +1,14 @@
 import { DependencyContainer } from "tsyringe";
 
-import { IMod } from "@spt-aki/models/external/mod";
-import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
-import { ILogger } from "@spt-aki/models/spt/utils/ILogger";
-import { ConfigServer } from "@spt-aki/servers/ConfigServer";
-import { ConfigTypes } from "@spt-aki/models/enums/ConfigTypes";
-import { IAirdropConfig } from "@spt-aki/models/spt/config/IAirdropConfig";
-import { IRagfairConfig } from "@spt-aki/models/spt/config/IRagfairConfig";
-import { IInRaidConfig } from "@spt-aki/models/spt/config/IInRaidConfig";
-import { ILocationData } from "@spt-aki/models/spt/server/ILocations";
+import type { IMod } from "@spt-aki/models/external/mod";
+import type { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
+import type { ILogger } from "@spt-aki/models/spt/utils/ILogger";
+import type { ConfigServer } from "@spt-aki/servers/ConfigServer";
+import type { ConfigTypes } from "@spt-aki/models/enums/ConfigTypes";
+import type { IAirdropConfig } from "@spt-aki/models/spt/config/IAirdropConfig";
+import type { IRagfairConfig } from "@spt-aki/models/spt/config/IRagfairConfig";
+import type { IInRaidConfig } from "@spt-aki/models/spt/config/IInRaidConfig";
+import type { ILocationData } from "@spt-aki/models/spt/server/ILocations";
 
 import {
   AIRDROP_CHANCE,
@@ -34,7 +34,7 @@ import {
   STASH_SIZE,
   STIMULANT_USES,
   WAVES_ADDITIONAL_BOTS,
-} from "./config";
+} from "./config/config";
 
 import {
   forEachItems,
@@ -72,7 +72,7 @@ class Mod implements IMod {
 
   private increaseAirdropChances(configServer: ConfigServer) {
     const airdropConfig = configServer.getConfig<IAirdropConfig>(
-      ConfigTypes.AIRDROP
+      "aki-airdrop" as ConfigTypes.AIRDROP
     );
     airdropConfig.airdropChancePercent = AIRDROP_CHANCE;
 
@@ -315,7 +315,9 @@ class Mod implements IMod {
     database: DatabaseServer,
     configServer: ConfigServer
   ): void {
-    const config = configServer.getConfig<IRagfairConfig>(ConfigTypes.RAGFAIR);
+    const config = configServer.getConfig<IRagfairConfig>(
+      "aki-ragfair" as ConfigTypes.RAGFAIR
+    );
 
     // 1. disable bsg blacklist
     config.dynamic.blacklist.enableBsgList = false;
@@ -345,7 +347,9 @@ class Mod implements IMod {
   }
 
   private tweakInRaidMenuSettings(configServer: ConfigServer): void {
-    const config = configServer.getConfig<IInRaidConfig>(ConfigTypes.IN_RAID);
+    const config = configServer.getConfig<IInRaidConfig>(
+      "aki-inraid" as ConfigTypes.IN_RAID
+    );
     const menu = config.raidMenuSettings;
 
     menu.aiDifficulty = "Easy";

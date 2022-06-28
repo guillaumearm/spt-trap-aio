@@ -1,4 +1,4 @@
-import { ITemplateItem } from "@spt-aki/models/eft/common/tables/ITemplateItem";
+import type { ITemplateItem } from "@spt-aki/models/eft/common/tables/ITemplateItem";
 
 export const KEY_IDS = [
   "543be5e94bdc2df1348b4568", // keys

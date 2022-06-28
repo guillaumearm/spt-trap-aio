@@ -1,4 +1,5 @@
-import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
+import type { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
+
 import { getItemTemplate } from "./utils";
 
 const GAMMA_CONTAINER_ID = "5857a8bc2459772bad15db29";

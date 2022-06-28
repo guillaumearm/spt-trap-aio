@@ -1,4 +1,4 @@
-import { IDatabaseTables } from "@spt-aki/models/spt/server/IDatabaseTables";
+import type { IDatabaseTables } from "@spt-aki/models/spt/server/IDatabaseTables";
 
 const GENERIC_AMMO_ID = "5485a8684bdc2da71d8b4567";
 

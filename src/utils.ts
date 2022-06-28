@@ -1,9 +1,10 @@
-import { RouteAction } from "@spt-aki/di/Router";
-import { ITemplateItem } from "@spt-aki/models/eft/common/tables/ITemplateItem";
-import { ITrader } from "@spt-aki/models/eft/common/tables/ITrader";
-import { IDatabaseTables } from "@spt-aki/models/spt/server/IDatabaseTables";
-import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
-import { StaticRouterModService } from "@spt-aki/services/mod/staticRouter/StaticRouterModService";
+import type { RouteAction } from "@spt-aki/di/Router";
+import type { ITemplateItem } from "@spt-aki/models/eft/common/tables/ITemplateItem";
+import type { ITrader } from "@spt-aki/models/eft/common/tables/ITrader";
+import type { IDatabaseTables } from "@spt-aki/models/spt/server/IDatabaseTables";
+import type { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
+import type { StaticRouterModService } from "@spt-aki/services/mod/staticRouter/StaticRouterModService";
+
 import { readFileSync } from "fs";
 import path from "path";
 

@@ -1,4 +1,4 @@
-import { AirdropChancePercent } from "@spt-aki/models/spt/config/IAirdropConfig";
+import type { AirdropChancePercent } from "@spt-aki/models/spt/config/IAirdropConfig";
 
 /**
  *******************************************************************************

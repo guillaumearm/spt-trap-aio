@@ -3,16 +3,21 @@
 This repo is a mod for [sp-tarkov](https://sp-tarkov.com/)
 
 ## Description
+
 Add some opinionated tweaks to the game for casual gamers.
 
 ## Compatiblity
+
 It's compatible with spt-aki 3.0.0
 
 ## Configuration
-All the features can be disabled/tweaked via the  `src/config.js` file.
+
+All the features can be disabled/tweaked via the `src/config/config.js` file.
 
 ## Features
+
 #### Bots
+
 - All AIs bots are easy
 - AIs bots are dumbs
 - AIs bots don't use grenades
@@ -23,14 +28,16 @@ All the features can be disabled/tweaked via the  `src/config.js` file.
 - Boss disabled by default in the raid menu
 
 #### Raids
+
 - Raid time extended to 8 hours
-- 75% Airdrops chance on all maps 
+- 75% Airdrops chance on all maps
 - All items weight divised by 2
 - Fast magdrill
 - More loots (loose loot included)
 - Stimulants injectors can be used 3 times
 
 #### Misc
+
 - Examine all items by default (except for keys and cards)
 - Keys/cards infinite uses
 - Color ammo according to the penetration
@@ -41,6 +48,7 @@ All the features can be disabled/tweaked via the  `src/config.js` file.
 - Reduced scav cooldown to 10 minutes
 
 ### Flea market
+
 - Disable the BSG blacklist
 - All items are sellable on flea
 - No durability required to sell an item
@@ -48,6 +56,7 @@ All the features can be disabled/tweaked via the  `src/config.js` file.
 - No fees
 
 #### Hideout
+
 - Construction time set to 1 second
 - Production time set to 1 second (except for physical bitcoins)
 - Stash vertical size set to 256

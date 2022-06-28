@@ -1,4 +1,5 @@
-import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
+import type { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
+
 import { getItemTemplate } from "./utils";
 
 const EDITIONS = {
