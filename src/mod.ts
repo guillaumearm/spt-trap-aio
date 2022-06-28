@@ -51,6 +51,7 @@ import { tweakSecureContainers } from "./secure-containers";
 import {
   BLACKLIST_MAPS,
   KEYTOOL_ID,
+  MORPHINE_ID,
   PHYSICAL_BITCOIN_ID,
   POCKET_ID,
   PRAPOR_ID,
@@ -200,7 +201,8 @@ class Mod implements IMod {
 
     forEachItems((item) => {
       const isKeyItem = isKeyId(item);
-      const isStimulant = item._parent === STIMULANT_ID;
+      const isStimulant =
+        item._parent === STIMULANT_ID || item._id === MORPHINE_ID;
 
       if (isKeyItem) {
         tweakItemInfiniteDurability(item);
@@ -244,9 +246,11 @@ class Mod implements IMod {
 
   private tweakInsuranceTime(
     database: DatabaseServer,
-    insuranceTime: number
+    insuranceTimeInMinutes: number
   ): void {
     const tables = database.getTables();
+
+    const insuranceTime = insuranceTimeInMinutes / 60;
 
     const prapor = getTrader(tables, PRAPOR_ID);
     prapor.base.insurance.min_return_hour = insuranceTime;
@@ -257,7 +261,7 @@ class Mod implements IMod {
     therapist.base.insurance.max_return_hour = insuranceTime;
 
     this.debug(
-      `Insurance time updated to ${insuranceTime} second${
+      `Insurance time updated to ${insuranceTimeInMinutes} minute${
         insuranceTime > 1 ? "s" : ""
       } for prapor and therapist`
     );
@@ -325,7 +329,7 @@ class Mod implements IMod {
       }
     }, database);
 
-    // 3. no durabuility required to sell an item
+    // 3. no durability required to sell an item
     config.dynamic.condition.min = 0.01;
     config.dynamic.condition.max = 1.0;
 

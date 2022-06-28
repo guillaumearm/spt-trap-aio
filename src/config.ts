@@ -9,19 +9,19 @@ import { AirdropChancePercent } from "@spt-aki/models/spt/config/IAirdropConfig"
 // Verbose mode (in server console)
 export const DEBUG = true;
 
-// Make ai dumb
-export const EASY_BOTS = true;
-export const DUMB_AI = false;
+// Bots settings
+export const EASY_BOTS = true; // All bots are easy
+export const DUMB_AI = true; // Make ai dumb
 export const BOTS_GRENADE_ALLOWED = false;
 
 // Airdrops chance percentage by map
 export const AIRDROP_CHANCE: AirdropChancePercent = {
-  reserve: 100,
-  bigmap: 100,
-  interchange: 100,
-  lighthouse: 100,
-  shoreline: 100,
-  woods: 100,
+  reserve: 75,
+  bigmap: 75,
+  interchange: 75,
+  lighthouse: 75,
+  shoreline: 75,
+  woods: 75,
 };
 
 // Bear or Usec
@@ -35,15 +35,15 @@ export const ROGUE_TO_PMC_PERCENTAGE = 100; // all rogues converted to usec
 // More bots
 export const WAVES_ADDITIONAL_BOTS = 2;
 
-// Boss enabled in main menu
+// Boss enabled in raid menu
 export const BOSS_ENABLED_BY_DEFAULT = false;
 
 export const ITEMS_WEIGHT_MULTIPLIER = 0.5;
 
 // Times and cooldowns
 export const RAID_TIME = 60 * 8; // in minutes
-export const INSURANCE_TIME = 10; // in seconds
-export const SAVAGE_COOLDOWN = 10; // in seconds
+export const INSURANCE_TIME = 30; // in minutes
+export const SAVAGE_COOLDOWN = 600; // in seconds
 export const MAGDRILL_SPEED_MULTIPLIER = 0.28; // lower this number to increase load/unload magdrill speed
 
 // Gameplay
