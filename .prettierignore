@@ -2,6 +2,6 @@
 /tmp/
 /dist/
 /src/*.js
-/Trap-PathToTarkov-*
+/Trap-AIO*
 *.md
 package-lock.json
