@@ -1,7 +1,7 @@
 /types/
 /tmp/
 /dist/
-/src/*.js
+/src/**/*.js
 /Trap-AIO*
 *.md
 package-lock.json
