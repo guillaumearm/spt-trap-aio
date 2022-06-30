@@ -136,7 +136,8 @@ class Mod implements IMod {
     globalLootChanceModifier: number
   ) {
     const tables = database.getTables();
-    tables.globals.config.GlobalLootChanceModifier = globalLootChanceModifier;
+    tables.globals.config.GlobalLootChanceModifier =
+      tables.globals.config.GlobalLootChanceModifier * globalLootChanceModifier;
 
     const locations = tables.locations;
 
