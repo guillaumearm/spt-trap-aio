@@ -41,8 +41,8 @@ All the features can be disabled/tweaked via the `src/config/config.js` file.
 - Examine all items by default (except for keys and cards)
 - Keys/cards infinite uses
 - Color ammo according to the penetration
-- Bigger Gamma secure container (6x6)
-- Bigger Kappa secure container (6x10)
+- Bigger Gamma secure container (6x6) (except if `Trap's Progressive Stash` mod is present)
+- Bigger Kappa secure container (6x10) (except if `Trap's Progressive Stash` mod is present)
 - Bigger keytool (14x14)
 - Reduced insurance time return for prapor and therapist to 1 hour
 - Reduced scav cooldown to 10 minutes
