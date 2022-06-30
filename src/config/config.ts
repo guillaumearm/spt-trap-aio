@@ -5,6 +5,66 @@ import type { AirdropChancePercent } from "@spt-aki/models/spt/config/IAirdropCo
  * Configuration
  *******************************************************************************
  */
+export type Config = {
+  bots: {
+    easy_ai?: boolean;
+    dumb_ai?: boolean;
+    allowed_grenades?: boolean;
+    percentage_usec?: number;
+    convert_bots_to_pmc?: boolean;
+    scav_to_pmc_percentage?: number;
+    rogue_to_pmc_percentage?: number;
+    nb_additional_bots_per_wave?: number;
+  };
+  raids: {
+    time_in_minutes?: number;
+    magdrill_time_multiplier?: number;
+    loot_multiplier?: number;
+    airdrops?: {
+      reserve?: number;
+      bigmap?: number;
+      interchange?: number;
+      lighthouse?: number;
+      shoreline?: number;
+      woods?: number;
+    };
+  };
+  raidmenu: {
+    boss_enabled?: false;
+    ai_difficulty?: string; // TODO: bind this value
+    ai_amount?: string; // TODO: bind this value
+  };
+  hideout: {
+    insurance_time_in_hours?: number;
+    savage_cooldown_in_seconds?: number;
+    construction_time_in_seconds?: number;
+    production_time_in_seconds?: number;
+    stash_vertical_size?: number;
+  };
+  flea: {
+    disable_bsg_blacklist?: boolean; // TODO: bind this value
+    all_items_sellable?: boolean; // TODO: bind this value
+    no_durability_required?: boolean; // TODO: bind this value
+    instant_sell?: boolean; // TODO: bind this value
+    disable_fees?: boolean; // TODO: bind this value
+  };
+  items: {
+    // TODO: flea market and raid menu category
+    tweak_ammo_item_colors?: boolean; // TODO: bind this value
+    nb_stimulant_uses?: number;
+    keys_infinite_uses?: boolean; // TODO: bind this value
+    examine_all_items?: boolean; // TODO: bind this value
+    keytool_size?: {
+      horizontal: number;
+      vertical: number;
+    };
+    gamma_size?: {
+      horizontal: number;
+      vertical: number;
+    };
+    kappa_extra_vertical_size?: number;
+  };
+};
 
 // Verbose mode (in server console)
 export const DEBUG = true;

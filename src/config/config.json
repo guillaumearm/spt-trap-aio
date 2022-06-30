@@ -1,0 +1,59 @@
+{
+  "bots": {
+    "easy_ai": true,
+    "dumb_ai": true,
+    "allowed_grenades": false,
+    "percentage_usec": 100,
+    "convert_bots_to_pmc": true,
+    "scav_to_pmc_percentage": 60,
+    "rogue_to_pmc_percentage": 60,
+    "nb_additional_bots_per_wave": 2
+  },
+  "raidmenu": {
+    "boss_enabled": false,
+    "ai_difficulty": "Easy",
+    "ai_amount": "Medium"
+  },
+  "raids": {
+    "nb_stimulant_uses": 3,
+    "time_in_minutes": 480,
+    "magdrill_time_multiplier": 0.28,
+    "loot_multiplier": 4.2,
+    "airdrops": {
+      "reserve": 75,
+      "bigmap": 75,
+      "interchange": 75,
+      "lighthouse": 75,
+      "shoreline": 75,
+      "woods": 75
+    }
+  },
+  "hideout": {
+    "insurance_time_in_hours": 1,
+    "savage_cooldown_in_seconds": 600,
+    "construction_time_in_seconds": 0,
+    "production_time_in_seconds": 0,
+    "stash_vertical_size": 256
+  },
+  "flea": {
+    "disable_bsg_blacklist": true,
+    "all_items_sellable": true,
+    "no_durability_required": true,
+    "instant_sell": true,
+    "disable_fees": true
+  },
+  "items": {
+    "tweak_ammo_item_colors": true,
+    "keys_infinite_uses": true,
+    "examine_all_items": true,
+    "keytool_size": {
+      "horizontal": 14,
+      "vertical": 14
+    },
+    "gamma_size": {
+      "horizontal": 6,
+      "vertical": 6
+    },
+    "kappa_extra_vertical_size": 4
+  }
+}
