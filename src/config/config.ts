@@ -51,8 +51,8 @@ export const GLOBAL_CHANCE_MODIFIER = 4.2; // loots multiplier
 export const STIMULANT_USES = 3;
 
 // Hideout
-export const CONSTRUCTION_TIME = 1; // in seconds
-export const PRODUCTION_TIME = 1; // in seconds
+export const CONSTRUCTION_TIME = 0; // in seconds
+export const PRODUCTION_TIME = 0; // in seconds
 
 // Container sizes
 export const STASH_SIZE = 256; // vertical size
