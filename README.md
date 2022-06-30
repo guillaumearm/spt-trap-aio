@@ -57,6 +57,6 @@ All the features can be disabled/tweaked via the `src/config/config.js` file.
 
 #### Hideout
 
-- Construction time set to 1 second
-- Production time set to 1 second (except for physical bitcoins)
-- Stash vertical size set to 256
+- Instant construction time
+- Instant Production time (except for physical bitcoins obviously)
+- Stash vertical size set to 256 (except if `Trap's Progressive Stash` mod is present)
