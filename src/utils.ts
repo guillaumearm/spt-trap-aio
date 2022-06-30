@@ -1,4 +1,5 @@
 import type { RouteAction } from "@spt-aki/di/Router";
+import { InitialModLoader } from "@spt-aki/loaders/InitialModLoader";
 import type { ITemplateItem } from "@spt-aki/models/eft/common/tables/ITemplateItem";
 import type { ITrader } from "@spt-aki/models/eft/common/tables/ITrader";
 import type { IDatabaseTables } from "@spt-aki/models/spt/server/IDatabaseTables";
@@ -7,6 +8,7 @@ import type { StaticRouterModService } from "@spt-aki/services/mod/staticRouter/
 
 import { readFileSync } from "fs";
 import path from "path";
+import { TRAP_PROGRESSIVE_STASH_MOD_ID } from "./constants";
 
 const packageJson = JSON.parse(
   readFileSync(path.join(__dirname, "../package.json"), "utf-8")
@@ -95,3 +97,17 @@ export const createStaticRoutePeeker = (
 };
 
 export function noop(): void {}
+
+const isModLoaded = (modLoader: InitialModLoader, modId: string): boolean => {
+  const loadedModName = Object.keys(modLoader.imported).find(
+    (modName) => modLoader.imported[modName].name === modId
+  );
+
+  return Boolean(loadedModName);
+};
+
+export const isProgressiveStashModLoaded = (
+  modLoader: InitialModLoader
+): boolean => {
+  return isModLoaded(modLoader, TRAP_PROGRESSIVE_STASH_MOD_ID);
+};

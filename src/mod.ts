@@ -9,6 +9,7 @@ import type { IAirdropConfig } from "@spt-aki/models/spt/config/IAirdropConfig";
 import type { IRagfairConfig } from "@spt-aki/models/spt/config/IRagfairConfig";
 import type { IInRaidConfig } from "@spt-aki/models/spt/config/IInRaidConfig";
 import type { ILocationData } from "@spt-aki/models/spt/server/ILocations";
+import { InitialModLoader } from "@spt-aki/loaders/InitialModLoader";
 
 import {
   AIRDROP_CHANCE,
@@ -41,6 +42,7 @@ import {
   getItemTemplate,
   getModDisplayName,
   getTrader,
+  isProgressiveStashModLoaded,
   noop,
 } from "./utils";
 import { setPMCBotConfig, tweakBots, tweakWaves } from "./bots/ai";
@@ -113,7 +115,16 @@ class Mod implements IMod {
     this.logger.debug("Test");
   }
 
-  private tweakStashSize(database: DatabaseServer, value: number | undefined) {
+  private tweakStashSize(
+    database: DatabaseServer,
+    modLoader: InitialModLoader,
+    value: number | undefined
+  ) {
+    if (isProgressiveStashModLoaded(modLoader)) {
+      this.debug(`Trap's Progressive Stash found: stash size not tweaked`);
+      return;
+    }
+
     if (value) {
       tweakStashSize(database, value);
       this.debug(`Tweaked stash size to 10x${value}`);
@@ -177,7 +188,17 @@ class Mod implements IMod {
     this.debug(`Keytool size changed to '${horizontalValue}x${verticalValue}`);
   }
 
-  private tweakSecureContainers(database: DatabaseServer) {
+  private tweakSecureContainers(
+    database: DatabaseServer,
+    modLoader: InitialModLoader
+  ) {
+    if (isProgressiveStashModLoaded(modLoader)) {
+      this.debug(
+        `Trap's Progressive Stash found: secure containers not tweaked`
+      );
+      return;
+    }
+
     tweakSecureContainers(
       database,
       SECURE_CONTAINER_WIDTH,
@@ -400,6 +421,7 @@ class Mod implements IMod {
   public delayedLoad(container: DependencyContainer): void {
     const database = container.resolve<DatabaseServer>("DatabaseServer");
     const configServer = container.resolve<ConfigServer>("ConfigServer");
+    const modLoader = container.resolve<InitialModLoader>("InitialModLoader");
 
     this.tweakItems(database);
     this.tweakAmmoItemColors(database);
@@ -407,10 +429,10 @@ class Mod implements IMod {
     this.tweakBots(database, configServer);
     this.tweakGlobalLootChanceModifier(database, GLOBAL_CHANCE_MODIFIER);
     this.tweakSavageCooldown(database, SAVAGE_COOLDOWN);
-    this.tweakStashSize(database, STASH_SIZE);
+    this.tweakStashSize(database, modLoader, STASH_SIZE);
     this.tweakMagdrillSpeed(database, MAGDRILL_SPEED_MULTIPLIER);
     this.tweakKeytoolSize(database, KEYTOOL_WIDTH, KEYTOOL_HEIGHT);
-    this.tweakSecureContainers(database);
+    this.tweakSecureContainers(database, modLoader);
     this.tweakRaidTime(database, RAID_TIME);
     this.tweakInsuranceTime(database, INSURANCE_TIME);
     this.tweakHideoutProductions(database, PRODUCTION_TIME);

@@ -3,6 +3,7 @@
  * Ids
  *******************************************************************************
  */
+export const TRAP_PROGRESSIVE_STASH_MOD_ID = "trap-progressive-stash";
 
 export const BLACKLIST_MAPS = [
   "base",
