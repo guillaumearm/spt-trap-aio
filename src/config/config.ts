@@ -54,8 +54,9 @@ export const STIMULANT_USES = 3;
 export const CONSTRUCTION_TIME = 0; // in seconds
 export const PRODUCTION_TIME = 0; // in seconds
 
-// Container sizes
-export const STASH_SIZE = 256; // vertical size
+// Container sizes (vertical sizes)
+export const STASH_SIZE = 256;
+// export const STASH_SIZE = undefined; // `undefined` means no stash size override
 
 export const KEYTOOL_HEIGHT = 14;
 export const KEYTOOL_WIDTH = 14;

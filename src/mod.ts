@@ -113,10 +113,11 @@ class Mod implements IMod {
     this.logger.debug("Test");
   }
 
-  private tweakStashSize(database: DatabaseServer, value: number) {
-    tweakStashSize(database, value);
-
-    this.debug(`Tweaked stash size to 10x${value}`);
+  private tweakStashSize(database: DatabaseServer, value: number | undefined) {
+    if (value) {
+      tweakStashSize(database, value);
+      this.debug(`Tweaked stash size to 10x${value}`);
+    }
   }
 
   private tweakGlobalLootChanceModifier(
