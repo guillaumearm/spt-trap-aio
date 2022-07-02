@@ -1,5 +1,5 @@
 import type { RouteAction } from "@spt-aki/di/Router";
-import { InitialModLoader } from "@spt-aki/loaders/InitialModLoader";
+import type { InitialModLoader } from "@spt-aki/loaders/InitialModLoader";
 import type { ITemplateItem } from "@spt-aki/models/eft/common/tables/ITemplateItem";
 import type { ITrader } from "@spt-aki/models/eft/common/tables/ITrader";
 import type { IDatabaseTables } from "@spt-aki/models/spt/server/IDatabaseTables";

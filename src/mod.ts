@@ -1,4 +1,4 @@
-import { DependencyContainer } from "tsyringe";
+import type { DependencyContainer } from "tsyringe";
 
 import type { IMod } from "@spt-aki/models/external/mod";
 import type { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
@@ -9,7 +9,7 @@ import type { IAirdropConfig } from "@spt-aki/models/spt/config/IAirdropConfig";
 import type { IRagfairConfig } from "@spt-aki/models/spt/config/IRagfairConfig";
 import type { IInRaidConfig } from "@spt-aki/models/spt/config/IInRaidConfig";
 import type { ILocationData } from "@spt-aki/models/spt/server/ILocations";
-import { InitialModLoader } from "@spt-aki/loaders/InitialModLoader";
+import type { InitialModLoader } from "@spt-aki/loaders/InitialModLoader";
 
 import {
   AIRDROP_CHANCE,
