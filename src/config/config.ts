@@ -89,7 +89,7 @@ export const PERCENTAGE_USEC = 100; // set to 0 if you want to have bear PMCs
 
 // More PMCs
 export const CONVERT_BOTS_TO_PMC = true;
-export const SCAV_TO_PMC_PERCENTAGE = 60; // 40% scan and 60% usec
+export const SCAV_TO_PMC_PERCENTAGE = 60; // 40% scav and 60% usec
 export const ROGUE_TO_PMC_PERCENTAGE = 100; // all rogues converted to usec
 
 // More bots
