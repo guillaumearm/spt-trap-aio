@@ -107,7 +107,7 @@ export const SAVAGE_COOLDOWN = 600; // in seconds
 export const MAGDRILL_SPEED_MULTIPLIER = 0.21; // lower this number to increase load/unload magdrill speed
 
 // Gameplay
-export const GLOBAL_CHANCE_MODIFIER = 4.2; // loots multiplier
+export const GLOBAL_CHANCE_MODIFIER = 3; // loots multiplier
 export const STIMULANT_USES = 3;
 
 // Hideout
