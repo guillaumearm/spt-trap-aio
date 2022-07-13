@@ -98,7 +98,7 @@ export const WAVES_ADDITIONAL_BOTS = 2;
 // Boss enabled in raid menu
 export const BOSS_ENABLED_BY_DEFAULT = false;
 
-export const ITEMS_WEIGHT_MULTIPLIER = 0.5;
+export const ITEMS_WEIGHT_MULTIPLIER = 0.42;
 
 // Times and cooldowns
 export const RAID_TIME = 60 * 8; // in minutes
