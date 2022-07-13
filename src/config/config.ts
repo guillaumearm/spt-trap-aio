@@ -71,7 +71,7 @@ export const DEBUG = true;
 
 // Bots settings
 export const EASY_BOTS = true; // All bots are easy
-export const DUMB_AI = true; // Make ai dumb
+export const DUMB_AI = false; // Make ai dumb
 export const BOTS_GRENADE_ALLOWED = false;
 
 // Airdrops chance percentage by map
