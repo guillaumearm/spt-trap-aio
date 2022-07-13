@@ -87,8 +87,9 @@ class Mod implements IMod {
       this.debug(`More PMCs added`);
     }
 
+    tweakBots(database, configServer, BOTS_GRENADE_ALLOWED);
+
     if (EASY_BOTS) {
-      tweakBots(database, configServer, BOTS_GRENADE_ALLOWED);
       this.debug(`Tweaked bot difficulty to 'easy'`);
     }
 
