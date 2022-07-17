@@ -44,6 +44,7 @@ All the features can be disabled/tweaked via the `src/config/config.js` file.
 - Bigger Gamma secure container (6x6) (except if `Trap's Progressive Stash` mod is present)
 - Bigger Kappa secure container (6x10) (except if `Trap's Progressive Stash` mod is present)
 - Bigger keytool (14x14)
+- All cases can be put in backpacks
 - Reduced insurance time return for prapor and therapist to 1 hour
 - Reduced scav cooldown to 10 minutes
 

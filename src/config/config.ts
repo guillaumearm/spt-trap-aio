@@ -51,6 +51,7 @@ export type Config = {
   items: {
     // TODO: flea market and raid menu category
     tweak_ammo_item_colors?: boolean; // TODO: bind this value
+    cases_in_backpacks?: boolean;
     nb_stimulant_uses?: number;
     keys_infinite_uses?: boolean; // TODO: bind this value
     examine_all_items?: boolean; // TODO: bind this value
@@ -109,6 +110,7 @@ export const MAGDRILL_SPEED_MULTIPLIER = 0.21; // lower this number to increase 
 // Gameplay
 export const GLOBAL_CHANCE_MODIFIER = 3; // loots multiplier
 export const STIMULANT_USES = 3;
+export const CASES_IN_BACKPACKS = true;
 
 // Hideout
 export const CONSTRUCTION_TIME = 0; // in seconds

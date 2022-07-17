@@ -15,6 +15,7 @@ import {
   AIRDROP_CHANCE,
   BOSS_ENABLED_BY_DEFAULT,
   BOTS_GRENADE_ALLOWED,
+  CASES_IN_BACKPACKS,
   CONSTRUCTION_TIME,
   CONVERT_BOTS_TO_PMC,
   DEBUG,
@@ -51,7 +52,9 @@ import { tweakStashSize } from "./stash";
 import { isKeyId, tweakItemInfiniteDurability } from "./keys";
 import { tweakSecureContainers } from "./secure-containers";
 import {
+  BACKPACK_ID,
   BLACKLIST_MAPS,
+  CASES,
   KEYTOOL_ID,
   MORPHINE_ID,
   PHYSICAL_BITCOIN_ID,
@@ -407,6 +410,29 @@ class Mod implements IMod {
     );
   }
 
+  private tweakBackpacksFilters(db: DatabaseServer): void {
+    if (CASES_IN_BACKPACKS) {
+      let itemCounter = 0;
+
+      const items = db.getTables().templates.items;
+
+      Object.keys(items).forEach((itemId) => {
+        const item = items[itemId];
+
+        if (item && item._parent === BACKPACK_ID) {
+          item._props.Grids[0]._props.filters.forEach((filter) => {
+            filter.ExcludedFilter = filter.ExcludedFilter.filter(
+              (id) => !CASES[id]
+            );
+          });
+          itemCounter = itemCounter + 1;
+        }
+      });
+
+      this.debug(`${itemCounter} backpack items removed filters`);
+    }
+  }
+
   public load(container: DependencyContainer): void {
     this.logger = container.resolve<ILogger>("WinstonLogger");
     this.debug = DEBUG
@@ -442,6 +468,7 @@ class Mod implements IMod {
     this.tweakFleaMarket(database, configServer);
     this.tweakInRaidMenuSettings(configServer);
     this.tweakItemsWeight(database, ITEMS_WEIGHT_MULTIPLIER);
+    this.tweakBackpacksFilters(database);
 
     this.logger.success(`===> Successfully loaded ${getModDisplayName(true)}`);
   }

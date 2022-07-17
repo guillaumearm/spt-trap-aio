@@ -44,6 +44,7 @@
   },
   "items": {
     "tweak_ammo_item_colors": true,
+    "cases_in_backpacks": true,
     "keys_infinite_uses": true,
     "examine_all_items": true,
     "keytool_size": {
