@@ -44,11 +44,12 @@ const setBotDifficulty = (bot: IBotType, isGrenadeAllowed: boolean): void => {
   const mind = bot.difficulty.easy.Mind;
 
   mind.CAN_TALK = true;
+  core.canGrenade = isGrenadeAllowed;
 
   if (DUMB_AI) {
     // core.AccuratySpeed = 0.3; // >;
     core.AccuratySpeed = 0.9; // >;
-    core.canGrenade = isGrenadeAllowed;
+
     core.HearingSense = 1.05; // <
     core.VisibleAngle = 130; // <
     core.VisibleDistance = 110; // <
