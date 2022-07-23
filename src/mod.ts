@@ -55,6 +55,7 @@ import {
   BACKPACK_ID,
   BLACKLIST_MAPS,
   CASES,
+  HIDEOUT_AREA_WATER_COLLECTOR,
   KEYTOOL_ID,
   MORPHINE_ID,
   PHYSICAL_BITCOIN_ID,
@@ -62,6 +63,7 @@ import {
   PRAPOR_ID,
   STIMULANT_ID,
   THERAPIST_ID,
+  WATER_FILTER_ID,
 } from "./constants";
 
 class Mod implements IMod {
@@ -299,10 +301,17 @@ class Mod implements IMod {
     const areas = database.getTables().hideout.areas;
 
     areas.forEach((area) => {
+      const isWaterCollector = area.type === HIDEOUT_AREA_WATER_COLLECTOR;
+
       for (const stageId in area.stages) {
         const stage = area.stages[stageId];
         // 1 tweak construction time
         stage.constructionTime = constructionTime;
+
+        // workaround for water collector t3 issue (https://hub.sp-tarkov.com/files/file/619-trap-s-aio/#comments/comment9238)
+        if (isWaterCollector && constructionTime < 1) {
+          stage.constructionTime = 1;
+        }
 
         // 2. fix loyalty level to 1
         stage.requirements.forEach((req) => {
@@ -328,6 +337,11 @@ class Mod implements IMod {
     hideout.production.forEach((production) => {
       if (production.endProduct !== PHYSICAL_BITCOIN_ID) {
         production.productionTime = productionTime;
+      }
+
+      // workaround for water collector t3 issue (https://hub.sp-tarkov.com/files/file/619-trap-s-aio/#comments/comment9238)
+      if (production.endProduct === WATER_FILTER_ID && productionTime < 0) {
+        production.productionTime = 1;
       }
     });
 

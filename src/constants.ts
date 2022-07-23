@@ -20,6 +20,9 @@ export const MORPHINE_ID = "544fb3f34bdc2d03748b456a";
 export const PHYSICAL_BITCOIN_ID = "59faff1d86f7746c51718c9c";
 export const POCKET_ID = "557596e64bdc2dc2118b4571";
 export const BACKPACK_ID = "5448e53e4bdc2d60728b4567";
+export const WATER_FILTER_ID = "5d1b385e86f774252167b98a";
+
+export const HIDEOUT_AREA_WATER_COLLECTOR = 6;
 
 export const CASES = {
   "5c093db286f7740a1b2617e3": true,
