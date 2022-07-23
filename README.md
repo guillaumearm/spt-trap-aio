@@ -19,7 +19,6 @@ All the features can be disabled/tweaked via the `src/config/config.js` file.
 #### Bots
 
 - All AIs bots are easy
-- AIs bots are dumbs
 - AIs bots don't use grenades
 - 100% chance a PMC is USEC
 - Convert 60% of scavs in PMCs
