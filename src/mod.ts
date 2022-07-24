@@ -450,7 +450,7 @@ class Mod implements IMod {
   public load(container: DependencyContainer): void {
     this.logger = container.resolve<ILogger>("WinstonLogger");
     this.debug = DEBUG
-      ? (data: string) => this.logger.debug(`Trap-AIO: ${data}`, true)
+      ? (data: string) => this.logger.debug(`Trap's AIO: ${data}`, true)
       : noop;
 
     if (DEBUG) {

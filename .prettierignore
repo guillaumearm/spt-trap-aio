@@ -3,5 +3,6 @@
 /dist/
 /src/**/*.js
 /Trap-AIO*
+/Trap-s-AIO*
 *.md
 package-lock.json
