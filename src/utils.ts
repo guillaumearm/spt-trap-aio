@@ -1,5 +1,5 @@
+import type { PreAkiModLoader } from "@spt-aki/loaders/PreAkiModLoader";
 import type { RouteAction } from "@spt-aki/di/Router";
-import type { InitialModLoader } from "@spt-aki/loaders/InitialModLoader";
 import type { ITemplateItem } from "@spt-aki/models/eft/common/tables/ITemplateItem";
 import type { ITrader } from "@spt-aki/models/eft/common/tables/ITrader";
 import type { IDatabaseTables } from "@spt-aki/models/spt/server/IDatabaseTables";
@@ -98,7 +98,7 @@ export const createStaticRoutePeeker = (
 
 export function noop(): void {}
 
-const isModLoaded = (modLoader: InitialModLoader, modId: string): boolean => {
+const isModLoaded = (modLoader: PreAkiModLoader, modId: string): boolean => {
   const loadedModName = Object.keys(modLoader.imported).find(
     (modName) => modLoader.imported[modName].name === modId
   );
@@ -107,7 +107,7 @@ const isModLoaded = (modLoader: InitialModLoader, modId: string): boolean => {
 };
 
 export const isProgressiveStashModLoaded = (
-  modLoader: InitialModLoader
+  modLoader: PreAkiModLoader
 ): boolean => {
   return isModLoaded(modLoader, TRAP_PROGRESSIVE_STASH_MOD_ID);
 };

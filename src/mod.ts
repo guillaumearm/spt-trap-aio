@@ -1,6 +1,9 @@
 import type { DependencyContainer } from "tsyringe";
 
-import type { IMod } from "@spt-aki/models/external/mod";
+import type { IPreAkiLoadMod } from "@spt-aki/models/external/IPreAkiLoadMod";
+import type { IPostAkiLoadMod } from "@spt-aki/models/external/IPostAkiLoadMod";
+import type { PreAkiModLoader } from "@spt-aki/loaders/PreAkiModLoader";
+
 import type { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
 import type { ILogger } from "@spt-aki/models/spt/utils/ILogger";
 import type { ConfigServer } from "@spt-aki/servers/ConfigServer";
@@ -9,8 +12,6 @@ import type { IAirdropConfig } from "@spt-aki/models/spt/config/IAirdropConfig";
 import type { IRagfairConfig } from "@spt-aki/models/spt/config/IRagfairConfig";
 import type { IInRaidConfig } from "@spt-aki/models/spt/config/IInRaidConfig";
 import type { ILocationData } from "@spt-aki/models/spt/server/ILocations";
-import type { InitialModLoader } from "@spt-aki/loaders/InitialModLoader";
-
 import {
   AIRDROP_CHANCE,
   BOSS_ENABLED_BY_DEFAULT,
@@ -66,7 +67,7 @@ import {
   WATER_FILTER_ID,
 } from "./constants";
 
-class Mod implements IMod {
+class Mod implements IPreAkiLoadMod, IPostAkiLoadMod {
   private logger: ILogger;
   private debug: (data: string) => void;
 
@@ -123,7 +124,7 @@ class Mod implements IMod {
 
   private tweakStashSize(
     database: DatabaseServer,
-    modLoader: InitialModLoader,
+    modLoader: PreAkiModLoader,
     value: number | undefined
   ) {
     if (isProgressiveStashModLoaded(modLoader)) {
@@ -197,7 +198,7 @@ class Mod implements IMod {
 
   private tweakSecureContainers(
     database: DatabaseServer,
-    modLoader: InitialModLoader
+    modLoader: PreAkiModLoader
   ) {
     if (isProgressiveStashModLoaded(modLoader)) {
       this.debug(
@@ -264,7 +265,7 @@ class Mod implements IMod {
         const location: ILocationData = locations[mapName];
 
         location.base.exit_access_time = raidTime;
-        location.base.escape_time_limit = raidTime;
+        location.base.EscapeTimeLimit = raidTime;
 
         nMaps = nMaps + 1;
       }
@@ -447,7 +448,7 @@ class Mod implements IMod {
     }
   }
 
-  public load(container: DependencyContainer): void {
+  public preAkiLoad(container: DependencyContainer): void {
     this.logger = container.resolve<ILogger>("WinstonLogger");
     this.debug = DEBUG
       ? (data: string) => this.logger.debug(`Trap's AIO: ${data}`, true)
@@ -460,10 +461,10 @@ class Mod implements IMod {
     this.logger.info(`===> Loading ${getModDisplayName(true)}`);
   }
 
-  public delayedLoad(container: DependencyContainer): void {
+  public postAkiLoad(container: DependencyContainer): void {
     const database = container.resolve<DatabaseServer>("DatabaseServer");
     const configServer = container.resolve<ConfigServer>("ConfigServer");
-    const modLoader = container.resolve<InitialModLoader>("InitialModLoader");
+    const modLoader = container.resolve<PreAkiModLoader>("PreAkiModLoader");
 
     this.tweakItems(database);
     this.tweakAmmoItemColors(database);
