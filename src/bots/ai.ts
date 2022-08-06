@@ -183,7 +183,7 @@ export const tweakWaves = (
 
   allValidLocations.forEach((location) => {
     location.base.waves.forEach((wave) => {
-      wave.slots_min = wave.slots_min + nbAdditionalBots / 2;
+      wave.slots_min = wave.slots_min + Math.floor(nbAdditionalBots / 2);
       wave.slots_max = wave.slots_max + nbAdditionalBots;
     });
 
