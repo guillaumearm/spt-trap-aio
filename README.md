@@ -46,6 +46,7 @@ All the features can be disabled/tweaked via the `src/config/config.js` file.
 - All cases can be put in backpacks
 - Reduced insurance time return for prapor and therapist to 1 hour
 - Reduced scav cooldown to 10 minutes
+- Can wear MP7-A1, MP7-A2, MP9 and MP9-N in the pistol holster
 
 ### Flea market
 

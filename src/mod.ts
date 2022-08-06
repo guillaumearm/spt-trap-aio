@@ -23,6 +23,7 @@ import {
   DUMB_AI,
   EASY_BOTS,
   GLOBAL_CHANCE_MODIFIER,
+  HOLSTER_ADDITIONAL_ITEMS,
   INSURANCE_TIME,
   ITEMS_WEIGHT_MULTIPLIER,
   KAPPA_EXTRA_SIZE,
@@ -56,6 +57,7 @@ import {
   BACKPACK_ID,
   BLACKLIST_MAPS,
   CASES,
+  DEFAULT_INVENTORY_ID,
   HIDEOUT_AREA_WATER_COLLECTOR,
   KEYTOOL_ID,
   MORPHINE_ID,
@@ -448,6 +450,23 @@ class Mod implements IPreAkiLoadMod, IPostAkiLoadMod {
     }
   }
 
+  private tweakHolster(db: DatabaseServer): void {
+    if (HOLSTER_ADDITIONAL_ITEMS && HOLSTER_ADDITIONAL_ITEMS.length > 0) {
+      const tables = db.getTables();
+      const defaultInventory = tables.templates.items[DEFAULT_INVENTORY_ID];
+
+      const holsterSlot = defaultInventory._props.Slots.find(
+        (slot) => slot._name === "Holster"
+      );
+
+      HOLSTER_ADDITIONAL_ITEMS.forEach((itemId) => {
+        holsterSlot._props.filters[0].Filter.push(itemId);
+      });
+
+      this.debug(`${HOLSTER_ADDITIONAL_ITEMS.length} items allowed in Holster`);
+    }
+  }
+
   public preAkiLoad(container: DependencyContainer): void {
     this.logger = container.resolve<ILogger>("WinstonLogger");
     this.debug = DEBUG
@@ -484,6 +503,7 @@ class Mod implements IPreAkiLoadMod, IPostAkiLoadMod {
     this.tweakInRaidMenuSettings(configServer);
     this.tweakItemsWeight(database, ITEMS_WEIGHT_MULTIPLIER);
     this.tweakBackpacksFilters(database);
+    this.tweakHolster(database);
 
     this.logger.success(`===> Successfully loaded ${getModDisplayName(true)}`);
   }

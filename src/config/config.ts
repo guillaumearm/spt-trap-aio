@@ -111,6 +111,12 @@ export const MAGDRILL_SPEED_MULTIPLIER = 0.21; // lower this number to increase 
 export const GLOBAL_CHANCE_MODIFIER = 3; // loots multiplier
 export const STIMULANT_USES = 3;
 export const CASES_IN_BACKPACKS = true;
+export const HOLSTER_ADDITIONAL_ITEMS = [
+  "5ba26383d4351e00334c93d9", // mp7a1
+  "5bd70322209c4d00d7167b8f", // mp7a2
+  "5e00903ae9dc277128008b87", // mp9
+  "5de7bd7bfd6b4e6e2276dc25", // mp9n
+];
 
 // Hideout
 export const CONSTRUCTION_TIME = 0; // in seconds

@@ -12,6 +12,8 @@ export const BLACKLIST_MAPS = [
   "privatearea",
 ];
 
+export const DEFAULT_INVENTORY_ID = "55d7217a4bdc2d86028b456d";
+
 export const KEYTOOL_ID = "59fafd4b86f7745ca07e1232";
 export const PRAPOR_ID = "54cb50c76803fa8b248b4571";
 export const THERAPIST_ID = "54cb57776803fa99248b456e";
