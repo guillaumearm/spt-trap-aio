@@ -101,6 +101,12 @@ export const BOSS_ENABLED_BY_DEFAULT = false;
 
 export const ITEMS_WEIGHT_MULTIPLIER = 0.42;
 
+export const ITEMS_FIXED_WEIGHTS = {
+  "5c127c4486f7745625356c13": 1, // magazine case
+  "5b6d9ce188a4501afc1b2b25": 2, // THICC weapon case
+  "5c0a840b86f7742ffa4f2482": 4, // THICC item case
+};
+
 // Times and cooldowns
 export const RAID_TIME = 60 * 8; // in minutes
 export const INSURANCE_TIME = 1; // in hours

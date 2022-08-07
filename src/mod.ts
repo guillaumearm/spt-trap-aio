@@ -25,6 +25,7 @@ import {
   GLOBAL_CHANCE_MODIFIER,
   HOLSTER_ADDITIONAL_ITEMS,
   INSURANCE_TIME,
+  ITEMS_FIXED_WEIGHTS,
   ITEMS_WEIGHT_MULTIPLIER,
   KAPPA_EXTRA_SIZE,
   KEYTOOL_HEIGHT,
@@ -427,6 +428,23 @@ class Mod implements IPreAkiLoadMod, IPostAkiLoadMod {
     );
   }
 
+  private tweakItemsFixedWeight(
+    db: DatabaseServer,
+    itemsFixedWeights: Record<string, number>
+  ) {
+    const items = db.getTables().templates.items;
+
+    Object.keys(itemsFixedWeights).forEach((itemId) => {
+      const item = items[itemId];
+      if (item) {
+        const weight = itemsFixedWeights[itemId];
+        item._props.Weight = weight;
+
+        this.debug(`changed '${item._name}' weight to ${weight}`);
+      }
+    });
+  }
+
   private tweakBackpacksFilters(db: DatabaseServer): void {
     if (CASES_IN_BACKPACKS) {
       let itemCounter = 0;
@@ -502,6 +520,7 @@ class Mod implements IPreAkiLoadMod, IPostAkiLoadMod {
     this.tweakFleaMarket(database, configServer);
     this.tweakInRaidMenuSettings(configServer);
     this.tweakItemsWeight(database, ITEMS_WEIGHT_MULTIPLIER);
+    this.tweakItemsFixedWeight(database, ITEMS_FIXED_WEIGHTS);
     this.tweakBackpacksFilters(database);
     this.tweakHolster(database);
 
