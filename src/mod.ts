@@ -196,7 +196,7 @@ class Mod implements IPreAkiLoadMod, IPostAkiLoadMod {
     props.cellsH = horizontalValue;
     props.cellsV = verticalValue;
 
-    this.debug(`Keytool size changed to '${horizontalValue}x${verticalValue}`);
+    this.debug(`Keytool size changed to '${horizontalValue}x${verticalValue}'`);
   }
 
   private tweakSecureContainers(
