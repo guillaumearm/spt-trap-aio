@@ -105,7 +105,8 @@ export interface PmcConfig {
     maxBackpackLootTotalRub: number;
     maxPocketLootTotalRub: number;
     maxVestLootTotalRub: number;
-    convertIntoPmcChance: Record<string, MinMax>;
+    convertIntoPmcChance?: Record<string, MinMax>; // aki >= 3.2.0
+    types?: Record<string, number>; // aki 3.1.x
     enemyTypes: string[];
 }
 export interface PmcDynamicLoot {

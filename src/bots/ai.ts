@@ -129,25 +129,34 @@ export const setPMCBotConfig = (configServer: ConfigServer): void => {
   botConfig.pmc.isUsec = PERCENTAGE_USEC;
   botConfig.pmc.chanceSameSideIsHostilePercent = 100;
 
-  botConfig.pmc.convertIntoPmcChance.assault = {
-    min: SCAV_TO_PMC_PERCENTAGE,
-    max: SCAV_TO_PMC_PERCENTAGE,
-  };
+  if (botConfig.pmc.convertIntoPmcChance) {
+    // aki >= 3.2.0
+    botConfig.pmc.convertIntoPmcChance.assault = {
+      min: SCAV_TO_PMC_PERCENTAGE,
+      max: SCAV_TO_PMC_PERCENTAGE,
+    };
 
-  botConfig.pmc.convertIntoPmcChance.exUsec = {
-    min: ROGUE_TO_PMC_PERCENTAGE,
-    max: ROGUE_TO_PMC_PERCENTAGE,
-  };
+    botConfig.pmc.convertIntoPmcChance.exUsec = {
+      min: ROGUE_TO_PMC_PERCENTAGE,
+      max: ROGUE_TO_PMC_PERCENTAGE,
+    };
 
-  botConfig.pmc.convertIntoPmcChance.cursedAssault = {
-    min: RAIDERS_TO_PMC_PERCENTAGE,
-    max: RAIDERS_TO_PMC_PERCENTAGE,
-  };
+    botConfig.pmc.convertIntoPmcChance.cursedAssault = {
+      min: RAIDERS_TO_PMC_PERCENTAGE,
+      max: RAIDERS_TO_PMC_PERCENTAGE,
+    };
 
-  botConfig.pmc.convertIntoPmcChance.pmcBot = {
-    min: 100,
-    max: 100,
-  };
+    botConfig.pmc.convertIntoPmcChance.pmcBot = {
+      min: 100,
+      max: 100,
+    };
+  } else if (botConfig.pmc.types) {
+    // aki 3.1.x
+    botConfig.pmc.types.assault = SCAV_TO_PMC_PERCENTAGE;
+    botConfig.pmc.types.exUsec = ROGUE_TO_PMC_PERCENTAGE;
+    botConfig.pmc.types.cursedAssault = RAIDERS_TO_PMC_PERCENTAGE;
+    botConfig.pmc.types.pmcBot = 100;
+  }
 };
 
 export const tweakBots = (
