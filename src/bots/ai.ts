@@ -9,6 +9,7 @@ import type {
 import {
   DUMB_AI,
   PERCENTAGE_USEC,
+  RAIDERS_TO_PMC_PERCENTAGE,
   ROGUE_TO_PMC_PERCENTAGE,
   SCAV_TO_PMC_PERCENTAGE,
 } from "../config/config";
@@ -139,8 +140,8 @@ export const setPMCBotConfig = (configServer: ConfigServer): void => {
   };
 
   botConfig.pmc.convertIntoPmcChance.cursedAssault = {
-    min: 100,
-    max: 100,
+    min: RAIDERS_TO_PMC_PERCENTAGE,
+    max: RAIDERS_TO_PMC_PERCENTAGE,
   };
 
   botConfig.pmc.convertIntoPmcChance.pmcBot = {

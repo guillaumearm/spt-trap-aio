@@ -23,6 +23,7 @@ All the features can be disabled/tweaked via the `src/config/config.js` file.
 - 100% chance a PMC is USEC
 - Convert 60% of scavs in PMCs
 - Convert 100% of rogues in PMCs
+- Convert 100% of raiders in PMCs
 - More bots on all maps (2 additional bots per wave)
 - Boss disabled by default in the raid menu
 
