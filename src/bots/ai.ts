@@ -1,5 +1,4 @@
 import type { IBotType } from "@spt-aki/models/eft/common/tables/IBotType";
-import type { ConfigTypes } from "@spt-aki/models/enums/ConfigTypes";
 import type { IBotConfig } from "@spt-aki/models/spt/config/IBotConfig";
 import type { ConfigServer } from "@spt-aki/servers/ConfigServer";
 import type { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
@@ -13,6 +12,7 @@ import {
   ROGUE_TO_PMC_PERCENTAGE,
   SCAV_TO_PMC_PERCENTAGE,
 } from "../config/config";
+import type { ConfigTypes } from "@spt-aki/models/enums/ConfigTypes";
 
 const copyEasyDifficulty = (bot: IBotType): void => {
   const { easy, normal, hard, impossible } = bot.difficulty;
@@ -128,10 +128,25 @@ export const setPMCBotConfig = (configServer: ConfigServer): void => {
   botConfig.pmc.isUsec = PERCENTAGE_USEC;
   botConfig.pmc.chanceSameSideIsHostilePercent = 100;
 
-  botConfig.pmc.types.assault = SCAV_TO_PMC_PERCENTAGE;
-  botConfig.pmc.types.exUsec = ROGUE_TO_PMC_PERCENTAGE;
-  botConfig.pmc.types.cursedAssault = 100;
-  botConfig.pmc.types.pmcBot = 100;
+  botConfig.pmc.convertIntoPmcChance.assault = {
+    min: SCAV_TO_PMC_PERCENTAGE,
+    max: SCAV_TO_PMC_PERCENTAGE,
+  };
+
+  botConfig.pmc.convertIntoPmcChance.exUsec = {
+    min: ROGUE_TO_PMC_PERCENTAGE,
+    max: ROGUE_TO_PMC_PERCENTAGE,
+  };
+
+  botConfig.pmc.convertIntoPmcChance.cursedAssault = {
+    min: 100,
+    max: 100,
+  };
+
+  botConfig.pmc.convertIntoPmcChance.pmcBot = {
+    min: 100,
+    max: 100,
+  };
 };
 
 export const tweakBots = (
