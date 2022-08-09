@@ -8,6 +8,7 @@ import type {
 } from "@spt-aki/models/spt/server/ILocations";
 import {
   DUMB_AI,
+  EASY_BOTS,
   PERCENTAGE_USEC,
   RAIDERS_TO_PMC_PERCENTAGE,
   ROGUE_TO_PMC_PERCENTAGE,
@@ -49,48 +50,51 @@ const setBotDifficulty = (bot: IBotType, isGrenadeAllowed: boolean): void => {
 
   if (DUMB_AI) {
     // core.AccuratySpeed = 0.3; // >;
-    core.AccuratySpeed = 0.9; // >;
+    core.AccuratySpeed = 0.6; // >;
 
     core.HearingSense = 1.05; // <
     core.VisibleAngle = 130; // <
-    core.VisibleDistance = 110; // <
+    core.VisibleDistance = 60; // <
     core.WaitInCoverBetweenShotsSec = 1.5; // >
 
-    // shoot.MAX_RECOIL_PER_METER = 0.2; // >
-    // shoot.RECOIL_PER_METER = 0.1; // >
-    // shoot.RECOIL_TIME_NORMALIZE = 2; // >
-    shoot.MAX_RECOIL_PER_METER = 0.4; // >
-    shoot.RECOIL_PER_METER = 0.2; // >
-    shoot.RECOIL_TIME_NORMALIZE = 4; // >
+    //// shoot.MAX_RECOIL_PER_METER = 0.2; // >
+    //// shoot.RECOIL_PER_METER = 0.1; // >
+    //// shoot.RECOIL_TIME_NORMALIZE = 2; // >
+    // shoot.MAX_RECOIL_PER_METER = 0.3; // >
+    // shoot.RECOIL_PER_METER = 0.15; // >
+    // shoot.RECOIL_TIME_NORMALIZE = 3; // >
 
-    hearing.CLOSE_DIST = 10; // <
-    hearing.FAR_DIST = 30; // <
+    // hearing.CLOSE_DIST = 10; // <
+    // hearing.FAR_DIST = 30; // <
 
-    aiming.AIMING_TYPE = 5; // =
-    // aiming.ANY_PART_SHOOT_TIME = 30; // >
-    aiming.ANY_PART_SHOOT_TIME = 40; // >
-    aiming.BASE_HIT_AFFECTION_DELAY_SEC = 1.77; // >
-    aiming.BASE_HIT_AFFECTION_MAX_ANG = 28; // >
-    aiming.BASE_HIT_AFFECTION_MIN_ANG = 14; // >
+    // aiming.AIMING_TYPE = 5; // =
+    //// aiming.ANY_PART_SHOOT_TIME = 30; // >
+    aiming.ANY_PART_SHOOT_TIME = 35; // >
+    // aiming.BASE_HIT_AFFECTION_DELAY_SEC = 1.77; // >
+    // aiming.BASE_HIT_AFFECTION_MAX_ANG = 28; // >
+    // aiming.BASE_HIT_AFFECTION_MIN_ANG = 14; // >
 
     aiming.BETTER_PRECICING_COEF = 0.7; // <
 
-    aiming.DAMAGE_PANIC_TIME = 15; // >
+    //// aiming.PANIC_TIME = 2; // >
+    aiming.PANIC_TIME = 6; // >
+    aiming.DAMAGE_PANIC_TIME = 4; // >
     aiming.MAX_AIMING_UPGRADE_BY_TIME = 0.85; // >
-    // aiming.MAX_AIM_TIME = 1.5; // >
+    //// aiming.MAX_AIM_TIME = 1.5; // >
     aiming.MAX_AIM_TIME = 2.0; // >
     aiming.MAX_TIME_DISCARD_AIM_SEC = 3.2; // >
     aiming.MIN_TIME_DISCARD_AIM_SEC = 2.9; // >
-    // aiming.MAX_TIME_DISCARD_AIM_SEC = 4.2; // >
-    // aiming.MIN_TIME_DISCARD_AIM_SEC = 3.9; // >
-    aiming.NEXT_SHOT_MISS_CHANCE_100 = 100; // >
+    //// aiming.MAX_TIME_DISCARD_AIM_SEC = 4.2; // >
+    //// aiming.MIN_TIME_DISCARD_AIM_SEC = 3.9; // >
+    // aiming.NEXT_SHOT_MISS_CHANCE_100 = 100; // >
+    //// aiming.NEXT_SHOT_MISS_Y_OFFSET = 1; // >
+    //// aiming.PANIC_TIME = 2; // >
     // aiming.NEXT_SHOT_MISS_Y_OFFSET = 1; // >
-    // aiming.PANIC_TIME = 2; // >
-    aiming.NEXT_SHOT_MISS_Y_OFFSET = 1; // >
-    aiming.PANIC_TIME = 15; // >
   }
 
-  copyEasyDifficulty(bot);
+  if (EASY_BOTS) {
+    copyEasyDifficulty(bot);
+  }
 };
 
 const BOT_TYPES = [
