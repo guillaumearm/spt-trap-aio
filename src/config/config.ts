@@ -95,7 +95,17 @@ export const ROGUE_TO_PMC_PERCENTAGE = 100; // all rogues converted to usec
 export const RAIDERS_TO_PMC_PERCENTAGE = 100; // all raiders converted to usec
 
 // More bots
-export const WAVES_ADDITIONAL_BOTS = 2;
+export const WAVES_ADDITIONAL_BOTS_PER_MAP: Record<string, number> = {
+  bigmap: 3, // customs
+  factory4_day: 1,
+  factory4_night: 1,
+  interchange: 2,
+  laboratory: 2,
+  lighthouse: 2,
+  rezervbase: 2,
+  shoreline: 2,
+  woods: 2,
+};
 
 // Boss enabled in raid menu
 export const BOSS_ENABLED_BY_DEFAULT = false;

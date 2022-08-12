@@ -41,7 +41,7 @@ import {
   SECURE_CONTAINER_WIDTH,
   STASH_SIZE,
   STIMULANT_USES,
-  WAVES_ADDITIONAL_BOTS,
+  WAVES_ADDITIONAL_BOTS_PER_MAP,
 } from "./config/config";
 
 import {
@@ -109,11 +109,15 @@ class Mod implements IPreAkiLoadMod, IPostAkiLoadMod {
       this.debug(`Tweaked bot logic to make them dumb`);
     }
 
-    if (WAVES_ADDITIONAL_BOTS > 0) {
-      const count = tweakWaves(database, WAVES_ADDITIONAL_BOTS);
-      this.debug(
-        `Added ${WAVES_ADDITIONAL_BOTS} bot(s) on each waves for ${count} maps`
-      );
+    if (
+      WAVES_ADDITIONAL_BOTS_PER_MAP ||
+      Object.keys(WAVES_ADDITIONAL_BOTS_PER_MAP).length > 0
+    ) {
+      const messages = tweakWaves(database, WAVES_ADDITIONAL_BOTS_PER_MAP);
+
+      messages.forEach((msg) => {
+        this.debug(msg);
+      });
     }
   }
 

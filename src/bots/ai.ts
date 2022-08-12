@@ -40,8 +40,8 @@ const copyEasyDifficulty = (bot: IBotType): void => {
 
 const setBotDifficulty = (bot: IBotType, isGrenadeAllowed: boolean): void => {
   const core = bot.difficulty.easy.Core;
-  const hearing = bot.difficulty.easy.Hearing;
-  const shoot = bot.difficulty.easy.Shoot;
+  // const hearing = bot.difficulty.easy.Hearing;
+  // const shoot = bot.difficulty.easy.Shoot;
   const aiming = bot.difficulty.easy.Aiming;
   const mind = bot.difficulty.easy.Mind;
 
@@ -205,19 +205,26 @@ const getAllLocationsData = (locations: ILocations): ILocationData[] => {
 // increase waves intensity
 export const tweakWaves = (
   db: DatabaseServer,
-  nbAdditionalBots: number
-): number => {
-  let counter = 0;
+  additionalBotsPerMap: Record<string, number>
+): string[] => {
+  const messages = [];
   const allValidLocations = getAllLocationsData(db.getTables().locations);
 
   allValidLocations.forEach((location) => {
-    location.base.waves.forEach((wave) => {
-      wave.slots_min = wave.slots_min + Math.floor(nbAdditionalBots / 2);
-      wave.slots_max = wave.slots_max + nbAdditionalBots;
-    });
+    const mapId = location.base.Id.toLowerCase();
+    const nbAdditionalBots = additionalBotsPerMap[mapId];
 
-    counter = counter + 1;
+    if (nbAdditionalBots > 0) {
+      location.base.waves.forEach((wave) => {
+        wave.slots_min = wave.slots_min + Math.floor(nbAdditionalBots / 2);
+        wave.slots_max = wave.slots_max + nbAdditionalBots;
+      });
+
+      messages.push(
+        `${nbAdditionalBots} additional bots added on map '${mapId}'`
+      );
+    }
   });
 
-  return counter;
+  return messages;
 };
