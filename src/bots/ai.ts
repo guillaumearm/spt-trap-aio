@@ -205,7 +205,8 @@ const getAllLocationsData = (locations: ILocations): ILocationData[] => {
 // increase waves intensity
 export const tweakWaves = (
   db: DatabaseServer,
-  additionalBotsPerMap: Record<string, number>
+  additionalBotsPerMap: Record<string, number> = {},
+  spawnAllBotsAtStart = false
 ): string[] => {
   const messages = [];
   const allValidLocations = getAllLocationsData(db.getTables().locations);
@@ -226,5 +227,25 @@ export const tweakWaves = (
     }
   });
 
+  if (spawnAllBotsAtStart) {
+    allValidLocations.forEach((location) => {
+      let spawnTime = 20;
+      const spawnInterval = 8;
+
+      location.base.waves.forEach((wave) => {
+        wave.time_min = spawnTime;
+        wave.time_max = spawnTime + spawnInterval;
+
+        spawnTime = spawnTime + spawnInterval;
+      });
+
+      const mapId = location.base.Id.toLowerCase();
+      messages.push(
+        `${location.base.waves.length} waves will spawn in ${
+          Math.round((spawnTime / 60) * 100) / 100
+        } minutes on map '${mapId}'`
+      );
+    });
+  }
   return messages;
 };

@@ -19,6 +19,7 @@ All the features can be disabled/tweaked via the `src/config/config.js` file.
 #### Bots
 
 - All AIs bots are easy
+- All AIs spawns at start in the few first minutes (depend on the map)
 - AIs bots don't use grenades
 - 100% chance a PMC is USEC
 - Convert 60% of scavs in PMCs

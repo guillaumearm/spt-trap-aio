@@ -39,6 +39,7 @@ import {
   SAVAGE_COOLDOWN,
   SECURE_CONTAINER_HEIGHT,
   SECURE_CONTAINER_WIDTH,
+  SPAWN_ALL_BOTS_AT_START,
   STASH_SIZE,
   STIMULANT_USES,
   WAVES_ADDITIONAL_BOTS_PER_MAP,
@@ -109,16 +110,15 @@ class Mod implements IPreAkiLoadMod, IPostAkiLoadMod {
       this.debug(`Tweaked bot logic to make them dumb`);
     }
 
-    if (
-      WAVES_ADDITIONAL_BOTS_PER_MAP ||
-      Object.keys(WAVES_ADDITIONAL_BOTS_PER_MAP).length > 0
-    ) {
-      const messages = tweakWaves(database, WAVES_ADDITIONAL_BOTS_PER_MAP);
+    const messages = tweakWaves(
+      database,
+      WAVES_ADDITIONAL_BOTS_PER_MAP,
+      SPAWN_ALL_BOTS_AT_START
+    );
 
-      messages.forEach((msg) => {
-        this.debug(msg);
-      });
-    }
+    messages.forEach((msg) => {
+      this.debug(msg);
+    });
   }
 
   private tweakSavageCooldown(database: DatabaseServer, value: number) {

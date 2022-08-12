@@ -107,6 +107,8 @@ export const WAVES_ADDITIONAL_BOTS_PER_MAP: Record<string, number> = {
   woods: 2,
 };
 
+export const SPAWN_ALL_BOTS_AT_START = true;
+
 // Boss enabled in raid menu
 export const BOSS_ENABLED_BY_DEFAULT = false;
 
