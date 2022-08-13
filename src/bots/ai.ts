@@ -40,8 +40,8 @@ const copyEasyDifficulty = (bot: IBotType): void => {
 
 const setBotDifficulty = (bot: IBotType, isGrenadeAllowed: boolean): void => {
   const core = bot.difficulty.easy.Core;
-  // const hearing = bot.difficulty.easy.Hearing;
-  // const shoot = bot.difficulty.easy.Shoot;
+  const hearing = bot.difficulty.easy.Hearing;
+  const shoot = bot.difficulty.easy.Shoot;
   const aiming = bot.difficulty.easy.Aiming;
   const mind = bot.difficulty.easy.Mind;
 
@@ -60,30 +60,30 @@ const setBotDifficulty = (bot: IBotType, isGrenadeAllowed: boolean): void => {
     //// shoot.MAX_RECOIL_PER_METER = 0.2; // >
     //// shoot.RECOIL_PER_METER = 0.1; // >
     //// shoot.RECOIL_TIME_NORMALIZE = 2; // >
-    // shoot.MAX_RECOIL_PER_METER = 0.3; // >
-    // shoot.RECOIL_PER_METER = 0.15; // >
-    // shoot.RECOIL_TIME_NORMALIZE = 3; // >
+    shoot.MAX_RECOIL_PER_METER = 0.3; // >
+    shoot.RECOIL_PER_METER = 0.15; // >
+    shoot.RECOIL_TIME_NORMALIZE = 3; // >
 
-    // hearing.CLOSE_DIST = 10; // <
-    // hearing.FAR_DIST = 30; // <
+    hearing.CLOSE_DIST = 25; // <
+    hearing.FAR_DIST = 50; // <
 
     // aiming.AIMING_TYPE = 5; // =
     //// aiming.ANY_PART_SHOOT_TIME = 30; // >
     aiming.ANY_PART_SHOOT_TIME = 35; // >
-    // aiming.BASE_HIT_AFFECTION_DELAY_SEC = 1.77; // >
-    // aiming.BASE_HIT_AFFECTION_MAX_ANG = 28; // >
-    // aiming.BASE_HIT_AFFECTION_MIN_ANG = 14; // >
+    aiming.BASE_HIT_AFFECTION_DELAY_SEC = 1.77; // >
+    aiming.BASE_HIT_AFFECTION_MAX_ANG = 28; // >
+    aiming.BASE_HIT_AFFECTION_MIN_ANG = 14; // >
 
     aiming.BETTER_PRECICING_COEF = 0.7; // <
 
     //// aiming.PANIC_TIME = 2; // >
-    aiming.PANIC_TIME = 6; // >
-    aiming.DAMAGE_PANIC_TIME = 4; // >
-    aiming.MAX_AIMING_UPGRADE_BY_TIME = 0.85; // >
+    aiming.PANIC_TIME = 3; // >
+    aiming.DAMAGE_PANIC_TIME = 3; // >
+    // aiming.MAX_AIMING_UPGRADE_BY_TIME = 0.85; // >
     //// aiming.MAX_AIM_TIME = 1.5; // >
-    aiming.MAX_AIM_TIME = 2.0; // >
-    aiming.MAX_TIME_DISCARD_AIM_SEC = 3.2; // >
-    aiming.MIN_TIME_DISCARD_AIM_SEC = 2.9; // >
+    // aiming.MAX_AIM_TIME = 2.0; // >
+    // aiming.MAX_TIME_DISCARD_AIM_SEC = 3.2; // >
+    // aiming.MIN_TIME_DISCARD_AIM_SEC = 2.9; // >
     //// aiming.MAX_TIME_DISCARD_AIM_SEC = 4.2; // >
     //// aiming.MIN_TIME_DISCARD_AIM_SEC = 3.9; // >
     // aiming.NEXT_SHOT_MISS_CHANCE_100 = 100; // >
@@ -217,7 +217,7 @@ export const tweakWaves = (
 
     if (nbAdditionalBots > 0) {
       location.base.waves.forEach((wave) => {
-        wave.slots_min = wave.slots_min + Math.floor(nbAdditionalBots / 2);
+        wave.slots_min = wave.slots_min + nbAdditionalBots;
         wave.slots_max = wave.slots_max + nbAdditionalBots;
       });
 
@@ -231,6 +231,10 @@ export const tweakWaves = (
     allValidLocations.forEach((location) => {
       let spawnTime = 20;
       const spawnInterval = 8;
+
+      location.base.MaxBotPerZone = 20;
+      location.base.BotMax = 20;
+      location.base.BotMaxPlayer = 20;
 
       location.base.waves.forEach((wave) => {
         wave.time_min = spawnTime;
