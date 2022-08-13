@@ -74,7 +74,7 @@ import {
   THERAPIST_ID,
   WATER_FILTER_ID,
 } from "./constants";
-import { ITraderConfig } from "@spt-aki/models/spt/config/ITraderConfig";
+import type { ITraderConfig } from "@spt-aki/models/spt/config/ITraderConfig";
 
 class Mod implements IPreAkiLoadMod, IPostAkiLoadMod {
   private logger: ILogger;
