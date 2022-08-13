@@ -34,6 +34,7 @@ import {
   KEYTOOL_HEIGHT,
   KEYTOOL_WIDTH,
   MAGDRILL_SPEED_MULTIPLIER,
+  MIN_DURABILITY_FOR_SALE,
   PRODUCTION_TIME,
   RAID_TIME,
   SAVAGE_COOLDOWN,
@@ -73,6 +74,7 @@ import {
   THERAPIST_ID,
   WATER_FILTER_ID,
 } from "./constants";
+import { ITraderConfig } from "@spt-aki/models/spt/config/ITraderConfig";
 
 class Mod implements IPreAkiLoadMod, IPostAkiLoadMod {
   private logger: ILogger;
@@ -492,6 +494,22 @@ class Mod implements IPreAkiLoadMod, IPostAkiLoadMod {
     }
   }
 
+  private tweakDurability(
+    configServer: ConfigServer,
+    MIN_DURABILITY_FOR_SALE: number
+  ): void {
+    const config = configServer.getConfig<ITraderConfig>(
+      "aki-trader" as ConfigTypes.TRADER
+    );
+
+    if (config.minDurabilityForSale !== MIN_DURABILITY_FOR_SALE) {
+      config.minDurabilityForSale = MIN_DURABILITY_FOR_SALE;
+      this.debug(
+        `traders config 'minDurabilityForScale' set to ${MIN_DURABILITY_FOR_SALE}`
+      );
+    }
+  }
+
   public preAkiLoad(container: DependencyContainer): void {
     this.logger = container.resolve<ILogger>("WinstonLogger");
     this.debug = DEBUG
@@ -530,6 +548,7 @@ class Mod implements IPreAkiLoadMod, IPostAkiLoadMod {
     this.tweakItemsFixedWeight(database, ITEMS_FIXED_WEIGHTS);
     this.tweakBackpacksFilters(database);
     this.tweakHolster(database);
+    this.tweakDurability(configServer, MIN_DURABILITY_FOR_SALE);
 
     this.logger.success(`===> Successfully loaded ${getModDisplayName(true)}`);
   }

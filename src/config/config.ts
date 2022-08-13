@@ -137,6 +137,8 @@ export const HOLSTER_ADDITIONAL_ITEMS = [
   "5de7bd7bfd6b4e6e2276dc25", // mp9n
 ];
 
+export const MIN_DURABILITY_FOR_SALE = 20; // default is 60
+
 // Hideout
 export const CONSTRUCTION_TIME = 0; // in seconds
 export const PRODUCTION_TIME = 0; // in seconds
