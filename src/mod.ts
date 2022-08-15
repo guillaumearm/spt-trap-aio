@@ -505,7 +505,7 @@ class Mod implements IPreAkiLoadMod, IPostAkiLoadMod {
     if (config.minDurabilityForSale !== MIN_DURABILITY_FOR_SALE) {
       config.minDurabilityForSale = MIN_DURABILITY_FOR_SALE;
       this.debug(
-        `traders config 'minDurabilityForScale' set to ${MIN_DURABILITY_FOR_SALE}`
+        `traders config 'minDurabilityForSale' set to ${MIN_DURABILITY_FOR_SALE}`
       );
     }
   }
