@@ -112,7 +112,7 @@ export const SPAWN_ALL_BOTS_AT_START = true;
 // Boss enabled in raid menu
 export const BOSS_ENABLED_BY_DEFAULT = false;
 
-export const ITEMS_WEIGHT_MULTIPLIER = 0.42;
+export const ITEMS_WEIGHT_MULTIPLIER = 0.21;
 
 export const ITEMS_FIXED_WEIGHTS = {
   "5c127c4486f7745625356c13": 1, // magazine case
