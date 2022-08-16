@@ -160,8 +160,24 @@ class Mod implements IPreAkiLoadMod, IPostAkiLoadMod {
 
   private tweakGlobalLootChanceModifier(
     database: DatabaseServer,
+    configServer: ConfigServer,
     globalLootChanceModifier: number
   ) {
+    const locationConfig = configServer.getConfig<ILocationConfig>(
+      "aki-location" as ConfigTypes.LOCATION
+    );
+
+    const staticLoot = locationConfig.staticLootMultiplier;
+    const looseLoot = locationConfig.looseLootMultiplier;
+
+    Object.keys(staticLoot).forEach((mapName) => {
+      staticLoot[mapName] = staticLoot[mapName] * globalLootChanceModifier;
+    });
+
+    Object.keys(looseLoot).forEach((mapName) => {
+      looseLoot[mapName] = looseLoot[mapName] * globalLootChanceModifier;
+    });
+
     const tables = database.getTables();
     tables.globals.config.GlobalLootChanceModifier =
       tables.globals.config.GlobalLootChanceModifier * globalLootChanceModifier;
