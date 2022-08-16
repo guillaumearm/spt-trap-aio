@@ -125,11 +125,7 @@ const BOT_TYPES = [
   "marksman",
 ] as const;
 
-export const setPMCBotConfig = (configServer: ConfigServer): void => {
-  const botConfig = configServer.getConfig<IBotConfig>(
-    "aki-bot" as ConfigTypes.BOT
-  );
-
+export const setPMCBotConfig = (botConfig: IBotConfig): void => {
   botConfig.pmc.isUsec = PERCENTAGE_USEC;
   botConfig.pmc.chanceSameSideIsHostilePercent = 100;
 
@@ -215,6 +211,10 @@ export const tweakWaves = (
     const mapId = location.base.Id.toLowerCase();
     const nbAdditionalBots = additionalBotsPerMap[mapId];
 
+    location.base.MaxBotPerZone = 7;
+    location.base.BotMax = 40;
+    location.base.BotMaxPlayer = 40;
+
     if (nbAdditionalBots > 0) {
       location.base.waves.forEach((wave) => {
         wave.slots_min = wave.slots_min + nbAdditionalBots;
@@ -232,15 +232,10 @@ export const tweakWaves = (
       let spawnTime = 20;
       const spawnInterval = 8;
 
-      location.base.MaxBotPerZone = 20;
-      location.base.BotMax = 20;
-      location.base.BotMaxPlayer = 20;
-
       location.base.waves.forEach((wave) => {
         wave.time_min = spawnTime;
-        wave.time_max = spawnTime + spawnInterval;
-
         spawnTime = spawnTime + spawnInterval;
+        wave.time_max = spawnTime;
       });
 
       const mapId = location.base.Id.toLowerCase();

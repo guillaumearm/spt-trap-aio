@@ -75,6 +75,8 @@ import {
   WATER_FILTER_ID,
 } from "./constants";
 import type { ITraderConfig } from "@spt-aki/models/spt/config/ITraderConfig";
+import type { IBotConfig } from "@spt-aki/models/spt/config/IBotConfig";
+import type { ILocationConfig } from "@spt-aki/models/spt/config/ILocationConfig";
 
 class Mod implements IPreAkiLoadMod, IPostAkiLoadMod {
   private logger: ILogger;
@@ -97,8 +99,14 @@ class Mod implements IPreAkiLoadMod, IPostAkiLoadMod {
   }
 
   private tweakBots(database: DatabaseServer, configServer: ConfigServer) {
+    const botConfig = configServer.getConfig<IBotConfig>(
+      "aki-bot" as ConfigTypes.BOT
+    );
+
+    botConfig.maxBotCap = 40;
+
     if (CONVERT_BOTS_TO_PMC) {
-      setPMCBotConfig(configServer);
+      setPMCBotConfig(botConfig);
       this.debug(`More PMCs added`);
     }
 
@@ -318,7 +326,7 @@ class Mod implements IPreAkiLoadMod, IPostAkiLoadMod {
 
       for (const stageId in area.stages) {
         const stage = area.stages[stageId];
-        // 1 tweak construction time
+        // 1. tweak construction time
         stage.constructionTime = constructionTime;
 
         // workaround for water collector t3 issue (https://hub.sp-tarkov.com/files/file/619-trap-s-aio/#comments/comment9238)
@@ -532,7 +540,11 @@ class Mod implements IPreAkiLoadMod, IPostAkiLoadMod {
     this.tweakAmmoItemColors(database);
     this.increaseAirdropChances(configServer);
     this.tweakBots(database, configServer);
-    this.tweakGlobalLootChanceModifier(database, GLOBAL_CHANCE_MODIFIER);
+    this.tweakGlobalLootChanceModifier(
+      database,
+      configServer,
+      GLOBAL_CHANCE_MODIFIER
+    );
     this.tweakSavageCooldown(database, SAVAGE_COOLDOWN);
     this.tweakStashSize(database, modLoader, STASH_SIZE);
     this.tweakMagdrillSpeed(database, MAGDRILL_SPEED_MULTIPLIER);
