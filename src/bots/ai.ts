@@ -211,7 +211,7 @@ export const tweakWaves = (
     const mapId = location.base.Id.toLowerCase();
     const nbAdditionalBots = additionalBotsPerMap[mapId];
 
-    location.base.MaxBotPerZone = 7;
+    location.base.MaxBotPerZone = 10;
     location.base.BotMax = 40;
     location.base.BotMaxPlayer = 40;
 
@@ -229,8 +229,8 @@ export const tweakWaves = (
 
   if (spawnAllBotsAtStart) {
     allValidLocations.forEach((location) => {
-      let spawnTime = 20;
-      const spawnInterval = 8;
+      let spawnTime = 5;
+      const spawnInterval = 1;
 
       location.base.waves.forEach((wave) => {
         wave.time_min = spawnTime;
@@ -240,9 +240,7 @@ export const tweakWaves = (
 
       const mapId = location.base.Id.toLowerCase();
       messages.push(
-        `${location.base.waves.length} waves will spawn in ${
-          Math.round((spawnTime / 60) * 100) / 100
-        } minutes on map '${mapId}'`
+        `${location.base.waves.length} waves will spawn in ${spawnTime} seconds on map '${mapId}'`
       );
     });
   }

@@ -97,8 +97,8 @@ export const RAIDERS_TO_PMC_PERCENTAGE = 100; // all raiders converted to usec
 // More bots
 export const WAVES_ADDITIONAL_BOTS_PER_MAP: Record<string, number> = {
   bigmap: 4, // customs
-  factory4_day: 1,
-  factory4_night: 1,
+  factory4_day: 4,
+  factory4_night: 4,
   interchange: 4,
   laboratory: 4,
   lighthouse: 4,
