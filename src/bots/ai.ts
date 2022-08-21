@@ -198,15 +198,32 @@ const getAllLocationsData = (locations: ILocations): ILocationData[] => {
   ];
 };
 
+const createWave = (zoneName: string) => {
+  return {
+    number: -1,
+    time_min: -1,
+    time_max: -1,
+    slots_min: 1,
+    slots_max: 1,
+    SpawnPoints: zoneName,
+    BotSide: "Savage",
+    BotPreset: "easy",
+    WildSpawnType: "assault",
+    isPlayers: false,
+  };
+};
+
 // increase waves intensity
 export const tweakWaves = (
   db: DatabaseServer,
   additionalBotsPerMap: Record<string, number> = {},
+  additionalWaves: Record<string, Record<string, number>> = {},
   spawnAllBotsAtStart = false
 ): string[] => {
   const messages = [];
   const allValidLocations = getAllLocationsData(db.getTables().locations);
 
+  // 1. apply additionalBotsPerMap
   allValidLocations.forEach((location) => {
     const mapId = location.base.Id.toLowerCase();
     const nbAdditionalBots = additionalBotsPerMap[mapId];
@@ -225,6 +242,32 @@ export const tweakWaves = (
         `${nbAdditionalBots} additional bots added on map '${mapId}'`
       );
     }
+
+    // 2. add additional waves
+    const wavesPerZone = additionalWaves[mapId];
+    if (wavesPerZone) {
+      const nbWaves = Object.values(wavesPerZone)
+        .filter((x) => x > 0)
+        .reduce((acc, x) => acc + x, 0);
+
+      if (nbWaves > 0) {
+        Object.keys(wavesPerZone).forEach((zoneName) => {
+          const nbWavesForZone = wavesPerZone[zoneName];
+
+          new Array(nbWavesForZone).fill(undefined).forEach(() => {
+            const newWave = createWave(zoneName);
+            location.base.waves.push(newWave);
+          });
+        });
+
+        messages.push(`${nbWaves} additional waves added on map '${mapId}'`);
+      }
+    }
+
+    // 3. fix wave indexes
+    location.base.waves.forEach((wave, index) => {
+      wave.number = index;
+    });
   });
 
   if (spawnAllBotsAtStart) {

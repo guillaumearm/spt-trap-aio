@@ -16,6 +16,7 @@ import type { IPostAkiLoadMod } from "@spt-aki/models/external/IPostAkiLoadMod";
 import type { ConfigTypes } from "@spt-aki/models/enums/ConfigTypes";
 
 import {
+  ADDITIONAL_WAVES_PER_ZONES,
   AIRDROP_CHANCE,
   BOSS_ENABLED_BY_DEFAULT,
   BOTS_GRENADE_ALLOWED,
@@ -123,6 +124,7 @@ class Mod implements IPreAkiLoadMod, IPostAkiLoadMod {
     const messages = tweakWaves(
       database,
       WAVES_ADDITIONAL_BOTS_PER_MAP,
+      ADDITIONAL_WAVES_PER_ZONES,
       SPAWN_ALL_BOTS_AT_START
     );
 
