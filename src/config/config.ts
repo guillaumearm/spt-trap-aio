@@ -16,7 +16,8 @@ export const AIRDROP_CHANCE: AirdropChancePercent = {
 // Boss enabled in raid menu
 export const BOSS_ENABLED_BY_DEFAULT = true;
 
-export const ITEMS_WEIGHT_MULTIPLIER = 0.21;
+// means divide by 4
+export const ITEMS_WEIGHT_MULTIPLIER = 0.25;
 
 export const ITEMS_FIXED_WEIGHTS = {
   "5c127c4486f7745625356c13": 1, // magazine case
