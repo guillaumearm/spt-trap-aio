@@ -16,18 +16,6 @@ All the features can be disabled/tweaked via the `src/config/config.js` file.
 
 ## Features
 
-#### Bots
-
-- All AIs bots are easy
-- All AIs spawns at start in the few first minutes (depend on the map)
-- AIs bots don't use grenades
-- 100% chance a PMC is USEC
-- Convert 60% of scavs in PMCs
-- Convert 100% of rogues in PMCs
-- Convert 100% of raiders in PMCs
-- More bots on all maps (2 additional bots per wave)
-- Boss disabled by default in the raid menu
-
 #### Raids
 
 - Raid time extended to 8 hours

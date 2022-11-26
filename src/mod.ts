@@ -557,7 +557,7 @@ class Mod implements IPreAkiLoadMod, IPostAkiLoadMod {
     this.tweakItems(database);
     this.tweakAmmoItemColors(database);
     this.increaseAirdropChances(configServer);
-    this.tweakBots(database, configServer);
+    // this.tweakBots(database, configServer);
     this.tweakGlobalLootChanceModifier(
       database,
       configServer,
