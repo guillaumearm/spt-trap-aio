@@ -31,14 +31,14 @@ export interface IDatabaseTables {
         scavcase: IHideoutScavCase[];
         settings: IHideoutSettingsBase;
     };
-    locales?: ILocaleBase;
+    locales: ILocaleBase;
     locations?: ILocations;
     loot?: ILootBase;
     match?: IMatch;
-    templates?: {
+    templates: {
         character: string[];
         items: Record<string, ITemplateItem>;
-        quests: IQuest[];
+        quests: Record<string, IQuest>;
         repeatableQuests: IRepeatableQuestDatabase;
         /** DEPRECATED - Items file found in the client, massivly out of date compared to templates.items, try not to use this, remove ASAP*/
         clientItems: Record<string, ITemplateItem>;
@@ -49,7 +49,7 @@ export interface IDatabaseTables {
         /** Flea prices of items - gathered from online flea market dump */
         prices: Record<string, number>;
     };
-    traders?: Record<string, ITrader>;
+    traders: Record<string, ITrader>;
     globals?: IGlobals;
     server?: IServerBase;
     settings?: ISettingsBase;
