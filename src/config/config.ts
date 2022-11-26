@@ -6,16 +6,6 @@ import type { AirdropChancePercent } from "@spt-aki/models/spt/config/IAirdropCo
  *******************************************************************************
  */
 export type Config = {
-  bots: {
-    easy_ai?: boolean;
-    dumb_ai?: boolean;
-    allowed_grenades?: boolean;
-    percentage_usec?: number;
-    convert_bots_to_pmc?: boolean;
-    scav_to_pmc_percentage?: number;
-    rogue_to_pmc_percentage?: number;
-    nb_additional_bots_per_wave?: number;
-  };
   raids: {
     time_in_minutes?: number;
     magdrill_time_multiplier?: number;
@@ -70,11 +60,6 @@ export type Config = {
 // Verbose mode (in server console)
 export const DEBUG = true;
 
-// Bots settings
-export const EASY_BOTS = true; // All bots are easy
-export const DUMB_AI = false; // Make ai dumb
-export const BOTS_GRENADE_ALLOWED = false;
-
 // Airdrops chance percentage by map
 export const AIRDROP_CHANCE: AirdropChancePercent = {
   reserve: 75,
@@ -84,151 +69,6 @@ export const AIRDROP_CHANCE: AirdropChancePercent = {
   shoreline: 75,
   woods: 75,
 };
-
-// Bear or Usec
-export const PERCENTAGE_USEC = 100; // set to 0 if you want to have bear PMCs
-
-// More PMCs
-export const CONVERT_BOTS_TO_PMC = true;
-export const SCAV_TO_PMC_PERCENTAGE = 60; // 40% scav and 60% usec
-export const ROGUE_TO_PMC_PERCENTAGE = 100; // all rogues converted to usec
-export const RAIDERS_TO_PMC_PERCENTAGE = 100; // all raiders converted to usec
-
-export const ADDITIONAL_WAVES_PER_ZONES: Record<
-  string,
-  Record<string, number>
-> = {
-  // customs
-  bigmap: {
-    "": 2,
-    ZoneBrige: 2,
-    ZoneCrossRoad: 2,
-    ZoneDormitory: 2,
-    ZoneGasStation: 2,
-    ZoneFactoryCenter: 2,
-    ZoneFactorySide: 2,
-    ZoneOldAZS: 2,
-    ZoneSnipeBrige: 2,
-    ZoneSnipeTower: 2,
-    ZoneSnipeFactory: 2,
-    ZoneBlockPost: 2,
-    ZoneBlockPostSniper: 2,
-    ZoneBlockPostSniper3: 2,
-    ZoneTankSquare: 2,
-    ZoneWade: 2,
-    ZoneCustoms: 2,
-  },
-  factory4_day: {
-    "": 8,
-    BotZone: 8,
-  },
-  factory4_night: {
-    "": 8,
-    BotZone: 8,
-  },
-  interchange: {
-    "": 2,
-    ZoneCenter: 2,
-    ZoneCenterBot: 2,
-    ZoneOLI: 2,
-    ZoneIDEA: 2,
-    ZoneRoad: 2,
-    ZoneIDEAPark: 2,
-    ZoneGoshan: 2,
-    ZonePowerStation: 2,
-    ZoneTrucks: 2,
-    ZoneOLIPark: 2,
-  },
-  laboratory: {
-    "": 2,
-    BotZoneFloor1: 2,
-    BotZoneFloor2: 2,
-    BotZoneGate1: 2,
-    BotZoneGate2: 2,
-    BotZoneBasement: 2,
-  },
-  lighthouse: {
-    "": 2,
-    Zone_LongRoad: 2,
-    Zone_SniperPeak: 2,
-    Zone_Island: 2,
-    Zone_RoofContainers: 2,
-    Zone_DestroyedHouse: 2,
-    Zone_Chalet: 2,
-    Zone_Village: 2,
-    Zone_Containers: 2,
-    Zone_TreatmentContainers: 2,
-    Zone_TreatmentBeach: 2,
-    Zone_TreatmentRocks: 2,
-    Zone_Rocks: 2,
-    Zone_RoofRocks: 2,
-    Zone_RoofBeach: 2,
-    Zone_Bridge: 2,
-    Zone_Blockpost: 2,
-    Zone_Hellicopter: 2,
-  },
-  rezervbase: {
-    "": 2,
-    ZoneRailStrorage: 2,
-    ZoneSubCommand: 2,
-    ZoneSubStorage: 2,
-    ZoneBarrack: 2,
-    ZonePTOR1: 2,
-    ZonePTOR2: 2,
-    ZoneBunkerStorage: 2,
-  },
-  shoreline: {
-    "": 2,
-    ZoneGasStation: 2,
-    ZonePowerStation: 2,
-    ZonePowerStationSniper: 2,
-    ZonePort: 2,
-    ZoneMeteoStation: 2,
-    ZoneSanatorium1: 2,
-    ZoneSanatorium2: 2,
-    ZoneStartVillage: 2,
-    ZoneForestTruck: 2,
-    ZoneForestSpawn: 2,
-    ZoneBunker: 2,
-    ZonePassFar: 2,
-    ZoneTunnel: 2,
-    ZonePassClose: 2,
-    ZoneGreenHouses: 2,
-    ZoneIsland: 2,
-    ZoneForestGasStation: 2,
-    ZoneBusStation: 2,
-    ZoneRailWays: 2,
-    ZoneBunkeSniper: 2,
-  },
-  woods: {
-    "": 2,
-    ZoneClearVill: 2,
-    ZoneScavBase2: 2,
-    ZoneRedHouse: 2,
-    ZoneBrokenVill: 2,
-    ZoneRoad: 2,
-    ZoneHouse: 2,
-    ZoneBigRocks: 2,
-    ZoneHighRocks: 2,
-    ZoneWoodCutter: 2,
-    ZoneMiniHouse: 2,
-  },
-};
-
-// More bots
-export const WAVES_ADDITIONAL_BOTS_PER_MAP: Record<string, number> = {
-  bigmap: 1, // customs
-  factory4_day: 1,
-  factory4_night: 1,
-  interchange: 1,
-  laboratory: 1,
-  lighthouse: 1,
-  rezervbase: 1,
-  shoreline: 1,
-  woods: 1,
-};
-
-export const SPAWN_ALL_BOTS_AT_START = true;
 
 // Boss enabled in raid menu
 export const BOSS_ENABLED_BY_DEFAULT = true;

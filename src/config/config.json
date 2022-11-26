@@ -1,14 +1,4 @@
 {
-  "bots": {
-    "easy_ai": true,
-    "dumb_ai": true,
-    "allowed_grenades": false,
-    "percentage_usec": 100,
-    "convert_bots_to_pmc": true,
-    "scav_to_pmc_percentage": 60,
-    "rogue_to_pmc_percentage": 60,
-    "nb_additional_bots_per_wave": 2
-  },
   "raidmenu": {
     "boss_enabled": false,
     "ai_difficulty": "Easy",

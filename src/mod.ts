@@ -16,16 +16,11 @@ import type { IPostAkiLoadMod } from "@spt-aki/models/external/IPostAkiLoadMod";
 import type { ConfigTypes } from "@spt-aki/models/enums/ConfigTypes";
 
 import {
-  ADDITIONAL_WAVES_PER_ZONES,
   AIRDROP_CHANCE,
   BOSS_ENABLED_BY_DEFAULT,
-  BOTS_GRENADE_ALLOWED,
   CASES_IN_BACKPACKS,
   CONSTRUCTION_TIME,
-  CONVERT_BOTS_TO_PMC,
   DEBUG,
-  DUMB_AI,
-  EASY_BOTS,
   GLOBAL_CHANCE_MODIFIER,
   HOLSTER_ADDITIONAL_ITEMS,
   INSURANCE_TIME,
@@ -41,10 +36,8 @@ import {
   SAVAGE_COOLDOWN,
   SECURE_CONTAINER_HEIGHT,
   SECURE_CONTAINER_WIDTH,
-  SPAWN_ALL_BOTS_AT_START,
   STASH_SIZE,
   STIMULANT_USES,
-  WAVES_ADDITIONAL_BOTS_PER_MAP,
 } from "./config/config";
 
 import {
@@ -55,7 +48,6 @@ import {
   isProgressiveStashModLoaded,
   noop,
 } from "./utils";
-import { setPMCBotConfig, tweakBots, tweakWaves } from "./bots/ai";
 import { tweakAmmoItemColors } from "./ammo-item-colors";
 import { tweakStashSize } from "./stash";
 import { isKeyId, tweakItemInfiniteDurability } from "./keys";
@@ -76,7 +68,6 @@ import {
   WATER_FILTER_ID,
 } from "./constants";
 import type { ITraderConfig } from "@spt-aki/models/spt/config/ITraderConfig";
-import type { IBotConfig } from "@spt-aki/models/spt/config/IBotConfig";
 import type { ILocationConfig } from "@spt-aki/models/spt/config/ILocationConfig";
 
 class Mod implements IPreAkiLoadMod, IPostAkiLoadMod {
@@ -97,40 +88,6 @@ class Mod implements IPreAkiLoadMod, IPostAkiLoadMod {
     airdropConfig.airdropChancePercent = AIRDROP_CHANCE;
 
     this.debug(`Changed airdrop chance: ${JSON.stringify(AIRDROP_CHANCE)}`);
-  }
-
-  private tweakBots(database: DatabaseServer, configServer: ConfigServer) {
-    const botConfig = configServer.getConfig<IBotConfig>(
-      "aki-bot" as ConfigTypes.BOT
-    );
-
-    botConfig.maxBotCap = 40;
-
-    if (CONVERT_BOTS_TO_PMC) {
-      setPMCBotConfig(botConfig);
-      this.debug(`More PMCs added`);
-    }
-
-    tweakBots(database, configServer, BOTS_GRENADE_ALLOWED);
-
-    if (EASY_BOTS) {
-      this.debug(`Tweaked bot difficulty to 'easy'`);
-    }
-
-    if (DUMB_AI) {
-      this.debug(`Tweaked bot logic to make them dumb`);
-    }
-
-    const messages = tweakWaves(
-      database,
-      WAVES_ADDITIONAL_BOTS_PER_MAP,
-      ADDITIONAL_WAVES_PER_ZONES,
-      SPAWN_ALL_BOTS_AT_START
-    );
-
-    messages.forEach((msg) => {
-      this.debug(msg);
-    });
   }
 
   private tweakSavageCooldown(database: DatabaseServer, value: number) {
@@ -557,7 +514,6 @@ class Mod implements IPreAkiLoadMod, IPostAkiLoadMod {
     this.tweakItems(database);
     this.tweakAmmoItemColors(database);
     this.increaseAirdropChances(configServer);
-    // this.tweakBots(database, configServer);
     this.tweakGlobalLootChanceModifier(
       database,
       configServer,
