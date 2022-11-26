@@ -448,9 +448,11 @@ class Mod implements IPreAkiLoadMod, IPostAkiLoadMod {
 
         if (item && item._parent === BACKPACK_ID) {
           item._props.Grids[0]._props.filters.forEach((filter) => {
-            filter.ExcludedFilter = filter.ExcludedFilter.filter(
-              (id) => !CASES[id]
-            );
+            if (filter.ExcludedFilter && Array.isArray(filter.ExcludedFilter)) {
+              filter.ExcludedFilter = filter.ExcludedFilter.filter(
+                (id) => !CASES[id]
+              );
+            }
           });
           itemCounter = itemCounter + 1;
         }
