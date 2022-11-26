@@ -245,7 +245,7 @@ export const ITEMS_FIXED_WEIGHTS = {
 export const RAID_TIME = 60 * 8; // in minutes
 export const INSURANCE_TIME = 1; // in hours
 export const SAVAGE_COOLDOWN = 600; // in seconds
-export const MAGDRILL_SPEED_MULTIPLIER = 0.21; // lower this number to increase load/unload magdrill speed
+export const MAGDRILL_SPEED_MULTIPLIER = 0.42; // lower this number to increase load/unload magdrill speed
 
 // Gameplay
 export const GLOBAL_CHANCE_MODIFIER = 2; // loots multiplier
