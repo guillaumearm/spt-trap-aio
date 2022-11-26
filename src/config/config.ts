@@ -231,7 +231,7 @@ export const WAVES_ADDITIONAL_BOTS_PER_MAP: Record<string, number> = {
 export const SPAWN_ALL_BOTS_AT_START = true;
 
 // Boss enabled in raid menu
-export const BOSS_ENABLED_BY_DEFAULT = false;
+export const BOSS_ENABLED_BY_DEFAULT = true;
 
 export const ITEMS_WEIGHT_MULTIPLIER = 0.21;
 
