@@ -20,7 +20,7 @@ All the features can be disabled/tweaked via the `src/config/config.js` file.
 
 - Raid time extended to 8 hours
 - 75% Airdrops chance on all maps
-- All items weight divised by 2
+- All items weight divised by 4
 - Fast magdrill
 - More loots (loose loot included)
 - Stimulants injectors can be used 3 times

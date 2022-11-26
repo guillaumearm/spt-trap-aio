@@ -1,62 +1,5 @@
 import type { AirdropChancePercent } from "@spt-aki/models/spt/config/IAirdropConfig";
 
-/**
- *******************************************************************************
- * Configuration
- *******************************************************************************
- */
-export type Config = {
-  raids: {
-    time_in_minutes?: number;
-    magdrill_time_multiplier?: number;
-    loot_multiplier?: number;
-    airdrops?: {
-      reserve?: number;
-      bigmap?: number;
-      interchange?: number;
-      lighthouse?: number;
-      shoreline?: number;
-      woods?: number;
-    };
-  };
-  raidmenu: {
-    boss_enabled?: false;
-    ai_difficulty?: string; // TODO: bind this value
-    ai_amount?: string; // TODO: bind this value
-  };
-  hideout: {
-    insurance_time_in_hours?: number;
-    savage_cooldown_in_seconds?: number;
-    construction_time_in_seconds?: number;
-    production_time_in_seconds?: number;
-    stash_vertical_size?: number;
-  };
-  flea: {
-    disable_bsg_blacklist?: boolean; // TODO: bind this value
-    all_items_sellable?: boolean; // TODO: bind this value
-    no_durability_required?: boolean; // TODO: bind this value
-    instant_sell?: boolean; // TODO: bind this value
-    disable_fees?: boolean; // TODO: bind this value
-  };
-  items: {
-    // TODO: flea market and raid menu category
-    tweak_ammo_item_colors?: boolean; // TODO: bind this value
-    cases_in_backpacks?: boolean;
-    nb_stimulant_uses?: number;
-    keys_infinite_uses?: boolean; // TODO: bind this value
-    examine_all_items?: boolean; // TODO: bind this value
-    keytool_size?: {
-      horizontal: number;
-      vertical: number;
-    };
-    gamma_size?: {
-      horizontal: number;
-      vertical: number;
-    };
-    kappa_extra_vertical_size?: number;
-  };
-};
-
 // Verbose mode (in server console)
 export const DEBUG = true;
 
@@ -104,13 +47,17 @@ export const MIN_DURABILITY_FOR_SALE = 20; // default is 60
 export const CONSTRUCTION_TIME = 0; // in seconds
 export const PRODUCTION_TIME = 0; // in seconds
 
-// Container sizes (vertical sizes)
-export const STASH_SIZE = 256;
-// export const STASH_SIZE = undefined; // `undefined` means no stash size override
-
 export const KEYTOOL_HEIGHT = 14;
 export const KEYTOOL_WIDTH = 14;
+
+/** ************************************************************************************ */
+/* * Warning: the following options are ignored when using Trap's Progressive Stash mod. */
+/** ************************************************************************************ */
 
 export const KAPPA_EXTRA_SIZE = 4; // vertical size added to SECURE_CONTAINER_HEIGHT
 export const SECURE_CONTAINER_HEIGHT = 6;
 export const SECURE_CONTAINER_WIDTH = 6;
+
+// Container sizes (vertical sizes)
+export const STASH_SIZE = 256;
+// export const STASH_SIZE = undefined; // `undefined` means no stash size override
