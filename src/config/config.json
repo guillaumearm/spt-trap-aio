@@ -18,7 +18,7 @@
     "nb_stimulant_uses": 3,
     "time_in_minutes": 480,
     "magdrill_time_multiplier": 0.28,
-    "loot_multiplier": 4.2,
+    "loot_multiplier": 2,
     "airdrops": {
       "reserve": 75,
       "bigmap": 75,
