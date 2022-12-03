@@ -13,9 +13,6 @@ export const AIRDROP_CHANCE: AirdropChancePercent = {
   woods: 75,
 };
 
-// Boss enabled in raid menu
-export const BOSS_ENABLED_BY_DEFAULT = true;
-
 // means divide by 4
 export const ITEMS_WEIGHT_MULTIPLIER = 0.25;
 

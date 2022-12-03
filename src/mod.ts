@@ -8,7 +8,6 @@ import type { ConfigServer } from "@spt-aki/servers/ConfigServer";
 
 import type { IAirdropConfig } from "@spt-aki/models/spt/config/IAirdropConfig";
 import type { IRagfairConfig } from "@spt-aki/models/spt/config/IRagfairConfig";
-import type { IInRaidConfig } from "@spt-aki/models/spt/config/IInRaidConfig";
 import type { ILocationData } from "@spt-aki/models/spt/server/ILocations";
 
 import type { IPreAkiLoadMod } from "@spt-aki/models/external/IPreAkiLoadMod";
@@ -17,7 +16,6 @@ import type { ConfigTypes } from "@spt-aki/models/enums/ConfigTypes";
 
 import {
   AIRDROP_CHANCE,
-  BOSS_ENABLED_BY_DEFAULT,
   CASES_IN_BACKPACKS,
   CONSTRUCTION_TIME,
   DEBUG,
@@ -383,21 +381,6 @@ class Mod implements IPreAkiLoadMod, IPostAkiLoadMod {
     );
   }
 
-  private tweakInRaidMenuSettings(configServer: ConfigServer): void {
-    const config = configServer.getConfig<IInRaidConfig>(
-      "aki-inraid" as ConfigTypes.IN_RAID
-    );
-    const menu = config.raidMenuSettings;
-
-    menu.aiDifficulty = "Easy";
-    menu.bossEnabled = BOSS_ENABLED_BY_DEFAULT;
-    menu.aiAmount = "Medium";
-
-    this.debug(
-      `Tweaked InRaid menu settings (aiDifficulty=${menu.aiDifficulty}, bossEnabled=${menu.bossEnabled}, aiAmount=${menu.aiAmount})`
-    );
-  }
-
   private tweakItemsWeight(db: DatabaseServer, weightMultiplier: number): void {
     let itemCounter = 0;
 
@@ -531,7 +514,6 @@ class Mod implements IPreAkiLoadMod, IPostAkiLoadMod {
     this.tweakHideoutProductions(database, PRODUCTION_TIME);
     this.tweakHideoutConstructions(database, CONSTRUCTION_TIME);
     this.tweakFleaMarket(database, configServer);
-    this.tweakInRaidMenuSettings(configServer);
     this.tweakItemsWeight(database, ITEMS_WEIGHT_MULTIPLIER);
     this.tweakItemsFixedWeight(database, ITEMS_FIXED_WEIGHTS);
     this.tweakBackpacksFilters(database);
