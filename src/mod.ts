@@ -470,10 +470,12 @@ class Mod implements IPreAkiLoadMod, IPostAkiLoadMod {
       "aki-trader" as ConfigTypes.TRADER
     );
 
-    if (config.minDurabilityForSale !== MIN_DURABILITY_FOR_SALE) {
-      config.minDurabilityForSale = MIN_DURABILITY_FOR_SALE;
+    if (
+      config.durabilityPurchaseThreshhold.default !== MIN_DURABILITY_FOR_SALE
+    ) {
+      config.durabilityPurchaseThreshhold.default = MIN_DURABILITY_FOR_SALE;
       this.debug(
-        `traders config 'minDurabilityForSale' set to ${MIN_DURABILITY_FOR_SALE}`
+        `traders config 'durabilityPurchaseThreshhold.default' set to ${MIN_DURABILITY_FOR_SALE}`
       );
     }
   }

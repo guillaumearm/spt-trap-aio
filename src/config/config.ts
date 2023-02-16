@@ -11,6 +11,7 @@ export const AIRDROP_CHANCE: AirdropChancePercent = {
   lighthouse: 75,
   shoreline: 75,
   woods: 75,
+  tarkovStreets: 75,
 };
 
 // means divide by 4
