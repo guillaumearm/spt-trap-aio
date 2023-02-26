@@ -38,6 +38,7 @@ export const HOLSTER_ADDITIONAL_ITEMS = [
   "5bd70322209c4d00d7167b8f", // mp7a2
   "5e00903ae9dc277128008b87", // mp9
   "5de7bd7bfd6b4e6e2276dc25", // mp9n
+  "62e14904c2699c0ec93adc47", // SR-2M Veresk
 ];
 
 export const MIN_DURABILITY_FOR_SALE = 20; // default is 60
