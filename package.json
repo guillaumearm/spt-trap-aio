@@ -2,7 +2,7 @@
   "name": "trap-aio",
   "displayName": "Trap's AIO",
   "fullName": "Trap-s-AIO",
-  "version": "3.0.2",
+  "version": "3.1.0",
   "main": "src/mod.js",
   "license": "MIT",
   "author": "Trap",
