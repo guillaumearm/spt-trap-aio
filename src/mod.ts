@@ -33,6 +33,7 @@ import {
   RAID_TIME,
   SAVAGE_COOLDOWN,
   SECURE_CONTAINER_HEIGHT,
+  SECURE_CONTAINERS_TWEAK,
   SECURE_CONTAINER_WIDTH,
   STASH_SIZE,
   STIMULANT_USES,
@@ -193,6 +194,11 @@ class Mod implements IPreAkiLoadMod, IPostAkiLoadMod {
     database: DatabaseServer,
     modLoader: PreAkiModLoader
   ) {
+    if (!SECURE_CONTAINERS_TWEAK) {
+      this.debug(`config: secure containers not tweaked`);
+      return;
+    }
+
     if (isProgressiveStashModLoaded(modLoader)) {
       this.debug(
         `Trap's Progressive Stash found: secure containers not tweaked`

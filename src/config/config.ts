@@ -54,9 +54,18 @@ export const KEYTOOL_WIDTH = 14;
 /* * Warning: the following options are ignored when using Trap's Progressive Stash mod. */
 /** ************************************************************************************ */
 
+/**
+ * Secure containers
+ */
+export const SECURE_CONTAINERS_TWEAK = true; // set this value to false to disable all secure container tweaks
+
 export const KAPPA_EXTRA_SIZE = 4; // vertical size added to SECURE_CONTAINER_HEIGHT
 export const SECURE_CONTAINER_HEIGHT = 6;
 export const SECURE_CONTAINER_WIDTH = 6;
+
+/**
+ * Stash
+ */
 
 // Container sizes (vertical sizes)
 export const STASH_SIZE = 256;
