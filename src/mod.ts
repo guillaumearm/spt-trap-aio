@@ -241,7 +241,7 @@ class Mod implements IPreAkiLoadMod, IPostAkiLoadMod {
         examinedCounter = examinedCounter + 1;
       }
 
-      if (isStimulant) {
+      if (isStimulant && STIMULANT_USES > 0) {
         item._props.MaxHpResource = STIMULANT_USES;
         stimulantCounter = stimulantCounter + 1;
       }
